@@ -1,0 +1,113 @@
+@charset "utf-8";
+
+#contentwrap {
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+    text-align:center;
+}
+#contentwrap > div {
+    min-width: 1024px;
+    height: 800px;
+    background: url(../img/login_backpage.png)center no-repeat;
+    background-attachment: fixed;
+    background-position: top;
+}
+
+#loginwrap {
+    width: 520px;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+    top: 16%;
+}
+#loginwrap > h3 {
+    width: 520px;
+    height: 50px;
+    margin: 0px auto 0px auto;
+    font: 600 35px/1.5 'Noto Sans KR';
+    color: #fff;
+    margin-bottom: 20px;
+}
+#login { /*로그인 흰백스*/
+    width: 520px;
+    height: 400px;
+    background-color: #fff;
+    margin: 0 auto;
+    box-shadow: 10px 10px 10px 5px rgba(72, 65, 54, 0.3);
+}
+#login > h3 { /*로고*/
+    width: 100%;
+    margin: 30px auto 20px auto;
+    float: left;
+}
+#log1{
+	margin:0 auto;
+}
+#log2 {
+    font: 400 18px/1.5 'Noto Sans KR';
+    letter-spacing: -0.5px;
+    margin-bottom: 40px;
+   
+}
+#log2 strong {
+    font: 600 18px/1.5 'Noto Sans KR';
+    letter-spacing: 0px;
+    color: #0052D4;
+}
+#id {
+    width: 400px;
+    height: 30px;
+    text-align: left;
+    margin-bottom: 8px;
+    padding-left: 10px;
+    border: 1.5px solid #0052D4;
+}
+#pwd {
+    width: 400px;
+    height: 30px;
+    text-align: left;
+    padding-left: 10px;
+    margin: 0 52px;
+    border: 1.5px solid #0052D4;
+}
+#check {
+    width: 10px;
+    height: 10px;
+    float: left;
+    margin-left: 55px;
+    margin-top: 9px;
+}
+#checktext {
+    float: left;
+    margin-left: 5px;
+    font: 500 13px/10px 'Noto Sans KR';
+    color: #0052D4;
+    margin-top: 8px;
+}
+
+
+#login .login_btn {
+    width: 413px;
+    height: 35px;
+    border: none;
+    background-color: #0052D4;
+    color: #fff;
+    font: 600 16px/1.1 'Noto Sans KR';
+    margin: 30px 52px 20px 52px;
+    cursor: pointer;
+}
+#log3 {
+    font: 400 13px/1.5 'Noto Sans KR';
+    color: #0052D4;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+}
+
+
+/*
+    그린
+    background-color: #92ab23;
+    브라운
+    background-color: #5a3822;
+*/
