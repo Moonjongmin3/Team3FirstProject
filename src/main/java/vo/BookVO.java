@@ -1,25 +1,46 @@
 package vo;
 
+import java.sql.Date;
+
 public class BookVO {
     private int id;
-    private String name;
-    private String img;
     private int price;
-    private int quantity;
-    private String contentId;
-    private String author;
-    private String publisher;
-    private String description;
+    private int sellCount;
+    private int quantity;  // Quantity는 장바구니 담거나 구매할 때 수량 의미
     private int saleRate;
     private int score;
+    private String name; // title
+    private String poster;
+    private String author;
+    private String publisher;
+    private String description; // content
     private String isbn;
     private String bsize;
     private String state;
     private String tag;
-    private String mainCategory;
+    private Date regdate;
+    private String contentId; // youtube
+    private String mainCategory; 
     private String subCategory;
+    
 
-    public int getQuantity() {
+    public int getSellCount() {
+		return sellCount;
+	}
+
+	public void setSellCount(int sellCount) {
+		this.sellCount = sellCount;
+	}
+
+	public Date getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
+	}
+
+	public int getQuantity() {
         return quantity;
     }
 
@@ -43,13 +64,6 @@ public class BookVO {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
 
     public int getPrice() {
         return price;
@@ -154,4 +168,12 @@ public class BookVO {
     public void setSubCategory(String subCategory) {
         this.subCategory = subCategory;
     }
+
+	public String getPoster() {
+		return poster;
+	}
+
+	public void setPoster(String poster) {
+		this.poster = poster;
+	}
 }

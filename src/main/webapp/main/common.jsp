@@ -53,7 +53,7 @@
 									<!-- Slides -->
 									<c:forEach items="${bestBooks}" var="bestBook">
 										<div class="bestseller-info swiper-slide" id="bestseller-slide">
-											<img src="${bestBook.img}" alt="${bestBook.name}">
+											<img src="${bestBook.poster}" alt="${bestBook.name}">
 										</div>
 									</c:forEach>
 								</div>
@@ -82,7 +82,7 @@
 									<!-- Slides -->
 									<c:forEach items="${newBooks}" var="newBook">
 										<div class="bestseller-info swiper-slide" id="bestseller-slide">
-											<img src="${newBook.img}" alt="${newBook.name}">
+											<img src="${newBook.poster}" alt="${newBook.name}">
 										</div>
 									</c:forEach>
 								</div>
@@ -123,7 +123,7 @@
 											<div class="myDescription book-descript-${i+1}">
 												<div class="row">
 													<div class="col-xs-4 youtube-book-img">
-														<img alt="${youtubeBooks[i].name}" src="${youtubeBooks[i].img}">
+														<img alt="${youtubeBooks[i].name}" src="${youtubeBooks[i].poster}">
 													</div>
 													<div class="col-xs-6 youtube-book-info">
 														<ul class="list-unstyled">

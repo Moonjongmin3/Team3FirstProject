@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -18,6 +20,7 @@
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/customer.css">
 <link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="../css/bookList.css">
 </head>
 <body>
 	<!-- 상단 공통 페이지 -->
@@ -131,16 +134,16 @@
 				<div class="row">
 					<div class="hidden-xs col-sm-1 col-sm-offset-1" id="logo-space"><a href="../main/main.do">LOGO</a></div>
 					<div class="col-xs-12 col-xs-offset-0 col-sm-8 col-md-6 col-sm-offset-1">
-						<form action="../book/searchList.do" method="get" name="search_form" class="form-inline">
+						<form action="../book/bookList.do" method="get" name="search_form" class="form-inline">
 							<div class="form-group search-group">
 								<select class="form-control search-category" name="searchCategory">
-									<option value="통합검색">통합검색</option>
-									<option value="국내도서">국내도서</option>
-									<option value="외국도서">외국도서</option>
-									<option value="E-Book">E-Book</option>
+									<option ${category ==4?'selected': '' } value="4">통합검색</option>
+									<option ${category ==1?'selected': '' } value="1">국내도서</option>
+									<option ${category ==2?'selected': '' } value="2">외국도서</option>
+									<option ${category ==3?'selected': '' } value="3">E-Book</option>
 								</select>
 								<div class="input-group">
-									<input type="text" class="form-control search-input" name="searchWord" placeholder="검색어를 입력해주세요..">
+									<input type="text" class="form-control search-input" name="keyword" placeholder="검색어를 입력해주세요.." value="${keyword }">
 								</div>
 								<button type="submit" class="btn btn-default search-button" id="search-button">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>

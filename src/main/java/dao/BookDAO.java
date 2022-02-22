@@ -33,7 +33,7 @@ public class BookDAO {
             psmt = con.prepareStatement(INSERT_Q);
             psmt.setInt(1,book.getId());
             psmt.setString(2,book.getName());
-            psmt.setString(3,book.getImg());
+            psmt.setString(3,book.getPoster());
             psmt.setInt(4, book.getPrice());
 
             psmt.executeUpdate();
@@ -76,7 +76,7 @@ public class BookDAO {
             while (rs.next()) {
                 BookVO book = new BookVO();
                 book.setId(rs.getInt("id"));
-                book.setImg(rs.getString("poster"));
+                book.setPoster(rs.getString("poster"));
                 book.setName(rs.getString("title"));
                 book.setPrice(Integer.parseInt(rs.getString("price")));
                 book.setQuantity(1);
@@ -93,7 +93,7 @@ public class BookDAO {
                 
                 // 책 설명 추출
                 String content = rs.getString("content");
-
+                	if(content!=null) {
                     Document doc = Jsoup.parse(content);
 
                     Elements elements = doc.select("iframe");
@@ -104,6 +104,7 @@ public class BookDAO {
                     Document descriptionHtml = Jsoup.parse(description);
                     description = descriptionHtml.body().text().replace("$$", "\n").toString();
                     book.setDescription(description);
+                	}
 
                 // 유튜브 주소 추출
                 Document doc2 = Jsoup.parse(content);
@@ -145,7 +146,7 @@ public class BookDAO {
             while (rs.next()) {
                 BookVO book = new BookVO();
                 book.setId(rs.getInt("id"));
-                book.setImg(rs.getString("poster"));
+                book.setPoster(rs.getString("poster"));
                 book.setName(rs.getString("title"));
                 book.setPrice(Integer.parseInt(rs.getString("price")));
                 book.setQuantity(1);
@@ -239,7 +240,7 @@ public class BookDAO {
             while (rs.next()) {
                 book = new BookVO();
                 book.setId(rs.getInt("id"));
-                book.setImg(rs.getString("poster"));
+                book.setPoster(rs.getString("poster"));
                 book.setName(rs.getString("title"));
                 book.setPrice(Integer.parseInt(rs.getString("price")));
                 book.setQuantity(1);

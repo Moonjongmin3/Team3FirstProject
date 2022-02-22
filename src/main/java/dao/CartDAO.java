@@ -58,7 +58,7 @@ public class CartDAO extends DBConnPool {
             while (rs.next()) {
                 BookVO book = new BookVO();
                 book.setId(rs.getInt("id"));
-                book.setImg(rs.getString("img"));
+                book.setPoster(rs.getString("img"));
                 book.setName(rs.getString("name"));
                 book.setPrice(rs.getInt("price"));
                 book.setQuantity(rs.getInt("quantity"));
