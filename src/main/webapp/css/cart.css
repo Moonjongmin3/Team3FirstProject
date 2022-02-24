@@ -1,0 +1,232 @@
+@charset "UTF-8";
+.cart-process{
+	background-color: #0B3C8B;
+	font-size: 20px;
+	width: 100px;
+	height: 50px;
+	float: left;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	margin-left: 10vw;
+	padding-top: 10px;
+	padding-left: 30px;
+	clip-path: polygon(0% 0%, 80% 0, 100% 50%, 80% 100%, 0% 100%);
+}
+.checkout-process{
+	background-color: lightskyblue;
+	font-size: 20px;
+	width: 100px;
+	height: 50px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	margin-left: -15px;
+	padding-top: 10px;
+	padding-left: 35px;
+	float: left;
+	clip-path: polygon(80% 0, 100% 50%, 80% 100%, 0% 100%, 20% 50%, 0% 0%);
+}
+.checksuc-process{
+	background-color: lightskyblue;
+	font-size: 20px;
+	width: 95px;
+	height: 50px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	margin-left: -15px;
+	padding-top: 10px;
+	padding-left: 40px;
+	float: left;
+	clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 100%, 21% 50%);
+}
+#mid-line{
+	position: absolute;
+	top: 50vw;
+}
+#cart-sort{
+	display: block;
+	float: right;
+}
+.cart-table{
+	margin-top: 20px;
+	border: solid 1px #0B3C8B;
+	padding-left: 0;
+	padding-right: 0;
+}
+.cart-table>table th{
+	text-align: center;
+}
+.cart-table>table img{
+	width: 120px;
+	height: 180px;
+}
+.cart-table>table td{
+	padding: 10px 15px;
+}
+#cart-table-index{
+	border-bottom: solid 1px #0052d4;
+}
+td#cart-table-quantity{
+	width: 50px;
+	text-align: center;
+}
+td#cart-table-info{
+	width: 100px;
+	text-align: center;
+}
+
+.price-table{
+	margin-top: 30px;
+	padding-left: 0;
+	padding-right: 0;
+	border: solid 4px;
+	border-image: linear-gradient( to right, #4364f7 30%, pink , lightskyblue);
+	border-image-slice: 1;
+}
+.price-table>.row{
+	width: 100%;
+	margin-left: 0;
+}
+.price-table-header-1{
+	color: #666666;
+	text-align: center;
+	font-weight: bolder;
+	font-size: 15px;
+	padding-top: 10px;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 10px;
+	border-right: solid 1px #4364f7;
+	border-bottom: solid 1px #4364f7;
+}
+.price-table-header-2{
+	color: #666666;
+	text-align: center;
+	font-weight: bolder;
+	font-size: 15px;
+	padding-top: 10px;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 10px;
+	border-right: solid 1px #4364f7;
+	border-bottom: solid 1px #4364f7;
+}
+.price-table-header-3{
+	color: purple;
+	text-align: center;
+	font-weight: bolder;
+	font-size: 15px;
+	padding-top: 10px;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 10px;
+	border-right: solid 1px #4364f7;
+	border-bottom: solid 1px #4364f7;
+}
+.price-table-header-4{
+	text-align: center;
+	font-weight: bolder;
+	font-size: 15px;
+	padding-top: 10px;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 10px;
+	border-bottom: solid 1px #4364f7;
+}
+#price-table-header-price{
+	font-size: 25px;
+	margin-bottom: 10px;
+}
+.final-price{
+	color: #4364f7;
+}
+.price-table-info-1{
+	height: 20vh;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	border-right: solid 1px #4364f7;
+}
+.price-table-info-2{
+	height: 20vh;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	border-right: solid 1px #4364f7;
+}
+.price-table-info-3{
+	height: 20vh;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	border-right: solid 1px #4364f7;
+}
+.price-table-info-4{
+	height: 20vh;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+.delivery-table{
+	height: 10vh;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding-left: 0;
+	padding-right: 0;
+}
+.delivery-table>.row{
+	margin-left: 0;
+}
+#delivery-table-header{
+	color: #555555;
+	font-size: 20px;
+	font-weight: bolder;
+	padding-left: 0;
+	height: 10vh;
+	background-color: #E8E8E8;
+	text-align: center;
+	padding-top: 25px;
+}
+#delivery-table-info{
+	height: 10vh;
+	border: solid 2px lightgray;
+	padding-top: 15px;
+	padding-left: 40px;
+}
+#delivery-table-info>.row{
+	padding-bottom: 10px;
+}
+
+/* 추천 영역 (추천 도서 & 최근 조회한 도서) */
+.jumbotron{
+	height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    margin-bottom: 0;
+    padding-top: 20vh;
+    z-index: -1;
+}
+.recommendSwiper{
+	background-color: gray;
+	width: 80vw;
+	height: 30vh;
+	margin-bottom: 10vh;
+	z-index: 0;
+}
+.recommendSwiper>.swiper-wrapper>.swiper-slide{
+	background-color: white;
+}
+.recentSwiper{
+	background-color: gray;
+	width: 80vw;
+	height: 30vh;
+	z-index: 0;
+}
+.recentSwiper>.swiper-wrapper>.swiper-slide{
+	background-color: white;
+}
