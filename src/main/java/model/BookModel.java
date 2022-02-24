@@ -16,13 +16,12 @@ public class BookModel {
 		String category=request.getParameter("searchCategory");
 		String keyword=request.getParameter("keyword");
 		String page=request.getParameter("page");
-//		int cate=4;
-//		if(category.equals("국내도서")) 
-//			cate=1;
-//		if(category.equals("외국도서")) 
-//			cate=2;
-//		if(category.equals("e-book"))
-//			cate=3;
+		String publisher=request.getParameter("publisher_ck");
+		String title=request.getParameter("title_ck");
+		String author=request.getParameter("author_ck");
+		System.out.println(publisher+title+author);
+		// 제목,저자, 출판사 별로 검 
+
 		if(page==null)
 			page="1";
 		

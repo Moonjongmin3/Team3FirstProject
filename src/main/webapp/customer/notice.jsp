@@ -66,7 +66,7 @@
 								<option ${(type=="title")?"selected":""} value="title">제목</option>
 								<option ${(type=="content")?"selected":""} value="content">내용</option>
 							</select>
-							<input type="text" placeholder="검색어를 입력해 주세요" value="${keyword }" size=23 name="keyword">
+							<input type="text" placeholder="검색어를 입력해 주세요" value="${notice_keyword }" size=23 name="notice_keyword">
 							<button type="submit" class="notice_search_btn"></button>
 							<div class="search_icon"></div>
 						</form>

@@ -16,23 +16,39 @@ public class NoticeDAO{
     public List<NoticeVO> noticeList(int page,String cate,String Keyword){
         List<NoticeVO> list = new ArrayList<>();
         try{
-//            제목+내용 아직 구현 못함...
+        	String type="";
+			if(cate.equals("TC")) {
+				 type= "title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'";
+			}else if(cate.equals("title")){
+				type="title LIKE '%'||?||'%'";
+			}else {
+				type="content LIKE '%'||?||'%'";
+			}
+			System.out.println("List_type: "+type);
             con=cm.getConnection();
             String sql="SELECT no,title,created_at,num " +
                     "FROM (SELECT no,title,created_at,rownum as num " +
                     "FROM (SELECT no,title,created_at FROM notice_3 " +
-                    "WHERE "+cate+" LIKE '%'||?||'%' "+
-                    "order by no DESC)) " +
+                    "WHERE "+type+
+                    " ORDER BY no DESC)) " +
                     "WHERE num between ? and ?";
             int rowSize=10;
             int start=(rowSize*page)-(rowSize-1);
             int end=rowSize*page;
             psmt =con.prepareStatement(sql);
-
-
-            psmt.setString(1,Keyword);
-            psmt.setInt(2,start);
-            psmt.setInt(3,end);
+            System.out.println("if문 시작");
+            if(cate.equals("TC")) {
+            	psmt.setString(1,Keyword);
+            	psmt.setString(2,Keyword);
+                psmt.setInt(3,start);
+                psmt.setInt(4,end);
+                System.out.println("keyword 2개");
+            }else {
+	            psmt.setString(1,Keyword);
+	            psmt.setInt(2,start);
+	            psmt.setInt(3,end);
+	            System.out.println("keyword 1개");
+            }
             ResultSet rs = psmt.executeQuery();
             while (rs.next()){
                 NoticeVO vo = new NoticeVO();
@@ -52,11 +68,27 @@ public class NoticeDAO{
     public int totalCount(String cate,String keyword){
         int total=0;
         try{
+	        String type="";
+			if(cate.equals("TC")) {
+				 type= "title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'";
+			}else if(cate.equals("title")){
+				type="title LIKE '%'||?||'%'";
+			}else {
+				type="content LIKE '%'||?||'%'";
+			}
+			System.out.println("total_type: "+type);
         	con=cm.getConnection();
             String sql="SELECT CEIL(COUNT(*)/10.0) FROM notice_3 " +
-                    "WHERE "+cate+" LIKE '%'||?||'%' ";
+                    "WHERE "+type;
             psmt=con.prepareStatement(sql);
-            psmt.setString(1,keyword);
+            if(cate.equals("TC")) {
+            	psmt.setString(1, keyword);
+            	psmt.setString(2, keyword);
+            	System.out.println("keyword 2개");
+            }else {
+            	psmt.setString(1,keyword);
+            	System.out.println("keyword 1개");
+            }
             ResultSet rs=psmt.executeQuery();
             rs.next();
             total=rs.getInt(1);

@@ -17,7 +17,13 @@ import vo.BookVO;
 
 public class IndexModel extends HttpServlet {
 
-    @RequestMapping("main/main.do")
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// 지우지 마세욥
+
+	@RequestMapping("main/main.do")
     public String index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext application = request.getServletContext();
 

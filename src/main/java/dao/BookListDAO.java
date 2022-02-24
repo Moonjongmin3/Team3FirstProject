@@ -21,6 +21,7 @@ public class BookListDAO {
 			}else {
 				main=" s.main_id="+category;
 			}
+//			type= "title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'"
 			String sql="SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,num "
 					+ "FROM (SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,rownum as num "
 					+ "FROM (SELECT b.id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,s.main_id as main,score "
@@ -155,5 +156,35 @@ public class BookListDAO {
 		return count;
 	}
 	
-
+	public List<BookCountVO> searchBookCount (String keyword) {
+		List<BookCountVO> list = new ArrayList<BookCountVO>();
+		try {
+			conn=cm.getConnection();
+			String sql="SELECT s.main_id,b.category_id,COUNT(*) "
+					+ "FROM BOOKS_3 b, SUB_CATEGORY_3 s "
+					+ "WHERE b.category_id=s.id AND "
+					+ "(b.title LIKE '%'||'?'||'%' OR b.author LIKE '%'||'?'||'%' OR b.publisher LIKE '%'||'?'||'%') "
+					+ "GROUP BY GROUPING SETS  ((b.category_id, s.main_id),()) ORDER BY category_id;";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, keyword);
+			ps.setString(2, keyword);
+			ps.setString(3, keyword);
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				BookCountVO vo = new BookCountVO();
+				vo.setMainCount(rs.getInt(1));
+				vo.setSubCount(rs.getInt(2));
+				vo.setCount(rs.getInt(3));
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			cm.disConnection(conn, ps);
+		}
+		
+		return list;
+	}
+	
 }

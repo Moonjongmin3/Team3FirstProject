@@ -8,13 +8,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<!-- <script type="text/javascript">
+function scroll_follow( id )
+{
+  $(window).scroll(function( )  //스크롤이 움직일때마다 이벤트 발생
+  { 
+      var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+      $( id ).stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
+   });
+}
+scroll_follow("#scroll");
+</script> -->
 </head>
 <body>
 	<section class="search-result">
 		<div class="search-result-wrap">
 			<!-- 검색내 결과 시작-->
-			<div class="search-result-option">
+			<div class="search-result-option" id="scroll">
 				<div class="left_conts">
 				<!-- 미구현 -->
 					<div style="margin-bottom: 7px;">
@@ -46,21 +56,23 @@
 							<b>검색조건</b>
 						</span>
 					</div>
+					<form method="post" action="../book/bookList.do">
 					<div>
 						<ul style="list-style: none; padding-left: 0; margin-bottom: 0px;">
 							<li>
-								<input type="checkbox" id="search_field_KeyTitle" checked="checked">
+								<input type="checkbox" id="search_field_KeyTitle" checked="checked" name="title_ck" value="title">
 								<label for="search_field_KeyTitle" class="bo2">
 									제목
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyAuthor" checked="checked">									<label for="search_field_KeyTitle" class="bo2">
+								<input type="checkbox" id="search_field_KeyAuthor" checked="checked" name="author_ck" value="author">	
+								<label for="search_field_KeyTitle" class="bo2">
 									저자
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyPublisher" checked="checked">
+								<input type="checkbox" id="search_field_KeyPublisher" checked="checked" name="publisher_ck" value="publisher">
 								<label for="search_field_KeyTitle" class="bo2">
 									출판사
 								</label>
@@ -73,10 +85,12 @@
 							</li>
 							<!-- 미구현 -->
 						</ul>
+						
 					</div>
 					<div style="float: right;">
 						<input type="submit" class="btn btn-sm" value="적용">
 					</div>
+					</form>
 				</div>
 				<!-- 검색조건 끝 -->
 				<div class="ss_space"></div>

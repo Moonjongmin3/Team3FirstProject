@@ -12,14 +12,13 @@ public class NoticeModel {
     @RequestMapping("customer/notice.do")
     public String noticeList(HttpServletRequest request, HttpServletResponse response){
         try {
-            // 제목+내용 아직 구현 못함...
             request.setCharacterEncoding("UTF-8");
             String type = request.getParameter("type");
-            String keyword = request.getParameter("keyword");
+            String notice_keyword = request.getParameter("notice_keyword");
             String page = request.getParameter("page");
 
-            if(keyword==null){
-                keyword="";
+            if(notice_keyword==null){
+            	notice_keyword="";
             }
 
             if(type==null) {
@@ -37,15 +36,15 @@ public class NoticeModel {
             int endpage = startpage - 1 + block;
 
             NoticeDAO dao = new NoticeDAO();
-            int total = dao.totalCount(type,keyword);
+            int total = dao.totalCount(type,notice_keyword);
             if (endpage > total) {
                 endpage = total;
             }
 
-            List<NoticeVO> list = dao.noticeList(curpage,type,keyword);
+            List<NoticeVO> list = dao.noticeList(curpage,type,notice_keyword);
 
             request.setAttribute("type",type);
-            request.setAttribute("keyword",keyword);
+            request.setAttribute("notice_keyword",notice_keyword);
             request.setAttribute("startpage", startpage);
             request.setAttribute("endpage", endpage);
             request.setAttribute("total", total);
