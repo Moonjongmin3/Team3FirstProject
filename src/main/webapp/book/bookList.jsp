@@ -419,7 +419,7 @@
 										</span>
 										<div style="margin-top:7px;overflow: hidden;">
 											<a href="#">
-												<span class="search_cart_input">
+												<span class="search_cart_input" value="${vo.id}">
 													<em class ="search_btn_txt">카트에 넣기</em>
 												</span>
 											</a>
@@ -448,5 +448,21 @@
 			</div>
 		</div>
 	</section>
+	<script
+	  src="https://code.jquery.com/jquery-3.6.0.min.js"
+	  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	  crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$('.search_cart_input').click(function(){
+			$.ajax({
+				url:'http://localhost:8080/FirstProject/cart/addCart',
+				type:'POST',
+				data:{"bookId": $(this).attr('value')},
+				success:function(){
+					alert('장바구니에 넣었습니다.');
+				}
+			});
+		})
+	</script>
 </body>
 </html>

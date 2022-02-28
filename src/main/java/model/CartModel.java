@@ -5,59 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
+import controller.RequestMapping;
 import dao.BookDAO;
 import dao.CartDAO;
 import vo.BookVO;
 
-@WebServlet()
-public class CartModel extends HttpServlet{
-
-	private static final long serialVersionUID = 1L;
-
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		//로그인 상태
-		if (session.getAttribute("userId") != null) {
-			// 카트 ID 가져오기
-			CartDAO cartDAO = new CartDAO();
-			String userId = session.getAttribute("userId").toString();
-			int cartId = cartDAO.getCartId(userId);
-			// 책 객체 생성
-			BookDAO bookDAO = new BookDAO();
-			String bookId = request.getParameter("bookId");
-			BookVO book = bookDAO.findBook(bookId);
-			// 카트에 책 넣기
-			cartDAO.insert(book, cartId);
-			// 연결 해제
-			cartDAO.close();
-//			bookDAO.close();
-		} else {
-			// 비회원 상태
-			if (session.getAttribute("cart") == null) {
-				List<BookVO> cart = new ArrayList<>();
-				session.setAttribute("cart", cart);
-			}
-			String bookId = request.getParameter("bookId");
-			
-			BookDAO bookDAO = new BookDAO();
-			BookVO book = bookDAO.findBook(bookId);
-			// 연결 해제
-//			bookDAO.close();
-			
-			book.setQuantity(1); // 장바구니 담을 때 개수 1개 조정
-
-			List<BookVO> cart = (ArrayList<BookVO>) session.getAttribute("cart");
-			cart.add(book);
-			int lastIndexOfCart = cart.size() - 1;
-			session.setAttribute("lastIndexOfCart", lastIndexOfCart);
-		}
-		request.getRequestDispatcher("/Cart.jsp").forward(request, response);
+public class CartModel {
+	@RequestMapping("cart/Cart.do")
+	public String getCart(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+ 
+		request.setAttribute("main_jsp", "../cart/Cart.jsp");
+		return "../main/main.jsp";
 	}
 }

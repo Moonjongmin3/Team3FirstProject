@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
-	<c:import url="../main/main.jsp"/>
 	<!-- 카트 페이지 시작 -->
 	<section>
 		<aritcle>
@@ -30,12 +29,11 @@
 						  <button type="button" class="btn btn-default">삭제</button>
 						</div>
 						<form action="#" id="cart-sort">
-						  <select id="cars" name="cars">
-						    <option value="volvo">카트넣기순</option>
-						    <option value="saab">상품명순</option>
-						    <option value="fiat">높은가격순</option>
-						    <option value="audi">낮은가격순</option>
-						    <option value="audi">출간일순</option>
+						  <select id="cart-sort-select" name="cars">
+						    <option id="cart-sort-option" value="default">카트넣기순</option>
+						    <option id="cart-sort-option" value="name">상품명순</option>
+						    <option id="cart-sort-option" value="priceD">높은가격순</option>
+						    <option id="cart-sort-option" value="priceA">낮은가격순</option>
 						  </select>
 						</form>
 					</div>
@@ -43,75 +41,19 @@
 				<div class="row">
 					<div class="col-xs-12 col-md-10 col-md-offset-1 cart-table">
 						<table class="table">
-							<tr id="cart-table-index">
-								<th></th>
-								<th></th>
-								<th>상품정보</th>
-								<th id="cart-table-quantity">수량</th>
-								<th id="cart-table-info">상품금액</th>
-								<th id="cart-table-info">배송정보</th>
-								<th id="cart-table-info">주문</th>
-							</tr>
-							<tr>
-								<td>
-									<input type="checkbox" name="나무야 놀자" value="yyy" checked>
-								</td>
-								<td>
-									<img src="http://image.yes24.com/goods/107092661/XL" alt="부과 성공을 부르는 12가지 원칙">
-								</td>
-								<td>[도서] 12 1/2 부와 성공을 부르는 12가지 원칙 : 당신의 인생을 바꿔 줄 35가지 조언</td>
-								<td id="cart-table-quantity">1</td>
-								<td id="cart-table-info">15,000원</td>
-								<td id="cart-table-info">내일</td>
-								<td id="cart-table-info">
-									<button type="button" class="btn btn-primary">주문하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="checkbox" name="나무야 놀자" value="yyy" checked>
-								</td>
-								<td>
-									<img src="http://image.yes24.com/goods/107473113/XL" alt="어둠이 걷힌 자리엔">
-								</td>
-								<td>[도서] 어둠이 걷힌 자리엔 </td>
-								<td id="cart-table-quantity">1</td>
-								<td id="cart-table-info">15,000원</td>
-								<td id="cart-table-info">내일</td>
-								<td id="cart-table-info">
-									<button type="button" class="btn btn-primary">주문하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="checkbox" name="나무야 놀자" value="yyy" checked>
-								</td>
-								<td>
-									<img src="http://image.yes24.com/goods/107471884/XL" alt="요즘 사는 맛">
-								</td>
-								<td>[도서] 요즘 사는 맛 : 먹고 사는 일에 누구보다 진심인 작가들의 일상 속 음식 이야기 [‘재생지에 콩기름으로 인쇄한 일기장’ 증정(포인트 차감)]</td>
-								<td id="cart-table-quantity">1</td>
-								<td id="cart-table-info">16,000</td>
-								<td id="cart-table-info">내일</td>
-								<td id="cart-table-info">
-									<button type="button" class="btn btn-primary">주문하기</button>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="checkbox" name="나무야 놀자" value="yyy" checked>
-								</td>
-								<td>
-									<img src="http://image.yes24.com/goods/107511614/XL" alt="나를 마릴린 먼로라고 하자">
-								</td>
-								<td>[도서] 나를 마릴린 먼로라고 하자 [행운카드 증정 (포인트 차감)]</td>
-								<td id="cart-table-quantity">1</td>
-								<td id="cart-table-info">14,000</td>
-								<td id="cart-table-info">내일</td>
-								<td id="cart-table-info">
-									<button type="button" class="btn btn-primary">주문하기</button>
-								</td>
-							</tr>
+							<thead>
+								<tr id="cart-table-index">
+									<th></th>
+									<th></th>
+									<th>상품정보</th>
+									<th id="cart-table-quantity">수량</th>
+									<th id="cart-table-info">상품금액</th>
+									<th id="cart-table-info">배송정보</th>
+									<th id="cart-table-info">주문</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -222,8 +164,9 @@
 			</div>
 		</aritcle>
 	</section>
-	<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  		crossorigin="anonymous"></script>
 	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
@@ -291,6 +234,65 @@
           },
         },
       });
+      
+      $.ajax({
+    	    type : 'GET',
+    	    url : 'http://localhost:8080/FirstProject/cart/edit',
+    	    dataType:'json',
+    	    success:function(data){
+    	    	var book_data = '';
+    	    	$.each(data, function(key, value) {
+    	    		book_data += '<tr>';
+    	    		book_data += '<td><input type="checkbox" name="나무야 놀자" value="yyy" checked></td>';
+    	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
+    	    		book_data += '<td>' + value.name + '</td>';
+    	    		book_data += '<td id="cart-table-quantity">' + value.quantity + '</td>';
+    	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
+    	    		book_data += '<td id="cart-table-info">내일</td>';
+    	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary">주문하기</button></td>';
+    	    		book_data += '</tr>';
+    	    	});
+    	    	$('div.cart-table tbody').append(book_data);
+    	    }
+    	});
+      
+      $('#cart-sort-select').on('change',function(){
+    	  let sortOpt = $(this).val();
+    	  $.ajax({
+      	    type : 'GET',
+      	    url : 'http://localhost:8080/FirstProject/cart/edit',
+      	    dataType:'json',
+      	    success:function(json){
+      	    	console.log(json);
+      	    	$('div.cart-table tbody').html('');
+      	    	var data;
+      	    	if (sortOpt === 'name') {
+      	    		data = json.sort((a,b)=>a[sortOpt] < b[sortOpt] ? -1 : a[sortOpt] == b[sortOpt] ? 0 : 1);
+      	    	} else if (sortOpt === 'priceD') {
+      	    		data = json.sort((a,b)=>b['price'] - a['price']);
+      	    	} else if (sortOpt === 'priceA') {
+      	    		data = json.sort((a,b)=>a['price'] - b['price']);
+      	    	} else {
+      	    		data = json;
+      	    	}
+      	    	var book_data = '';
+      	    	$.each(data, function(key, value) {
+      	    		book_data += '<tr>';
+      	    		book_data += '<td><input type="checkbox" name="나무야 놀자" value="yyy" checked></td>';
+      	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
+      	    		book_data += '<td>' + value.name + '</td>';
+      	    		book_data += '<td id="cart-table-quantity">' + value.quantity + '</td>';
+      	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
+      	    		book_data += '<td id="cart-table-info">내일</td>';
+      	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary">주문하기</button></td>';
+      	    		book_data += '</tr>';
+      	    	});
+      	    	$('div.cart-table tbody').append(book_data);
+      	    }
+      	});
+    	  
+      })
+      // $.('div.cart-table tbody').innerHTML = '';
     </script>
 </body>
 </html>

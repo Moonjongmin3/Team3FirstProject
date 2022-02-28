@@ -4,4 +4,5 @@
 	<bean class="model.NoticeModel"/>
 	<bean class="model.LoginModel"/>
 	<bean class="model.BookModel"/>
+	<bean class="model.CartModel"/>
 </beans>

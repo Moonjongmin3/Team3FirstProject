@@ -89,9 +89,9 @@
 					<div class="col-lg-5 col-sm-12"></div>
 					<div class="col-lg-7 col-sm-12 top-bar-content">
 						<ul class="top-list">
+							<li class="top-list-element cart"><a href="../cart/Cart.do">장바구니</a></li>
 							<c:if test="${sessionScope.userId != null}" var="loginCheck">
 								<c:if test="${sessionScope.admin==0 }">
-									<li class="top-list-element cart"><a href="#">장바구니</a></li>
 									<li class="top-list-element mypage"><a href="#">주문배송</a></li>
 									<li class="top-list-element sign-up"><a href="#">마이페이지</a></li>
 								</c:if>
