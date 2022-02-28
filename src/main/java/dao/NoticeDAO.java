@@ -24,7 +24,6 @@ public class NoticeDAO{
 			}else {
 				type="content LIKE '%'||?||'%'";
 			}
-			System.out.println("List_type: "+type);
             con=cm.getConnection();
             String sql="SELECT no,title,created_at,num " +
                     "FROM (SELECT no,title,created_at,rownum as num " +
@@ -36,18 +35,15 @@ public class NoticeDAO{
             int start=(rowSize*page)-(rowSize-1);
             int end=rowSize*page;
             psmt =con.prepareStatement(sql);
-            System.out.println("if문 시작");
             if(cate.equals("TC")) {
             	psmt.setString(1,Keyword);
             	psmt.setString(2,Keyword);
                 psmt.setInt(3,start);
                 psmt.setInt(4,end);
-                System.out.println("keyword 2개");
             }else {
 	            psmt.setString(1,Keyword);
 	            psmt.setInt(2,start);
 	            psmt.setInt(3,end);
-	            System.out.println("keyword 1개");
             }
             ResultSet rs = psmt.executeQuery();
             while (rs.next()){
@@ -76,7 +72,6 @@ public class NoticeDAO{
 			}else {
 				type="content LIKE '%'||?||'%'";
 			}
-			System.out.println("total_type: "+type);
         	con=cm.getConnection();
             String sql="SELECT CEIL(COUNT(*)/10.0) FROM notice_3 " +
                     "WHERE "+type;

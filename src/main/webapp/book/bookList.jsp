@@ -1,24 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- <script type="text/javascript">
-function scroll_follow( id )
-{
-  $(window).scroll(function( )  //스크롤이 움직일때마다 이벤트 발생
-  { 
-      var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
-      $( id ).stop().animate({top:position+"px"}, 1); //해당 오브젝트 위치값 재설정
-   });
-}
-scroll_follow("#scroll");
-</script> -->
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+/* function checkAll(){
+    if( $(".check_all_btn").click ){
+      $("#book_list_check").prop("checked", true);
+    }else{
+      $("#book_list_check").prop("checked", false);
+    }
+} */
+
+</script>
 </head>
 <body>
 	<section class="search-result">
@@ -104,85 +104,56 @@ scroll_follow("#scroll");
 					</div>
 					<div class="search_left_list">
 						<ul style="height: 245px;overflow:auto">
-							<li>
-								<span style="font-weight: bold; font-size: 13px;">국내도서</span>
-							</li>
-							<!-- 나중에 반복문으로 출력!!  미구현 -->
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<input type="checkbox" value="소설/시/희곡" id="serarch_category_1_1" name="search_left_categoty">
-								<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" alt="국내도서" title="국내도서">
-									소설/시/희곡
-									<span class="ss_f_g">(50)</span>
-								</label>
-							</li>
-							<li>
-								<span style="font-weight: bold; font-size: 13px;">외국도서</span>
-							</li>
-							<li>
-								<input type="checkbox" value="ELT 사전" id="serarch_category_2_1" name="search_left_categoty">
-								<label for="serarch_category_2_1" class="bo2" style="cursor: pointer;" alt="외국도서" title="외국도서">
-									ELT 사전
-									<span class="ss_f_g">(12)</span>
-								</label>
-							</li>
-							<li>
-								<span style="font-weight: bold; font-size: 13px;">eBook</span>
-							</li>
-								<input type="checkbox" value="로맨스" id="serarch_category_3_1" name="search_left_categoty">
-								<label for="serarch_category_3_1" class="bo2" style="cursor: pointer;" alt="eBook" title="eBook">
-									로맨스
-									<span class="ss_f_g">(40)</span>
-								</label>
-							</li>
+							<c:forEach items="${subCountList}" var="vo">
+								<c:if test="${vo.mainId==1}">
+									<c:if test="${vo.subId==0 }">
+										<li>
+											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
+										</li>
+									</c:if>
+									<c:if test="${vo.subId!=0 }">
+									<li>
+										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_1_1" name="search_left_categoty">
+										<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
+												${vo.subCateName }
+											<span class="ss_f_g">(${vo.subCount })</span>
+										</label>
+									</li>
+									</c:if>
+								</c:if>
+								<c:if test="${vo.mainId==2}">
+									<c:if test="${vo.subId==0 }">
+										<li>
+											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
+										</li>
+									</c:if>
+									<c:if test="${vo.subId!=0 }">
+									<li>
+										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_2_1" name="search_left_categoty">
+										<label for="serarch_category_2_1" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
+											${vo.subCateName }
+											<span class="ss_f_g">(${vo.subCount })</span>
+										</label>
+									</li>
+									</c:if>
+								</c:if>
+								<c:if test="${vo.mainId==3}">
+									<c:if test="${vo.subId==0 }">
+										<li>
+											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
+										</li>
+									</c:if>
+									<c:if test="${vo.subId!=0 }">
+									<li>
+										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_3_1" name="search_left_categoty">
+										<label for="serarch_category_3_1" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
+											${vo.subCateName }
+											<span class="ss_f_g">(${vo.subCount })</span>
+										</label>
+									</li>
+									</c:if>
+									</c:if>
+							</c:forEach>
 						</ul>
 					</div>
 					<div style="float: right;">
@@ -196,7 +167,7 @@ scroll_follow("#scroll");
 					<span class="search_t_g">
 						검색어"<span class="result_l"><strong>${keyword }</strong></span>
 						"총
-						<span class="search_r_c_count">${totalCount }</span>
+						<span class="search_r_c_count">${mainCountArr[0] }</span>
 						개의 상품이 검색되었습니다.
 					</span>
 					<table class="search-result-count">
@@ -209,7 +180,7 @@ scroll_follow("#scroll");
 											<a href="#">
 												<img src="../img/ss_m_1.png">
 												<br>
-												<span class="search_t_w_n">(${totalCount })</span>
+												<span class="search_t_w_n">(${mainCountArr[0]})</span>
 											</a>
 										</li>
 										<li style="width: 2px;">
@@ -219,7 +190,7 @@ scroll_follow("#scroll");
 										<li><a href="#">
 											<img src="../img/ss_m_2.png">
 											<br>
-											<span class="search_t_w_n">(?)</span>
+											<span class="search_t_w_n">(${mainCountArr[1]})</span>
 										</a>
 										</li>
 										<li style="width: 2px;">
@@ -229,7 +200,7 @@ scroll_follow("#scroll");
 											<a href="#">
 												<img src="../img/ss_m_3.png">
 												<br>
-												<span class="search_t_w_n">(?)</span>
+												<span class="search_t_w_n">(${mainCountArr[2]})</span>
 											</a>
 										</li>
 										<li style="width: 2px;">
@@ -239,7 +210,7 @@ scroll_follow("#scroll");
 											<a href="#">
 												<img src="../img/ss_m_15.png">
 												<br>
-												<span class="search_t_w_n">(?)</span>
+												<span class="search_t_w_n">(${mainCountArr[3]})</span>
 											</a>
 										</li>
 										<!-- 미구현 -->
@@ -276,7 +247,7 @@ scroll_follow("#scroll");
 								</td>
 								<td>
 								<!-- 미구현 -->
-									<a href="#">
+									<a href="#" onclick="checkAll()" class="check_all_btn">
 										<span class="bWrap">
 											전체선택
 										</span>
@@ -436,7 +407,38 @@ scroll_follow("#scroll");
 								</div>
 								<!-- 체크박스/장바구니 넣기/ 구매버튼 만들어야함 -->
 								<div class="search_book_check">
-									
+									<div>
+										<input type="checkbox" id="book_list_check">
+										<span class="btn_count">
+										<label style="color:#666; font-size:11px;">
+											수량
+											<input type="text" name="qty" value="1" size="4" class="input_cnt">
+										</label>
+											<a href="#" class="btn_plus">수량 더하기</a>
+											<a href="#" class="btn_down">수량 더하기</a>
+										</span>
+										<div style="margin-top:7px;overflow: hidden;">
+											<a href="#">
+												<span class="search_cart_input">
+													<em class ="search_btn_txt">카트에 넣기</em>
+												</span>
+											</a>
+										</div>
+										<div style="margin-top:7px;overflow: hidden;">
+											<a href="#">
+												<span class="search_buy_input">
+													<em class ="search_btn_txt">바로구매</em>
+												</span>
+											</a>
+										</div>
+										<div style="margin-top:7px;overflow: hidden;">
+											<a href="#">
+												<span class="search_list_input">
+													<em class ="search_list_txt">찜목록에 넣기</em>
+												</span>
+											</a>
+										</div>
+									</div>
 								</div>
 							</div>	
 						</li>

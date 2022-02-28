@@ -22,9 +22,19 @@ public class BookVO {
     private String contentId; // youtube
     private String mainCategory; 
     private String subCategory;
+    private String subCateName;
+    
     
 
-    public int getSellCount() {
+    public String getSubCateName() {
+		return subCateName;
+	}
+
+	public void setSubCateName(String subCateName) {
+		this.subCateName = subCateName;
+	}
+
+	public int getSellCount() {
 		return sellCount;
 	}
 

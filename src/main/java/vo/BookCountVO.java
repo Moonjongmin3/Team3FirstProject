@@ -1,15 +1,30 @@
 package vo;
 
 public class BookCountVO {
-	int mainCount;
+	int mainId;
+	int subId;
 	int subCount;
-	int Count;
+	int mainCount;
+	String subCateName;
+	String mainCateName;
 	
-	public int getMainCount() {
-		return mainCount;
+	public String getMainCateName() {
+		return mainCateName;
 	}
-	public void setMainCount(int mainCount) {
-		this.mainCount = mainCount;
+	public void setMainCateName(String mainCateName) {
+		this.mainCateName = mainCateName;
+	}
+	public int getMainId() {
+		return mainId;
+	}
+	public void setMainId(int mainId) {
+		this.mainId = mainId;
+	}
+	public int getSubId() {
+		return subId;
+	}
+	public void setSubId(int subId) {
+		this.subId = subId;
 	}
 	public int getSubCount() {
 		return subCount;
@@ -17,11 +32,21 @@ public class BookCountVO {
 	public void setSubCount(int subCount) {
 		this.subCount = subCount;
 	}
-	public int getCount() {
-		return Count;
+	public int getMainCount() {
+		return mainCount;
 	}
-	public void setCount(int Count) {
-		this.Count = Count;
+	public void setMainCount(int mainCount) {
+		this.mainCount = mainCount;
 	}
+	public String getSubCateName() {
+		return subCateName;
+	}
+	public void setSubCateName(String subCateName) {
+		this.subCateName = subCateName;
+	}
+	
+	
+	
+	
 	
 }

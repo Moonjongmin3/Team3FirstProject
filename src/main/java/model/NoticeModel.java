@@ -96,23 +96,21 @@ public class NoticeModel {
     	String no = request.getParameter("no");
         String page = request.getParameter("page");
     	try {
-//          HttpSession session = request.getSession();
+           HttpSession session = request.getSession();
             request.setCharacterEncoding("UTF-8");
             String content = request.getParameter("content");
             String title = request.getParameter("title");
-//            String adminID= (String)session.getAttribute("admin");
+           String adminID= (String)session.getAttribute("userId");
 
             NoticeVO vo = new NoticeVO();
             vo.setNo(Integer.parseInt(no));
             vo.setTitle(title);
             vo.setContent(content);
-//            vo.setAdminID(adminID);
+            vo.setAdminID(adminID);
 
             vo.setAdminID("test1");
             NoticeDAO dao = new NoticeDAO();
             dao.noticeUpdate(vo);
-
-//            response.sendRedirect("notice_detail.do?no="+no+"&page="+page);
             
         }catch (Exception e){
             e.printStackTrace();
@@ -128,9 +126,6 @@ public class NoticeModel {
 
             NoticeDAO dao = new NoticeDAO();
             dao.noticeDelete(Integer.parseInt(no));
-            
-            
-//            response.sendRedirect("notice.do?page="+page);
             
         return "redirect:notice.do?page="+page;
     }
@@ -150,11 +145,9 @@ public class NoticeModel {
             request.setCharacterEncoding("UTF-8");
             String title = request.getParameter("title");
             String content = request.getParameter("content");
-//            HttpSession session = request.getSession();
-
-            // 로그인 기능 구현되면 변경 예정
-//    	String adminID=(String)session.getAttribute("admin_id");
-            String adminID = "test1";
+            HttpSession session = request.getSession();
+    	    String adminID=(String)session.getAttribute("userId");
+           
             NoticeVO vo = new NoticeVO();
             vo.setTitle(title);
             vo.setContent(content);
@@ -162,25 +155,23 @@ public class NoticeModel {
             NoticeDAO dao = new NoticeDAO();
             
             dao.noticeInsertData(vo);
-//            response.sendRedirect("notice.do");
         }catch (Exception e){
             e.printStackTrace();
         }
         return "redirect:notice.do";
     }
-    @RequestMapping("customer/notice_search.do")
-    public String noticeSearch(HttpServletRequest request,HttpServletResponse response){
-        try {
-            request.setCharacterEncoding("UTF-8");
-            String notice_search_cate = request.getParameter("notice_search_cate");
-            String notice_search = request.getParameter("notice_search");
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "../main/main.jsp";
-    }
+//    @RequestMapping("customer/notice_search.do")
+//    public String noticeSearch(HttpServletRequest request,HttpServletResponse response){
+//        try {
+//            request.setCharacterEncoding("UTF-8");
+//            String notice_search_cate = request.getParameter("notice_search_cate");
+//            String notice_search = request.getParameter("notice_search");
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return "../main/main.jsp";
+//    }
 }
 
 

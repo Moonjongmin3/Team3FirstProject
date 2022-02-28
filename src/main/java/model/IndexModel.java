@@ -34,7 +34,7 @@ public class IndexModel extends HttpServlet {
         Map<String, Object> map = new HashMap<String, Object>();
 
         String sortBy = application.getInitParameter("DEFAULT_SORT");
-        System.out.println(sortBy);
+//        System.out.println(sortBy);
         // 베스트 셀러 & 신간 도서 비즈니스 로직 처리
         map.put("sortBy", sortBy);
         map.put("start", 1);

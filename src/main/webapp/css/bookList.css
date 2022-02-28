@@ -432,7 +432,7 @@
 
     .search_book_check{
         display: table-cell;
-        padding-left: 20px;
+        padding-left: 30px;
         width: 145px;
         box-sizing: border-box;
     }
@@ -440,9 +440,117 @@
     .sbr{
         display: inline-block;
         zoom: 1;
-       
         overflow: hidden;
         text-align: left;
         text-indent: -999em;
         vertical-align: top;
     }
+    
+    #book_list_check{
+    	width:18px;
+    	height:18px;
+    	vertical-align: -5;
+    
+    }
+    .input_cnt{
+    	text-align: center;
+    	height:20px;
+    	border-radius: 0px;
+    	border: 1px solid #c6c6c6;
+    	height: 21px;
+    }
+    
+    .btn_count{
+    display: inline-block;
+    vertical-align: middle;
+    height: 21px;
+    position: relative;
+    padding-right: 10px;
+    margin-left: 4px;
+    }
+    
+    .btn_plus{
+	    position: absolute;
+	    right: 0;
+	    border: 1px solid #c6c6c6;
+	    width: 11px;
+	    height: 11px;
+	    font-size: 0;
+	    color: transparent;
+	    top: 0;
+    	background: url(../img/icon_quantity_up.gif) no-repeat;
+    }
+    .btn_down{
+	    position: absolute;
+	    right: 0;
+	    border: 1px solid #c6c6c6;
+	    width: 11px;
+	    height: 11px;
+	    font-size: 0;
+	    color: transparent;
+	    bottom: 0;
+    	background: url(../img/icon_quantity_down.gif) no-repeat;
+    }
+    
+    .search_cart_input{
+    position: relative;
+    padding: 5px 14px;
+    text-align: center;
+    text-indent: 0;
+    border: solid 1px #ebebeb;  
+    border-radius: 3px;
+	border-color: #196ab3;
+    border-bottom-color: #165fa1;
+    border-right-color: #165fa1;
+    background-color: #196ab3;
+    
+    }
+     .search_btn_txt{
+	     position: relative;
+	    padding: 0;
+	    overflow: hidden;
+	    line-height: 26px;
+	    font-size: 14px;
+	    color: #fff !important;
+	    font-weight: bold;
+	    text-indent: 0;
+	    cursor: pointer;
+     }
+    
+    .search_buy_input{
+	    position: relative;
+	    padding: 5px 23px;
+	    text-align: center;
+	    text-indent: 0;
+	    border: solid 1px #ebebeb;  
+	    border-radius: 3px;
+	    border-color: #199db3;
+	    border-bottom-color: #168da1;
+	    border-right-color: #168da1;
+	    background-color: #199db3;
+	   	box-sizing: border-box;
+    }
+    
+    .search_list_input{
+    	position: relative;
+	    padding: 4px 6px;
+	    text-align: center;
+	    text-indent: 0;
+	    border: solid 1px #ebebeb;
+	    border-bottom-color: #d8d8d8;
+	    border-right-color: #d8d8d8;
+	    border-radius: 3px;
+	    background-color: #fff;
+    }
+    .search_list_txt{
+    	position: relative;
+	    padding: 0;
+	    overflow: hidden;
+	    line-height: 26px;
+	    font-size: 14px;
+	    color: black !important;
+	    font-weight: bold;
+	    text-indent: 0;
+	    cursor: pointer;
+    }
+    

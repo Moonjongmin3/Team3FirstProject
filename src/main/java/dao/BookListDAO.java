@@ -11,6 +11,11 @@ public class BookListDAO {
 	private PreparedStatement ps;
 	private ConnectionManager cm = new ConnectionManager();
 	
+	/*
+	 * 	   검색 조건 :main_category, sub_category, keyword, 베스트셀러, 신간도서 
+	 * 				(제목,저자,출판사,태그), 검색 내 검색, 품절 포함/미포함, 10개씩/ 20개씩 보기
+	 * 		검색조건을 묶은 class를 생성해서 만들기 (아직 구현x)
+	 * */
 	public List<BookVO> bookSearchList(int category,String keyword,int page) {
 		List<BookVO> list = new ArrayList<>();
 		try {
@@ -22,9 +27,9 @@ public class BookListDAO {
 				main=" s.main_id="+category;
 			}
 //			type= "title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'"
-			String sql="SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,num "
-					+ "FROM (SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,rownum as num "
-					+ "FROM (SELECT b.id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,s.main_id as main,score "
+			String sql="SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,num "
+					+ "FROM (SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,rownum as num "
+					+ "FROM (SELECT b.id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,s.main_id as main,score,s.name,s.NAME as sub_name "
 					+ "FROM books_3 b, sub_category_3 s "
 					+ "WHERE b.category_id=s.id and "+main+" and (title LIKE '%'||?||'%' OR author LIKE '%'||?||'%' OR publisher LIKE '%'||?||'%') "
 					+ "ORDER BY sell_count DESC)) "
@@ -76,6 +81,7 @@ public class BookListDAO {
 				vo.setSellCount(rs.getInt(13));
 				vo.setMainCategory(rs.getString(14));
 				vo.setScore(rs.getInt(15));
+				vo.setSubCateName(rs.getString(16));
 				
 				list.add(vo);
 				
@@ -90,7 +96,7 @@ public class BookListDAO {
 		return list;
 	}
 	
-	public int searchTotalCount(int category,String keyword) {
+	public int searchTotalPage(int category,String keyword) {
 		int count= 0;
 		try {
 			conn=cm.getConnection();
@@ -123,8 +129,8 @@ public class BookListDAO {
 		return count;
 	}
 	
-	public int searchBookCount(int category,String keyword) {
-		int count= 0;
+	public int[] searchBookCount(int category,String keyword) {
+		int[] mainCount= {0,0,0,0};
 		try {
 			conn=cm.getConnection();
 			String main="";
@@ -133,9 +139,11 @@ public class BookListDAO {
 			}else {
 				main=" s.main_id="+category;
 			}
-			String sql="SELECT COUNT(*) FROM books_3 b, sub_category_3 s "
+			String sql="SELECT nvl(MAIN_ID,0),COUNT(*) FROM books_3 b, sub_category_3 s "
 					+ "WHERE b.category_id=s.id and "+main+" and "
-					+ "(title LIKE '%'||?||'%' OR author LIKE '%'||?||'%' OR publisher LIKE '%'||?||'%')"; 
+					+ "(title LIKE '%'||?||'%' OR author LIKE '%'||?||'%' OR publisher LIKE '%'||?||'%') "
+					+ "group by rollup ( MAIN_ID ) "
+					+ "order by MAIN_ID nulls first"; 
 			ps=conn.prepareStatement(sql);
 
 			ps.setString(1, keyword);
@@ -143,9 +151,23 @@ public class BookListDAO {
 			ps.setString(3, keyword);
 			
 			ResultSet rs = ps.executeQuery();
-			rs.next();
-			count=rs.getInt(1);
 			
+			while(rs.next()) {
+				switch(rs.getInt(1)){
+				case 0:
+					mainCount[0]=rs.getInt(2);
+					break;
+				case 1:
+					mainCount[1]=rs.getInt(2);
+					break;
+				case 2:
+					mainCount[2]=rs.getInt(2);
+					break;
+				default :
+					mainCount[3]=rs.getInt(2);
+					break;
+				}
+			}
 			rs.close();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -153,18 +175,18 @@ public class BookListDAO {
 			cm.disConnection(conn, ps);
 		}
 		
-		return count;
+		return mainCount;
 	}
 	
-	public List<BookCountVO> searchBookCount (String keyword) {
+	public List<BookCountVO> bookSearchCount (String keyword) {
 		List<BookCountVO> list = new ArrayList<BookCountVO>();
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT s.main_id,b.category_id,COUNT(*) "
+			String sql="SELECT s.MAIN_ID,NVL(s.ID,0),NVL(s.NAME,(select name from MAIN_CATEGORY_3 m where m.ID=s.MAIN_ID)),count(*) "
 					+ "FROM BOOKS_3 b, SUB_CATEGORY_3 s "
 					+ "WHERE b.category_id=s.id AND "
-					+ "(b.title LIKE '%'||'?'||'%' OR b.author LIKE '%'||'?'||'%' OR b.publisher LIKE '%'||'?'||'%') "
-					+ "GROUP BY GROUPING SETS  ((b.category_id, s.main_id),()) ORDER BY category_id;";
+					+ "(b.title LIKE '%'||?||'%' OR b.author LIKE '%'||?||'%' OR b.publisher LIKE '%'||?||'%') "
+					+ "group by s.MAIN_ID, rollup ((s.id,s.name)) order by s.MAIN_ID,s.id nulls first";
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, keyword);
 			ps.setString(2, keyword);
@@ -173,11 +195,19 @@ public class BookListDAO {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				BookCountVO vo = new BookCountVO();
-				vo.setMainCount(rs.getInt(1));
-				vo.setSubCount(rs.getInt(2));
-				vo.setCount(rs.getInt(3));
+				vo.setMainId(rs.getInt(1));
+				vo.setSubId(rs.getInt(2));
+				if(vo.getSubId()!=0) {	
+					vo.setSubCateName(rs.getString(3));
+					vo.setSubCount(rs.getInt(4));
+				}else {
+					vo.setMainCateName(rs.getString(3));
+					vo.setMainCount(rs.getInt(4));
+				}
+				
+				list.add(vo);
 			}
-			
+			rs.close();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {

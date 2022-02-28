@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.RequestMapping;
 import dao.BookListDAO;
+import vo.BookCountVO;
 import vo.BookVO;
 
 public class BookModel {
@@ -16,10 +17,10 @@ public class BookModel {
 		String category=request.getParameter("searchCategory");
 		String keyword=request.getParameter("keyword");
 		String page=request.getParameter("page");
-		String publisher=request.getParameter("publisher_ck");
-		String title=request.getParameter("title_ck");
-		String author=request.getParameter("author_ck");
-		System.out.println(publisher+title+author);
+//		String publisher=request.getParameter("publisher_ck");
+//		String title=request.getParameter("title_ck");
+//		String author=request.getParameter("author_ck");
+//		System.out.println(publisher+title+author);
 		// 제목,저자, 출판사 별로 검 
 
 		if(page==null)
@@ -33,12 +34,16 @@ public class BookModel {
 		BookListDAO dao = new BookListDAO();
 		List<BookVO> list = new ArrayList<>();
 		list=dao.bookSearchList(Integer.parseInt(category), keyword, curpage);
-		int totalPage=dao.searchTotalCount(Integer.parseInt(category), keyword);
-		int totalCount=dao.searchBookCount(Integer.parseInt(category), keyword);
+		int totalPage=dao.searchTotalPage(Integer.parseInt(category), keyword);
+		int[] mainCountArr=dao.searchBookCount(Integer.parseInt(category), keyword);
+		List<BookCountVO> subCountList = dao.bookSearchCount(keyword);
+		
+		
 		if(endPage>totalPage) {
 			endPage=totalPage;
 		}
-		request.setAttribute("totalCount", totalCount);
+		request.setAttribute("subCountList", subCountList);
+		request.setAttribute("mainCountArr", mainCountArr);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("category", category);
 		request.setAttribute("keyword", keyword);

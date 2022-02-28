@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,7 +83,7 @@
 						</ul>
 					</div>
 					<div class="contents_main">
-						<c:forEach items="${notice_list}" var="list">
+						<c:forEach items="${notice_list}" var="list" varStatus="i">
 						<ul>
 							<li>${list.no}</li>
 							<li><a href="../customer/notice_detail.do?page=${curpage}&no=${list.no}">${list.title}</a> </li>
