@@ -21,12 +21,12 @@
 				<div class="row">
 					<div class="col-xs-12 col-md-10 col-md-offset-1">
 						<hr>
-						<input type="checkbox" value="yyy" name="all-checked" checked>
+						<input type="checkbox" id="check-all" checked>
 						<label for="all-checked">전체선택</label>&nbsp;&nbsp;&nbsp;
 						<div class="btn-group" role="group" aria-label="...">
 						  <button type="button" class="btn btn-default">주문하기</button>
 						  <button type="button" class="btn btn-default">찜목록 넣기</button>
-						  <button type="button" class="btn btn-default">삭제</button>
+						  <button type="button" class="btn btn-default" id="delete-selected">삭제</button>
 						</div>
 						<form action="#" id="cart-sort">
 						  <select id="cart-sort-select" name="cars">
@@ -235,35 +235,24 @@
         },
       });
       
+      
+      // 카트 가져오기
       $.ajax({
     	    type : 'GET',
-    	    url : 'http://localhost:8080/FirstProject/cart/edit',
+    	    url : 'http://localhost:8080/FirstProject/cart/get',
     	    dataType:'json',
     	    success:function(data){
-    	    	var book_data = '';
-    	    	$.each(data, function(key, value) {
-    	    		book_data += '<tr>';
-    	    		book_data += '<td><input type="checkbox" name="나무야 놀자" value="yyy" checked></td>';
-    	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
-    	    		book_data += '<td>' + value.name + '</td>';
-    	    		book_data += '<td id="cart-table-quantity">' + value.quantity + '</td>';
-    	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
-    	    		book_data += '<td id="cart-table-info">내일</td>';
-    	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary">주문하기</button></td>';
-    	    		book_data += '</tr>';
-    	    	});
-    	    	$('div.cart-table tbody').append(book_data);
+    	    	$('div.cart-table tbody').append(fillCartTable(data));
     	    }
-    	});
-      
+    	})
+      // 카트 정렬하기
       $('#cart-sort-select').on('change',function(){
     	  let sortOpt = $(this).val();
     	  $.ajax({
       	    type : 'GET',
-      	    url : 'http://localhost:8080/FirstProject/cart/edit',
+      	    url : 'http://localhost:8080/FirstProject/cart/get',
       	    dataType:'json',
       	    success:function(json){
-      	    	console.log(json);
       	    	$('div.cart-table tbody').html('');
       	    	var data;
       	    	if (sortOpt === 'name') {
@@ -275,23 +264,67 @@
       	    	} else {
       	    		data = json;
       	    	}
-      	    	var book_data = '';
-      	    	$.each(data, function(key, value) {
-      	    		book_data += '<tr>';
-      	    		book_data += '<td><input type="checkbox" name="나무야 놀자" value="yyy" checked></td>';
-      	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
-      	    		book_data += '<td>' + value.name + '</td>';
-      	    		book_data += '<td id="cart-table-quantity">' + value.quantity + '</td>';
-      	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
-      	    		book_data += '<td id="cart-table-info">내일</td>';
-      	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary">주문하기</button></td>';
-      	    		book_data += '</tr>';
-      	    	});
-      	    	$('div.cart-table tbody').append(book_data);
+      	    	$('div.cart-table tbody').append(fillCartTable(data));
       	    }
       	});
     	  
       })
+      // 카트 삭제 - 개별 상품
+      $(document).on('click', '#del-button', function(){
+    	  $.ajax({
+      	    type : 'POST',
+      	    url : 'http://localhost:8080/FirstProject/cart/delete',
+      	    dataType:'json',
+      	    data: { bookId : $(this).val() },
+      	    success:function(data){
+      	    	$('div.cart-table tbody').html('');
+      	    	$('div.cart-table tbody').append(fillCartTable(data));
+      	    }
+      	})
+      });
+      // 카트 삭제 - 선택 상품
+      $('#delete-selected').click(function(){
+    	  let arr = [];
+    	  $.each($("input.book-check:checked"), function(){            
+              arr.push($(this).val());
+      	});
+    	  var data = $.param({ bookId : arr }, true);
+    	  console.log(arr);
+    	  $.ajax({
+        	    type : 'POST',
+        	    url : 'http://localhost:8080/FirstProject/cart/delete',
+        	    dataType:'json',
+        	    data: data,
+        	    success:function(data){
+        	    	$('div.cart-table tbody').html('');
+        	    	$('div.cart-table tbody').append(fillCartTable(data));
+        	    }
+        	})
+      })
+      // 체크박스 전체 선택&해제
+      $('input#check-all').click(function(){
+    	 $("input[type='checkbox']").prop('checked',this.checked)
+      })
+      
+      // 상품 테이블 채워넣기 함수
+      function fillCartTable(data){
+    	  var book_data = '';
+	    	$.each(data, function(key, value) {
+	    		book_data += '<tr>';
+	    		book_data += '<td><input type="checkbox" class="book-check" value="' + value.id + '" checked></td>';
+	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
+	    		book_data += '<td>' + value.name + '</td>';
+	    		book_data += '<td id="cart-table-quantity">' + value.quantity + '</td>';
+	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
+	    		book_data += '<td id="cart-table-info">내일</td>';
+	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary">주문하기</button>';
+	    		book_data += '<button type="button" class="btn btn-danger" id="del-button" value="' + value.id + '">삭제하기</button></td>';
+	    		book_data += '</tr>';
+	    	});
+	    	return book_data;
+      }
+      
+      
       // $.('div.cart-table tbody').innerHTML = '';
     </script>
 </body>
