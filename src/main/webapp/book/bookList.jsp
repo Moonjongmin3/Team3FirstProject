@@ -10,13 +10,34 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
-/* function checkAll(){
-    if( $(".check_all_btn").click ){
-      $("#book_list_check").prop("checked", true);
-    }else{
-      $("#book_list_check").prop("checked", false);
-    }
-} */
+function checkAll(){
+	let obj = document.querySelectorAll(".book_list_check")
+	if(obj[0].checked){
+		for(i=0;i<obj.length;i++){
+			obj[i].checked=false;
+		}
+	}else{
+		for(i=0;i<obj.length;i++){
+			obj[i].checked=true;
+		}
+	}
+}
+function btnplus(){
+	let count=$(".input_cnt").val()
+	count = (Number(count)+1)
+	$(".input_cnt").val(count)
+}
+function btndown(){
+	let count=$(".input_cnt").val()
+	count = (Number(count)-1)
+	if(count===0){
+		alert("1개 이상 구입할 수 있습니다.")
+		$(".input_cnt").val(1)
+	}else{
+		$(".input_cnt").val(count)
+	}
+}
+
 
 </script>
 </head>
@@ -167,7 +188,20 @@
 					<span class="search_t_g">
 						검색어"<span class="result_l"><strong>${keyword }</strong></span>
 						"총
-						<span class="search_r_c_count">${mainCountArr[0] }</span>
+						<c:choose>
+							<c:when test="${category==4 }">
+								<span class="search_r_c_count">${mainCountArr[0]} </span>
+							</c:when>
+							<c:when test="${category==1 }">
+								<span class="search_r_c_count">${mainCountArr[1]} </span>
+							</c:when>
+							<c:when test="${category==2 }">
+								<span class="search_r_c_count">${mainCountArr[2]} </span>
+							</c:when>
+							<c:otherwise>
+								<span class="search_r_c_count">${mainCountArr[3]} </span>
+							</c:otherwise>
+						</c:choose>						
 						개의 상품이 검색되었습니다.
 					</span>
 					<table class="search-result-count">
@@ -175,9 +209,11 @@
 							<tr>
 								<td width="18" height="47"><img src="../img/ss_m_l.jpeg"></td>
 								<td valign="bottom" style="width:400px; background:url(../img/ss_m_c.jpeg) top left repeat-x; padding-top:0px; text-align: left;">
+								<!-- 클릭했을때 css 변경밥법 고안 -->
 									<ul>
+										<!-- 통합검색 -->
 										<li>
-											<a href="#">
+											<a href="../book/bookList.do?searchCategory=4&keyword=${keyword }">
 												<img src="../img/ss_m_1.png">
 												<br>
 												<span class="search_t_w_n">(${mainCountArr[0]})</span>
@@ -186,8 +222,8 @@
 										<li style="width: 2px;">
 											<img src="../img/ss_m_line.png">
 										</li>
-										<!-- 미구현 -->
-										<li><a href="#">
+										<!-- 국내도서 -->
+										<li><a href="../book/bookList.do?searchCategory=1&keyword=${keyword }">
 											<img src="../img/ss_m_2.png">
 											<br>
 											<span class="search_t_w_n">(${mainCountArr[1]})</span>
@@ -196,8 +232,9 @@
 										<li style="width: 2px;">
 											<img src="../img/ss_m_line.png">
 										</li>
+										<!-- 외국도서 -->
 										<li>
-											<a href="#">
+											<a href="../book/bookList.do?searchCategory=2&keyword=${keyword }">
 												<img src="../img/ss_m_3.png">
 												<br>
 												<span class="search_t_w_n">(${mainCountArr[2]})</span>
@@ -206,8 +243,9 @@
 										<li style="width: 2px;">
 											<img src="../img/ss_m_line.png">
 										</li>
+										<!-- eBook -->
 										<li>
-											<a href="#">
+											<a href="../book/bookList.do?searchCategory=3&keyword=${keyword }">
 												<img src="../img/ss_m_15.png">
 												<br>
 												<span class="search_t_w_n">(${mainCountArr[3]})</span>
@@ -246,13 +284,13 @@
 									</ul>
 								</td>
 								<td>
-								<!-- 미구현 -->
-									<a href="#" onclick="checkAll()" class="check_all_btn">
+									<a href="javascript:checkAll()" class="check_all_btn">
 										<span class="bWrap">
 											전체선택
 										</span>
 									</a>
 								</td>
+								<!-- 미구현 -->
 								<td style="text-align: center">
 									<select>
 										<option value selected>품절포함</option>
@@ -321,7 +359,7 @@
 							<!-- 미구현 -->
 						</div>
 					</div>
-					<ul id="search_book_list_wrap">
+					<ul class="search_book_list_wrap">
 						<c:forEach var="vo" items="${list }">
 						<li>
 							<div class="search_book_unit">
@@ -405,17 +443,16 @@
 										</p>
 									</div>
 								</div>
-								<!-- 체크박스/장바구니 넣기/ 구매버튼 만들어야함 -->
 								<div class="search_book_check">
 									<div>
-										<input type="checkbox" id="book_list_check">
+										<input type="checkbox" class="book_list_check">
 										<span class="btn_count">
 										<label style="color:#666; font-size:11px;">
 											수량
 											<input type="text" name="qty" value="1" size="4" class="input_cnt">
 										</label>
-											<a href="#" class="btn_plus">수량 더하기</a>
-											<a href="#" class="btn_down">수량 더하기</a>
+											<a href="javascript:btnplus()" class="btn_plus">수량 더하기</a>
+											<a href="javascript:btndown()" class="btn_down">수량 빼기</a>
 										</span>
 										<div style="margin-top:7px;overflow: hidden;">
 											<a href="#">

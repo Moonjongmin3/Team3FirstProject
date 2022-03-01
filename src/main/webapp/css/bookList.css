@@ -310,23 +310,23 @@
         text-align: center;
     }
 
-    #search_book_list_wrap{
+    .search_book_list_wrap{
         margin: 0;
         padding: 0;
         clear:both;
         
     }
     
-    #search_book_list_wrap .book_unit{
+    .search_book_list_wrap .book_unit{
         line-height: 1.3em;
         font-size: 12px;
     }
 
-    #search_book_list_wrap li{
+    .search_book_list_wrap li{
         padding: 30px 0;
         border-bottom: 1px solid #dedede ;
     }
-    #search_book_list_wrap li:last-child{
+    .search_book_list_wrap li:last-child{
     	border-bottom: none;
     	}
 
@@ -368,7 +368,7 @@
         color: #999;
         font-size: 11px;
     }
-    #search_book_list_wrap li .search_book_pubGrp .authPub+.authPub:before{
+    .search_book_list_wrap li .search_book_pubGrp .authPub+.authPub:before{
     margin: 0 1px 0 2px;
     content: '\007C\0020';
     font-size: 11px;
@@ -446,7 +446,7 @@
         vertical-align: top;
     }
     
-    #book_list_check{
+    .book_list_check{
     	width:18px;
     	height:18px;
     	vertical-align: -5;

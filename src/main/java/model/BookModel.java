@@ -35,7 +35,7 @@ public class BookModel {
 		List<BookVO> list = new ArrayList<>();
 		list=dao.bookSearchList(Integer.parseInt(category), keyword, curpage);
 		int totalPage=dao.searchTotalPage(Integer.parseInt(category), keyword);
-		int[] mainCountArr=dao.searchBookCount(Integer.parseInt(category), keyword);
+		int[] mainCountArr=dao.searchBookCount(4, keyword);
 		List<BookCountVO> subCountList = dao.bookSearchCount(keyword);
 		
 		
