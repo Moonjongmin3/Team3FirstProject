@@ -26,19 +26,13 @@ public class AddCartModel extends HttpServlet{
 		// 책 객체 생성
 		BookDAO bookDAO = new BookDAO();
 		String bookId = request.getParameter("bookId");
-		System.out.println(bookId);
 		BookVO book = bookDAO.findBook(bookId);
 		
 		//로그인 상태
 		if (session.getAttribute("userId") != null) {
-			// 카트 ID 가져오기
-			CartDAO cartDAO = new CartDAO();
 			String userId = session.getAttribute("userId").toString();
-			int cartId = cartDAO.getCartId(userId);
-			// 카트에 책 넣기
-			cartDAO.insert(book, cartId);
-			// 연결 해제
-			cartDAO.close();
+			CartDAO cartDAO = new CartDAO();
+			cartDAO.insertCart(book, userId);
 		} else {
 			// 비회원 상태
 			if (session.getAttribute("cart") == null) {

@@ -1,77 +1,130 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import Common.DBConnPool;
 import vo.BookVO;
 
-public class CartDAO extends DBConnPool {
-    private final static String INSERT_Q = "INSERT INTO BOOKS_CART VALUES (BOOKS_CART_SEQ.NEXTVAL,?,?,?)";
-
-//    con.setAutoCommit(false);	
-	public int getCartId(String userId) {
-        int cartId = 0;
-        try {
-            String getCartIdQuery = "SELECT CART_ID FROM CART WHERE MEMBER_ID = \'" + userId + "\'";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(getCartIdQuery);
-            while (rs.next()) {
-                cartId = rs.getInt("cart_id");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return cartId;
-    }
-    public void insert(BookVO book, int cartId) {
-        try {
-            psmt = con.prepareStatement(INSERT_Q);
-            psmt.setInt(1,cartId);
-            psmt.setInt(2,book.getId());
-            psmt.setInt(3, 1);
-
-            psmt.executeUpdate();
-            System.out.println("카트에 넣기 성공!");
-            con.commit();
-
-        } catch (Exception e) {
-            System.out.println("카트에 넣기 실패...");
-            e.printStackTrace();
-        }finally {
-            close();
-        }
+public class CartDAO {
+	private Connection conn;
+	private PreparedStatement ps;
+	private ResultSet rs;
+	private ConnectionManager cm;
+	
+    private final static String INSERT_Q = "INSERT INTO CART_3 VALUES (CART_3_ID_SEQ.NEXTVAL,?,?,?)";
+    private final static String SELECT_Q = "SELECT b.*, mc.NAME main_category, sc.NAME sub_category, c.quantity quantity FROM cart_3 c "
+								    		+ "INNER JOIN BOOKS_3 b ON c.BOOK_ID = b.ID "
+								    		+ "INNER JOIN SUB_CATEGORY_3 sc ON b.CATEGORY_ID = sc.ID "
+								    		+ "INNER JOIN MAIN_CATEGORY_3 mc ON sc.MAIN_ID = mc.ID ORDER BY c.cart_id DESC";
+    private final static String DELETE_Q = "DELETE FROM CART_3 c WHERE USER_ID = ? AND BOOK_ID = ?";
+    private final static String UPDATE_Q = "UPDATE CART_3 SET quantity = ? WHERE user_id = ? AND book_id = ?";
+    
+    public CartDAO() {
+    	cm = new ConnectionManager();
     }
 
-    public List<BookVO> selectList(int cartId) {
-        List<BookVO> books = new ArrayList<>();
-
-        String query = "SELECT b.*, bc.QUANTITY FROM books b JOIN books_cart bc ON b.ID = bc.BOOK_ID WHERE CART_ID = " + cartId
-                + " ORDER BY bc.ID DESC ";
-
-        try {
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
+    public LinkedHashMap<String, BookVO> getCart(String userId) {
+    	Map<String, BookVO> cart = new LinkedHashMap<String, BookVO>();
+    	try {
+    		conn = cm.getConnection();
+    		ps = conn.prepareStatement(SELECT_Q);
+    		rs = ps.executeQuery();
+    		
+    		while (rs.next()) {
                 BookVO book = new BookVO();
-                book.setId(rs.getInt("id"));
-                book.setPoster(rs.getString("img"));
-                book.setName(rs.getString("name"));
-                book.setPrice(rs.getInt("price"));
-                book.setQuantity(rs.getInt("quantity"));
-
-                books.add(book);
+                int bookId = rs.getInt("id");
+                book.setId(bookId);
+                book.setPoster(rs.getString("poster"));
+                book.setName(rs.getString("title"));
+                book.setPrice(Integer.parseInt(rs.getString("price")));
+                book.setQuantity(Integer.parseInt(rs.getString("quantity")));
+                book.setAuthor(rs.getString("author"));
+                book.setPublisher(rs.getString("publisher"));
+                book.setSaleRate(rs.getInt("salerate"));
+                book.setScore(rs.getInt("score"));
+                book.setIsbn(rs.getString("isbn"));
+                book.setBsize(rs.getString("bsize"));
+                book.setState(rs.getString("state"));
+                book.setTag(rs.getString("tag"));
+                book.setMainCategory(rs.getString("main_category"));
+                book.setSubCategory(rs.getString("sub_category"));
+                
+                cart.put(Integer.toString(bookId), book);
             }
-            close();
+    		rs.close();
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			cm.disConnection(conn, ps);
+		}
+		return (LinkedHashMap<String, BookVO>) cart;
+    }
+    
+    public void insertCart(BookVO book, String userId) {
+        try {
+        	conn = cm.getConnection();
+            ps = conn.prepareStatement(INSERT_Q);
+            ps.setString(1,userId);
+            ps.setInt(2,book.getId());
+            ps.setInt(3,book.getQuantity());
+
+            ps.executeUpdate();
+            
+
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
-            close();
+        	cm.disConnection(conn, ps);
         }
-
-        return books;
     }
+    
+    public void deleteCart(int bookId, String userId) {
+        try {
+        	conn = cm.getConnection();
+            ps = conn.prepareStatement(DELETE_Q);
+            ps.setString(1,userId);
+            ps.setInt(2,bookId);
+
+            ps.executeUpdate();
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+        	cm.disConnection(conn, ps);
+        }
+    }
+    
+    public void updateCart(int quantity, String userId, int bookId) {
+        try {
+        	conn = cm.getConnection();
+            ps = conn.prepareStatement(UPDATE_Q);
+            ps.setInt(1,quantity);
+            ps.setString(2,userId);
+            ps.setInt(3,bookId);
+
+            ps.executeUpdate();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+        	cm.disConnection(conn, ps);
+        }
+    }
+
 }
