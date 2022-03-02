@@ -2,7 +2,9 @@ package model.cart;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,10 +18,11 @@ import com.google.gson.Gson;
 import dao.CartDAO;
 import vo.BookVO;
 
-@WebServlet("/cart/edit")
-public class EditCartModel extends HttpServlet {
+@WebServlet("/cart/delete")
+public class DeleteCartModel extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		String[] paramArr = request.getParameterValues("bookId");
 		//로그인 상태
 		if (session.getAttribute("userId") != null) {
 			// 카트 ID 가져오기
@@ -29,20 +32,21 @@ public class EditCartModel extends HttpServlet {
 			// 연결 해제
 			cartDAO.close();
 		} else {
-			// 비회원 상태
-			if (session.getAttribute("cart") == null) {
-				List<BookVO> cart = new ArrayList<>();
-				session.setAttribute("cart", cart);
+//			// 비회원 상태
+//			if (session.getAttribute("cart") == null) {
+//				List<BookVO> cart = new ArrayList<>();
+//				session.setAttribute("cart", cart);
+//			}
+			Map<String,BookVO> cart = (LinkedHashMap<String, BookVO>) session.getAttribute("cart");
+			
+			for(String bookId : paramArr) {
+				cart.remove(bookId);				
 			}
-			List<BookVO> cart = (ArrayList<BookVO>) session.getAttribute("cart");
-			int lastIndexOfCart = cart.size() - 1;
-			session.setAttribute("lastIndexOfCart", lastIndexOfCart);
+			List<BookVO> cartValues = new ArrayList<BookVO>(cart.values());
 			
 			Gson gson = new Gson();
-			String cartJson = gson.toJson(cart);
-			System.out.println(cartJson);
+			String cartJson = gson.toJson(cartValues);
 			
-			request.setAttribute("main_jsp", "../cart/Cart.jsp");
 			response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(cartJson);
