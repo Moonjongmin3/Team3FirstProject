@@ -67,7 +67,7 @@ public class BookdetailDAO {
             rs.close();
 
     	}catch(Exception e) {
-    		 
+    		  
     		e.printStackTrace();
     		
     	}finally {
