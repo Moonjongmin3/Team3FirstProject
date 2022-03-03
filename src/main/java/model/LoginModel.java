@@ -68,4 +68,9 @@ public class LoginModel {
 	    request.setAttribute("main_jsp", "../user/join.jsp");
         return "../main/main.jsp";
 	   }
+	@RequestMapping("user/idcheck.do")
+    public String memberIdCheck(HttpServletRequest request, HttpServletResponse respose) {
+    	
+    	return"../user/idcheck.jsp";
+    }
 }

@@ -1,3 +1,13 @@
+showEvent();
+function showEvent(n = 1) {
+  var i;
+  var slides = document.getElementsByClassName("event-image");
+  
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  slides[n-1].style.display = "block";
+}
 showSlides();
 function showSlides(n = 1) {
   var i;

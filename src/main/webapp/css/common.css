@@ -1,29 +1,48 @@
 /* 메인페이지 전체 */
 /* 이벤트 섹션 */
-.event-area{
-	z-index: 0;
-	height: auto;
-	margin-top: 50px;
+#myVideo{
 	padding: 0 0;
+	width: 100%;
+	height: auto;
+	filter: brightness(30%);
+	position: relative;
+	margin-bottom: -250px;
+	z-index: -2;
 }
-#event-slide>img{
-	object-fit: cover;
-}
-.swiper-pagination {
+.event-space{
 	position: absolute;
-	bottom: 10px;
-	margin: 0;
+	top: 40%;
+	left: 20%;
 }
-.swiper-pagination-bullet {
-	border-radius: 0;
-	width: 20%;
-	height: 10px;
+.event-image{
+	width: 60vw;
+	height: 25vw;
+	background-color: green;
+}
+.event-cursor{
+	width: 20vw;
+	height: 3vw;
+	padding-top: 0.5vw;
+	float: left;
+	background-color: #0B3C8B;
+	color: white;
+	font-size: 20px;
 	text-align: center;
-	opacity: 1;
-	background: rgba(255,255,255,0.3);
+	vertical-align: center;
 }
-.swiper-pagination-bullet-active {
-	background: #4364f7;
+.event-cursor:hover{
+	text-shadow: 0 0 21px white;
+	background: linear-gradient(to bottom right, #0B3C8B, #4364F7);
+}
+@media screen and (max-width: 1200px) {
+  .event-cursor{
+		font-size: 15px;
+	}
+}
+@media screen and (max-width: 992px) {
+  .event-cursor{
+		font-size: 10px;
+	}
 }
 /* 베스트셀러 섹션 */
 .bestseller-space{
@@ -194,22 +213,22 @@
 }
 #sns-area{
 	height: 37vw;
-	/* position: absolute; */
+	position: absolute;
 	border-radius: 20px;
 	margin-top: 50px;
 	margin-bottom: 200px;
 	padding: 20px 35px;
 	overflow-y: hidden;
 	box-shadow: 0px 0px 80px rgba(67, 100, 247, 0.5);
+	text-align: center;
 }
 #sns-area.h1{
+	position: relative;
 	top: 200px;
 	display: block;
 	margin-top: 100px;
 }
-.sns-main{
-	position:relative;
-}
-.sns-main:after{
-	content: ''; display: block; clear: both;
+#monkey{
+	margin-top: 5%;
+	width: 20%;
 }

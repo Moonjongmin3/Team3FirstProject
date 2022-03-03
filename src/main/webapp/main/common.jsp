@@ -12,29 +12,16 @@
 	<section>
 		<!-- 이벤트 섹션 -->
 		<article>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 event-area">
-						<div class="event-picture">
-							<!-- carousel -->
-							<!-- Swiper -->
-							<div class="eventSwiper">
-								<div class="swiper-wrapper">
-									<div class="swiper-slide" id="event-slide">
-										<img class="img-responsive" src="../img/e1.jpg" />
-									</div>
-									<div class="swiper-slide" id="event-slide">
-										<img class="img-responsive" src="../img/e2.jpg" />
-									</div>
-									<div class="swiper-slide" id="event-slide">
-										<img class="img-responsive" src="../img/e3.jpg" />
-									</div>
-								</div>
-								<div class="swiper-pagination"></div>
-							</div>
-						</div>
-					</div>
-				</div>
+			<video autoplay muted loop id="myVideo">
+			  <source src="../video/library.mp4" type="video/mp4">
+			</video>
+			<div class="event-space">
+				<img src="../img/index_new_book.jpg" alt="" class="event-image">
+				<img src="../img/index_eBook.jpg" alt="" class="event-image">
+				<img src="../img/index_event.jpg" alt="" class="event-image">
+				<div id="first-event-cursor" class="event-cursor" onmouseover="showEvent()">오늘의 책</div>
+				<div id="second-event-cursor" class="event-cursor" onmouseover="showEvent(2)">E-BOOK</div>
+				<div id="third-event-cursor" class="event-cursor" onmouseover="showEvent(3)">기획/테마</div>
 			</div>
 		</article>
 		<!-- 베스트 셀러 -->
@@ -155,6 +142,7 @@
 						<div class="sns-main"> 
 							<div class="col-xs-10 col-xs-offset-1" id="sns-area">
 								<h1>준비 중 입니다...</h1>
+								<img id="monkey" src="../img/monkey.png">
 							</div>
 						</div>
 					</div>

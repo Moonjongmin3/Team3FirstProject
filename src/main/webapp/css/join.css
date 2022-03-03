@@ -3,14 +3,14 @@
     width: 100%;
     position: relative;
     margin: 0 auto;
-
+	background: url(../img/login_backpage.png)center no-repeat;
+    background-attachment: fixed;
+    background-position: top;
 }
 #joinwrap > div {
     min-width: 1024px;
     height: 1024px;
-    background: url(../img/login_backpage.png)center no-repeat;
-    background-attachment: fixed;
-    background-position: top;
+    
 }
 #log2 {
     font: 400 18px/1.5 'Noto Sans KR';
@@ -29,6 +29,6 @@
     width: 1010px;
     height: 950px;
     background-color: #fff;
-    margin: 0 auto;
+    margin: 60px auto;
     box-shadow: 10px 10px 10px 5px rgba(72, 65, 54, 0.3);
 }
