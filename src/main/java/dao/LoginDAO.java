@@ -67,7 +67,7 @@ public class LoginDAO {
             cm.disConnection(conn,ps);
         }
     }
-    public String memberJoin(UserVO vo)
+    public void memberJoin(UserVO vo)
     {
  	   try
  	   {

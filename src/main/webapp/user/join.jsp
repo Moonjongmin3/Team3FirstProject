@@ -116,7 +116,7 @@ $(function(){
    </h3>
 	<p id="log2" class="text-center"><strong>WELCOME&#33;</strong>&nbsp쌍용BOOKS에 오신것을 환영합니다.</p>
   <div class="wrapper row3">
-   <main class="container clear">
+   <main class="container clear" style="width:100%">
    <form method="post" action="../member/join_ok.do" name="join_frm" id="join_frm">
     <table class="table">
       <tr>
