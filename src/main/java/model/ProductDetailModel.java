@@ -17,7 +17,7 @@ public class ProductDetailModel {
 	 public String productdetail(HttpServletRequest request, HttpServletResponse response) {
 		
 		BookdetailDAO dao = new BookdetailDAO(); 
-		String id =request.getParameter("id");
+		String id =request.getParameter("no");
 		BookVO book=dao.BookdetailData(Integer.parseInt(id));
 		request.setAttribute("book", book);
 		request.setAttribute("main_jsp", "../book/productdetail.jsp");

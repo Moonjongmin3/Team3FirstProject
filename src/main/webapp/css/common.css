@@ -213,7 +213,7 @@
 }
 #sns-area{
 	height: 37vw;
-	position: absolute;
+	/* position: absolute; */
 	border-radius: 20px;
 	margin-top: 50px;
 	margin-bottom: 200px;
