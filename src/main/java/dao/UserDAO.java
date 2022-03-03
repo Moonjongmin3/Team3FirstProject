@@ -26,11 +26,11 @@ public class UserDAO extends DBConnPool {
                 user.setName(rs.getString("name"));
                 user.setBirth(rs.getDate("birth"));
                 user.setGender(rs.getString("gender"));
-                user.setPhoneNumber(rs.getInt("phone_number"));
+                user.setTel(rs.getInt("tel"));
                 user.setEmail(rs.getString("email"));
                 user.setAddress1(rs.getString("address1"));
                 user.setAddress2(rs.getString("address2"));
-                user.setZipcode(rs.getInt("zipcode"));
+                user.setPost(rs.getInt("post"));
             }
         }
         catch (Exception e) {

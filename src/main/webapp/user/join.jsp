@@ -35,7 +35,7 @@ $(function(){
 			oncomplete:function(data)
 			{
 				$('#post').val(data.zonecode)
-				$('#addr1').val(data.address)
+				$('#address1').val(data.address)
 			}
 		}).open()
 	})
@@ -143,14 +143,14 @@ $(function(){
       <tr>
        <td class="text-right" width=15%>성별</td>
        <td width=85% class="inline">
-         <input type=radio value="남자" name=sex checked="checked">남자
-         <input type=radio value="남자" name=sex>여자
+         <input type=radio value="남자" name=gender checked="checked">남자
+         <input type=radio value="남자" name=gender>여자
        </td>
       </tr>
       <tr>
        <td class="text-right" width=15%>생년월일</td>
        <td width=85%>
-         <input type=date size=20 name=birthday class="input-sm" id="day">
+         <input type=date size=20 name=birth class="input-sm" id="day">
        </td>
       </tr>
       <tr>
@@ -170,13 +170,13 @@ $(function(){
       <tr>
        <td class="text-right" width=15%>주소</td>
        <td width=85%>
-         <input type=text name=addr1 id=addr1 size=50 class="input-sm" readonly>
+         <input type=text name=address1 id=address1 size=50 class="input-sm" readonly>
        </td>
       </tr>
       <tr>
        <td class="text-right" width=15%>상세주소</td>
        <td width=85%>
-         <input type=text name=addr2 id=addr2 size=50 class="input-sm">
+         <input type=text name=address2 id=address2 size=50 class="input-sm">
        </td>
       </tr>
       <tr>
