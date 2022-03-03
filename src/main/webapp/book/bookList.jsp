@@ -345,7 +345,7 @@
 											<span>[e-Book]</span>
 											</c:otherwise>
 										 </c:choose>
-										<a href="#" class="search_book_name">${vo.name }</a>
+										<a href="../book/productdetail.do?no=${vo.id}" class="search_book_name">${vo.name }</a>
 									</div>
 									<div class="search_book_pubGrp sbi">
 									<c:if test="${vo.author!=null }">

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,7 @@
 <style type="text/css">
 ul {
 	list-style: none;
+
 }
 
 .container_1 {
@@ -140,6 +142,8 @@ span.value_p {
 </head>
 
 <body>
+<c:set var="vo" value="${book }"/>
+
 	<!-- header 인클루드해야해 -->
 	<!--de file"/WEB-INF/header.jsp"%> -->
 	<div class="container_1">
@@ -181,6 +185,7 @@ span.value_p {
 								</ul>
 							</div>
 						</li>
+						
 						<li class="li_1">
 							<div class="item">배송료</div>
 							<div class="value">
@@ -256,6 +261,12 @@ span.value_p {
 		</div>
 
 	</div>
+	
+	<!-- 책 설명8888888888888888888 -->
+	<div class="book_content">
+	
+					${vo.description }
+				</div>
 
 
 
