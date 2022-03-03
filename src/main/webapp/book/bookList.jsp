@@ -39,7 +39,16 @@ function btndown(){
 }
 $(function(){
 	$('#taft_btn').on('click',function(){
+		let taft_val
+		let arr_taft = document.getElementsByName("taft_ck")
+		for(let i=0;i<arr_taft;i++){
+			if(arr_taft[i].checked==true){
+				taft_val=arr_taft[i]
+			}
+		}
 		
+
+
 		
 	})
 	
@@ -88,19 +97,19 @@ $(function(){
 					<div>
 						<ul style="list-style: none; padding-left: 0; margin-bottom: 0px;">
 							<li>
-								<input type="checkbox" id="search_field_KeyTitle" checked="checked" name="taft_ck" value="title">
+								<input type="checkbox" id="search_field_KeyTitle" name="taft_ck" value="title">
 								<label for="search_field_KeyTitle" class="bo2">
 									제목
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyAuthor" checked="checked" name="taft_ck" value="author">	
+								<input type="checkbox" id="search_field_KeyAuthor" name="taft_ck" value="author">	
 								<label for="search_field_KeyTitle" class="bo2">
 									저자
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyPublisher" checked="checked" name="taft_ck" value="publisher">
+								<input type="checkbox" id="search_field_KeyPublisher" name="taft_ck" value="publisher">
 								<label for="search_field_KeyTitle" class="bo2">
 									출판사
 								</label>

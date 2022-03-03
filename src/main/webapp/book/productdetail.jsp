@@ -290,14 +290,6 @@ span.value_p {
 			</div>
 
 
-
-
-
-
-
-
-
-
 			<table style="width: 100%;">
 				<tr>
 					<th style="width: 20%; vertical-align: middle">배송 구분</th>
@@ -369,5 +361,5 @@ span.value_p {
 				</tr>
 			</table>
 		</div>
-</body>해
+</body>
 </html>

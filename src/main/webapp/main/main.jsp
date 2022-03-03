@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css"/>
 <!-- Index 페이지 StyleSheet -->
-	<link rel="stylesheet" href="../css/index.css">
+<link rel="stylesheet" href="../css/index.css">
 <!-- Index 페이지 StyleSheet -->
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/customer.css">
