@@ -36,7 +36,7 @@
 	                        <button class="login_btn" type="button"  onclick="loginChk()">로그인</button>
                         </form>
                         <!-- 아직 미구현 -->
-                        <p id="log3">아이디, 비밀번호를 잊으셨나요?</p>
+                        <span class="btn_find"><a href="../user/idfind.do">아이디</a> / <a href="../user/pwdfind.do">비밀번호 찾기</a></span>
                     </div>
                 </div>
             </div>

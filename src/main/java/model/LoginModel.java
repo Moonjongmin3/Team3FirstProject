@@ -73,4 +73,14 @@ public class LoginModel {
     	
     	return"../user/idcheck.jsp";
     }
+	@RequestMapping("user/idfind.do")
+    public String memberIdFind(HttpServletRequest request, HttpServletResponse respose) {
+    	
+    	return"../user/idfind.jsp";
+    }
+	@RequestMapping("user/pwdfind.do")
+	public String memberPwdFind(HttpServletRequest request, HttpServletResponse respose) {
+		
+		return"../user/pwdfind.jsp";
+	}
 }
