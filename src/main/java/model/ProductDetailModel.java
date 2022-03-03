@@ -12,6 +12,7 @@ import vo.BookVO;
 public class ProductDetailModel {
 	
 	
+	
 	@RequestMapping("book/productdetail.do")
 	public String productdetail(HttpServletRequest request, HttpServletResponse response) {
 		
