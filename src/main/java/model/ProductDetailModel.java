@@ -14,7 +14,7 @@ public class ProductDetailModel {
 	
 	
 	@RequestMapping("book/productdetail.do")
-	public String productdetail(HttpServletRequest request, HttpServletResponse response) {
+	 public String productdetail(HttpServletRequest request, HttpServletResponse response) {
 		
 		BookdetailDAO dao = new BookdetailDAO(); 
 		String id =request.getParameter("id");
