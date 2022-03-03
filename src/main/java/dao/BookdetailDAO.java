@@ -32,7 +32,12 @@ public class BookdetailDAO {
             book.setName(rs.getString("title"));
             book.setPrice(Integer.parseInt(rs.getString("price")));
             book.setQuantity(1);
-            book.setAuthor(rs.getString("author"));
+            book.setRegdate(rs.getDate("regdate"));
+            String author=rs.getString("author");
+			if(author.contains("정보 더 보기")) {
+			author=author.substring(0,author.lastIndexOf("정보 더 보기"));
+			}
+			book.setAuthor(author.trim());
             book.setPublisher(rs.getString("publisher"));
             book.setSaleRate(rs.getInt("salerate"));
             book.setScore(rs.getInt("score"));
@@ -40,8 +45,7 @@ public class BookdetailDAO {
             book.setBsize(rs.getString("bsize"));
             book.setState(rs.getString("state"));
             book.setTag(rs.getString("tag"));
-            book.setMainCategory(rs.getString("main_category"));
-            book.setSubCategory(rs.getString("sub_category"));
+            book.setSubCategory(rs.getString("category_id"));
             
             String content = rs.getString("content");
             Document doc1 = Jsoup.parse(content);		

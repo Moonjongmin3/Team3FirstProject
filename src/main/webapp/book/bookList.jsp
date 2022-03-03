@@ -420,7 +420,7 @@ $(function(){
 									<div class="search_book_price sbi">
 										<span><strong>${vo.price }</strong>원</span>
 										<c:if test="${vo.saleRate!=0 }">
-										<span>(${vo.saleRate }% 할인)</span>
+										<span>(10% 할인)</span>
 										</c:if>
 									</div>
 									<div class="search_book_rating sbi">
