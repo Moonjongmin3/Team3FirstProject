@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -12,7 +11,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 function checkAll(){
-	let obj = document.querySelectorAll(".book_list_check")
+	let obj = document.querySelectorAll("#book_list_check")
 	if(obj[0].checked){
 		for(i=0;i<obj.length;i++){
 			obj[i].checked=false;
@@ -24,20 +23,27 @@ function checkAll(){
 	}
 }
 function btnplus(){
-	let count=$(".input_cnt").val()
+	let count=$("#input_cnt").val()
 	count = (Number(count)+1)
-	$(".input_cnt").val(count)
+	$("#input_cnt").val(count)
 }
 function btndown(){
-	let count=$(".input_cnt").val()
+	let count=$("#input_cnt").val()
 	count = (Number(count)-1)
 	if(count===0){
 		alert("1개 이상 구입할 수 있습니다.")
-		$(".input_cnt").val(1)
+		$("#input_cnt").val(1)
 	}else{
-		$(".input_cnt").val(count)
+		$("#input_cnt").val(count)
 	}
 }
+$(function(){
+	$('#taft_btn').on('click',function(){
+		
+		
+	})
+	
+})
 
 
 </script>
@@ -78,29 +84,29 @@ function btndown(){
 							<b>검색조건</b>
 						</span>
 					</div>
-					<form method="post" action="../book/bookList.do">
+					<form method="post" action="../book/bookList.do" id="taft_frm">
 					<div>
 						<ul style="list-style: none; padding-left: 0; margin-bottom: 0px;">
 							<li>
-								<input type="checkbox" id="search_field_KeyTitle" checked="checked" name="title_ck" value="title">
+								<input type="checkbox" id="search_field_KeyTitle" checked="checked" name="taft_ck" value="title">
 								<label for="search_field_KeyTitle" class="bo2">
 									제목
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyAuthor" checked="checked" name="author_ck" value="author">	
+								<input type="checkbox" id="search_field_KeyAuthor" checked="checked" name="taft_ck" value="author">	
 								<label for="search_field_KeyTitle" class="bo2">
 									저자
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyPublisher" checked="checked" name="publisher_ck" value="publisher">
+								<input type="checkbox" id="search_field_KeyPublisher" checked="checked" name="taft_ck" value="publisher">
 								<label for="search_field_KeyTitle" class="bo2">
 									출판사
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyTag">
+								<input type="checkbox" id="search_field_KeyTag" name="taft_ck" value="tag">
 								<label for="search_field_KeyTitle" class="bo2">
 									태그
 								</label>
@@ -110,7 +116,7 @@ function btndown(){
 						
 					</div>
 					<div style="float: right;">
-						<input type="submit" class="btn btn-sm" value="적용">
+						<input type="button" class="btn btn-sm" id="taft_btn" value="적용">
 					</div>
 					</form>
 				</div>
@@ -135,8 +141,8 @@ function btndown(){
 									</c:if>
 									<c:if test="${vo.subId!=0 }">
 									<li>
-										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_1_1" name="search_left_categoty">
-										<label for="serarch_category_1_1" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
+										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_1_${vo.subId }" name="search_left_categoty">
+										<label for="serarch_category_1_${vo.subId }" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
 												${vo.subCateName }
 											<span class="ss_f_g">(${vo.subCount })</span>
 										</label>
@@ -151,8 +157,8 @@ function btndown(){
 									</c:if>
 									<c:if test="${vo.subId!=0 }">
 									<li>
-										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_2_1" name="search_left_categoty">
-										<label for="serarch_category_2_1" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
+										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_2_${vo.subId }" name="search_left_categoty">
+										<label for="serarch_category_2_${vo.subId }" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
 											${vo.subCateName }
 											<span class="ss_f_g">(${vo.subCount })</span>
 										</label>
@@ -167,8 +173,8 @@ function btndown(){
 									</c:if>
 									<c:if test="${vo.subId!=0 }">
 									<li>
-										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_3_1" name="search_left_categoty">
-										<label for="serarch_category_3_1" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
+										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_3_${vo.subId }" name="search_left_categoty">
+										<label for="serarch_category_3_${vo.subId }" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
 											${vo.subCateName }
 											<span class="ss_f_g">(${vo.subCount })</span>
 										</label>
@@ -213,7 +219,10 @@ function btndown(){
 								<!-- 클릭했을때 css 변경밥법 고안 -->
 									<ul>
 										<!-- 통합검색 -->
-										<li>
+										<c:if test="${category==4 }">
+                        	 			<c:set var="cate4" value="class=current_maincate"/>
+                        				</c:if>
+										<li ${cate4 }>
 											<a href="../book/bookList.do?searchCategory=4&keyword=${keyword }">
 												<img src="../img/ss_m_1.png">
 												<br>
@@ -224,7 +233,11 @@ function btndown(){
 											<img src="../img/ss_m_line.png">
 										</li>
 										<!-- 국내도서 -->
-										<li><a href="../book/bookList.do?searchCategory=1&keyword=${keyword }">
+										<c:if test="${category==1 }">
+                        	 			<c:set var="cate1" value="class=current_maincate"/>
+                        				</c:if>
+										<li ${cate1 }>
+										<a href="../book/bookList.do?searchCategory=1&keyword=${keyword }">
 											<img src="../img/ss_m_2.png">
 											<br>
 											<span class="search_t_w_n">(${mainCountArr[1]})</span>
@@ -234,7 +247,10 @@ function btndown(){
 											<img src="../img/ss_m_line.png">
 										</li>
 										<!-- 외국도서 -->
-										<li>
+										<c:if test="${category==2 }">
+                        	 			<c:set var="cate2" value="class=current_maincate"/>
+                        				</c:if>
+										<li ${cate2 }>
 											<a href="../book/bookList.do?searchCategory=2&keyword=${keyword }">
 												<img src="../img/ss_m_3.png">
 												<br>
@@ -245,14 +261,16 @@ function btndown(){
 											<img src="../img/ss_m_line.png">
 										</li>
 										<!-- eBook -->
-										<li>
+										<c:if test="${category==3 }">
+                        	 			<c:set var="cate3" value="class=current_maincate"/>
+                        				</c:if>
+										<li ${cate3 }>
 											<a href="../book/bookList.do?searchCategory=3&keyword=${keyword }">
 												<img src="../img/ss_m_15.png">
 												<br>
 												<span class="search_t_w_n">(${mainCountArr[3]})</span>
 											</a>
 										</li>
-										<!-- 미구현 -->
 									</ul>
 								</td>
 								<td width="18" height="47"><img src="../img/ss_m_r.jpeg"></td>
@@ -446,11 +464,11 @@ function btndown(){
 								</div>
 								<div class="search_book_check">
 									<div>
-										<input type="checkbox" class="book_list_check">
+										<input type="checkbox" id="book_list_check">
 										<span class="btn_count">
 										<label style="color:#666; font-size:11px;">
 											수량
-											<input type="text" name="qty" value="1" size="4" class="input_cnt">
+											<input type="text" name="qty" value="1" size="4" id="input_cnt">
 										</label>
 											<a href="javascript:btnplus()" class="btn_plus">수량 더하기</a>
 											<a href="javascript:btndown()" class="btn_down">수량 빼기</a>

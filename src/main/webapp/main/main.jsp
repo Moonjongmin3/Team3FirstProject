@@ -21,6 +21,20 @@
 <link rel="stylesheet" href="../css/customer.css">
 <link rel="stylesheet" href="../css/login.css">
 <link rel="stylesheet" href="../css/bookList.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+function searchMain(){
+	let keyword=$('#keyword').val()==undefined?"":$('#keyword').val().trim()
+	console.log(keyword)
+	let f = $('#search_form')
+	if(keyword==""){
+		alert("검색어를 입력하시오!!")
+		return;
+	}else{ 
+		f.submit()
+	}
+} 
+</script>
 </head>
 <body>
 	<!-- 상단 공통 페이지 -->
@@ -100,7 +114,9 @@
 								</c:if>
 							</c:if>
 							<c:if test="${sessionScope.userId == null}">
-								<li class="top-list-element sign-up"><a href="#">회원가입</a></li>
+								<li class="top-list-element sign-up">
+								<a href="../user/join.do">회원가입</a>
+								</li>
 							</c:if>
 							<li class="top-list-element sign-in">
 								<div class="btn-sign-in">
@@ -134,7 +150,7 @@
 				<div class="row">
 					<div class="hidden-xs col-sm-1 col-sm-offset-1" id="logo-space"><a href="../main/main.do">LOGO</a></div>
 					<div class="col-xs-12 col-xs-offset-0 col-sm-8 col-md-6 col-sm-offset-1">
-						<form action="../book/bookList.do" method="get" name="search_form" class="form-inline">
+						<form action="../book/bookList.do" method="get" id="search_form" class="form-inline">
 							<div class="form-group search-group">
 								<select class="form-control search-category" name="searchCategory">
 									<option ${category ==4?'selected': '' } value="4">통합검색</option>
@@ -143,9 +159,9 @@
 									<option ${category ==3?'selected': '' } value="3">E-Book</option>
 								</select>
 								<div class="input-group">
-									<input type="text" class="form-control search-input" name="keyword" placeholder="검색어를 입력해주세요.." value="${keyword }">
+									<input type="text" class="form-control search-input" id="keyword"name="keyword" placeholder="검색어를 입력해주세요.." value="${keyword }">
 								</div>
-								<button type="submit" class="btn btn-default search-button" id="search-button">
+								<button type="button" class="btn btn-default search-button" id="search-button" onclick="searchMain()">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 								</button>
 							</div>
