@@ -60,15 +60,17 @@
 				<div class="row">
 					<div class="col-xs-12 col-md-10 col-md-offset-1 price-table">
 						<div class="row">
-							<div class="col-xs-3 price-table-header-1">총 상품금액<br><span id="price-table-header-price">35535원</span></div>
-							<div class="col-xs-2 price-table-header-2">총 추가금액<br><span id="price-table-header-price">35535원</span></div>
-							<div class="col-xs-2 price-table-header-3">총 할인금액<br><span id="price-table-header-price">35535원</span></div>
+							<div class="col-xs-3 price-table-header-1">총 상품금액<br><span id="price-table-header-price"></span></div>
+							<div class="col-xs-2 price-table-header-2">총 추가금액<br><span id="price-table-header-price"></span></div>
+							<div class="col-xs-2 price-table-header-3">총 할인금액<br><span id="price-table-header-price">0원</span></div>
 							<div class="col-xs-5 price-table-header-4"><span class="final-price">최종 결제금액</span><br>
-									<span id="price-table-header-price" class="final-price">35535원</span>
+									<span id="price-table-header-price" class="final-price"></span>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-xs-3 price-table-info-1">정가 60000원에서 6000원 즉시 할인</div>
+							<div class="col-xs-3 price-table-info-1">
+								정가 <span id="full-price"></span>원에서 <span id="sale-price"></span>원 즉시 할인
+							</div>
 							<div class="col-xs-2 price-table-info-2"></div>
 							<div class="col-xs-2 price-table-info-3"></div>
 							<div class="col-xs-5 price-table-info-4">
@@ -301,6 +303,26 @@
         	    }
         	})
       })
+      
+      // 카트 변경 - 상품 수량
+      $(document).on('click', 'button.quantity', function(){
+    	  let bookId = $(this).val();
+    	  let quantity = $('#quantity-'+ bookId).val();
+    	  $.ajax({
+      	    type : 'POST',
+      	    url : 'http://localhost:8080/FirstProject/cart/update',
+      	    dataType:'json',
+      	    data: {
+      	    	bookId: bookId,
+      	    	quantity: quantity
+      	    },
+      	    success:function(data){
+      	    	$('div.cart-table tbody').html('');
+      	    	$('div.cart-table tbody').append(fillCartTable(data));
+      	    }
+      	})
+      });
+      
       // 체크박스 전체 선택&해제
       $('input#check-all').click(function(){
     	 $("input[type='checkbox']").prop('checked',this.checked)
@@ -309,19 +331,48 @@
       // 상품 테이블 채워넣기 함수
       function fillCartTable(data){
     	  var book_data = '';
+    	  let fullPrice = 0;
 	    	$.each(data, function(key, value) {
 	    		book_data += '<tr>';
 	    		book_data += '<td><input type="checkbox" class="book-check" value="' + value.id + '" checked></td>';
 	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
 	    		book_data += '<td>' + value.name + '</td>';
-	    		book_data += '<td id="cart-table-quantity">' + value.quantity + '</td>';
+	    		book_data += '<td style="text-align:center">';
+	    		book_data += '<input type="number" id="quantity-' + value.id + '" min="1" max="100" value="' + value.quantity +'" style="text-align:center">';
+	    		book_data += '<br><button type="button" class="quantity" name="bookId" value="' + value.id +'" style="width:70px">변경</button></td>';
 	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
 	    		book_data += '<td id="cart-table-info">내일</td>';
-	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary">주문하기</button>';
-	    		book_data += '<button type="button" class="btn btn-danger" id="del-button" value="' + value.id + '">삭제하기</button></td>';
+	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary" style="width:85px">주문하기</button>';
+	    		book_data += '<button type="button" class="btn btn-info" style="width:85px">찜하기</button>';
+	    		book_data += '<button type="button" class="btn btn-default" id="del-button" value="' + value.id + '" style="width:85px">삭제하기</button></td>';
 	    		book_data += '</tr>';
+	    		
+	    		fullPrice += parseInt(value.price*value.quantity);
 	    	});
+	    	fillPriceTable(fullPrice);
+	    	
 	    	return book_data;
+      }
+      // 가격 테이블 채워넣기 함수
+      function fillPriceTable(fullPrice) {
+    	  	let salePrice = fullPrice * 0.1;
+	    	let totalPrice = fullPrice - salePrice;
+	    	
+	    	let delivery = (totalPrice >= 10000) ? 0 : 3000;
+	    	
+	    	let finalPrice = totalPrice + delivery;
+	    	
+	    	fullPrice = fullPrice.toLocaleString("en-US");
+	    	salePrice = salePrice.toLocaleString("en-US");
+	    	totalPrice = totalPrice.toLocaleString("en-US");
+	    	delivery = delivery.toLocaleString("en-US");
+	    	finalPrice = finalPrice.toLocaleString("en-US");
+	    	
+	    	$('div.price-table-header-1>span#price-table-header-price').text(totalPrice + '원');
+	    	$('div.price-table-info-1>span#full-price').text(fullPrice);
+	    	$('div.price-table-info-1>span#sale-price').text(salePrice);
+	    	$('div.price-table-header-2>span#price-table-header-price').text(delivery + '원');
+	    	$('div.price-table-header-4>span#price-table-header-price').text(finalPrice + '원');
       }
       
       

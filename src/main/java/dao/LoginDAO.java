@@ -1,8 +1,10 @@
 package dao;
-
+import java.util.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import vo.UserVO;
 
 public class LoginDAO {
     private Connection conn;
@@ -65,4 +67,38 @@ public class LoginDAO {
             cm.disConnection(conn,ps);
         }
     }
+    public String memberJoin(UserVO vo)
+    {
+ 	   try
+ 	   {
+ 		   conn=cm.getConnection();
+ 		   String sql="INSERT INTO project_member VALUES(?,?,?,?,?,?,"
+ 				     +"?,?,?,?,?,?,'n')";
+ 		   ps=conn.prepareStatement(sql);
+ 		   ps.setString(1, vo.getId());
+ 		   ps.setString(2, vo.getPassword());
+ 		   ps.setString(3, vo.getName());
+ 		   ps.setDate(4, vo.getBirth());
+ 		   ps.setString(5, vo.getGender());
+ 		   ps.setInt(6, vo.getTel());
+ 		   ps.setString(7, vo.getAddress1());
+ 		   ps.setString(8, vo.getAddress2());
+ 		   ps.setInt(9, vo.getPost());
+ 		   ps.setString(10, vo.getContent());
+ 		   ps.setString(11, vo.getAdmin());
+ 		   ps.setString(12, vo.getMsg());
+ 		   
+ 		   
+ 		   ps.executeUpdate();
+ 	   }catch(Exception ex)
+ 	   {
+ 		   ex.printStackTrace();
+ 	   }
+ 	   finally
+ 	   {
+ 		   cm.disConnection(conn, ps);
+ 	   }
+    }
+
+    
 }
