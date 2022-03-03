@@ -100,7 +100,9 @@
 								</c:if>
 							</c:if>
 							<c:if test="${sessionScope.userId == null}">
-								<li class="top-list-element sign-up"><a href="#">회원가입</a></li>
+								<li class="top-list-element sign-up">
+								<a href="../user/join.do">회원가입</a>
+								</li>
 							</c:if>
 							<li class="top-list-element sign-in">
 								<div class="btn-sign-in">

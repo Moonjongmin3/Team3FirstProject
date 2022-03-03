@@ -63,4 +63,9 @@ public class LoginModel {
 		session.invalidate();
 		return "redirect:../main/main.do";
 	}
+	@RequestMapping("user/join.do")
+    public String memberJoin(HttpServletRequest request,HttpServletResponse response){
+	    request.setAttribute("main_jsp", "../user/join.jsp");
+        return "../main/main.jsp";
+	   }
 }
