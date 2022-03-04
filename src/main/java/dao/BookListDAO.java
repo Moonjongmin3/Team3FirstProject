@@ -10,56 +10,92 @@ public class BookListDAO {
 	private Connection conn;
 	private PreparedStatement ps;
 	private ConnectionManager cm = new ConnectionManager();
-	
-	/*
-	 * 	   검색 조건 :main_category, sub_category, keyword, 베스트셀러, 신간도서 
-	 * 				(제목,저자,출판사,태그), 검색 내 검색, 품절 포함/미포함, 10개씩/ 20개씩 보기
-	 * 		검색조건을 묶은 class를 생성해서 만들기 (아직 구현x)
-	 * */
-	public List<BookVO> bookSearchList(int category,String keyword,int page) {
+	public List<BookVO> bookSearchList(SearchVO vo) {
 		List<BookVO> list = new ArrayList<>();
 		try {
-			conn=cm.getConnection();
-			String main="";
-			if(category==4) {
-				 main="s.main_id in(1,2,3)";
-			}else {
-				main=" s.main_id="+category;
-			}
-//			type= "title LIKE '%'||?||'%' OR content LIKE '%'||?||'%'"
-			String sql="SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,num "
+			StringBuffer sbSql = new StringBuffer("SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,num "
 					+ "FROM (SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,rownum as num "
 					+ "FROM (SELECT b.id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,s.main_id as main,score,s.name,s.NAME as sub_name "
 					+ "FROM books_3 b, sub_category_3 s "
-					+ "WHERE b.category_id=s.id and "+main+" and (title LIKE '%'||?||'%' OR author LIKE '%'||?||'%' OR publisher LIKE '%'||?||'%') "
-					+ "ORDER BY sell_count DESC)) "
-					+ "WHERE num between ? and ?";
+					+ "WHERE b.category_id=s.id and ");
+			String main="";
+			if(vo.getMainCategory()==4) {
+				main = "s.main_id in(1,2,3) ";
+				sbSql.append(main);
+			}else {
+				main="s.main_id="+vo.getMainCategory();
+				sbSql.append(main);
+			}
+			
+			String tapt="AND (";
+			for(int i=0; i<vo.getTaft().length;i++) {
+				if(i!=vo.getTaft().length-1) {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+				}else {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+				}
+			}
+			sbSql.append(tapt);
+			
+			String except=vo.getStockCheck();
+			if(except.equals("N")) {
+				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				sbSql.append(exsql);
+			}
+			
+			if(!(vo.getSubcategory()[0].equals("all"))) {
+				String subcate="AND category_id IN (";
+				for(int i=0; i<vo.getSubcategory().length;i++) {
+					if(i!=vo.getSubcategory().length-1) {
+						subcate+=vo.getSubcategory()[i]+",";
+					}else {
+						subcate+=vo.getSubcategory()[i]+") ";
+					}
+				}
+				sbSql.append(subcate);
+			}
+			
+			String sort="";
+			if(vo.getSort().equals("sellSort")) {
+				sort="ORDER BY sell_count DESC)) ";
+			}else if(vo.getSort().equals("regdateSort")){
+				sort="ORDER BY regdate DESC)) ";
+			}else if(vo.getSort().equals("reviewSort")){
+				sort=""; // 리뷰순
+			}else if(vo.getSort().equals("priceSort")){
+				sort="ORDER BY price)) ";
+			}else {
+				sort="ORDER BY score DESC)) "; // 인기순 더 구상 필요
+			}
+			sbSql.append(sort);
+			
+			sbSql.append("WHERE num between ? and ?");
+			
+			String sql=sbSql.toString();
+			
+			conn=cm.getConnection();
 			ps=conn.prepareStatement(sql);
 			
-			int rowSize=10;
-			int startpage=(rowSize*page)-(rowSize-1);
-			int endpage=rowSize*page;
-			
-			ps.setString(1, keyword);
-			ps.setString(2, keyword);
-			ps.setString(3, keyword);
-			ps.setInt(4, startpage);
-			ps.setInt(5, endpage);
+			int rowSize=vo.getRowSize();
+			int startpage=(rowSize*vo.getPage())-(rowSize-1);
+			int endpage=rowSize*vo.getPage();
+			ps.setInt(1, startpage);
+			ps.setInt(2, endpage);
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				BookVO vo = new BookVO();
-				vo.setId(rs.getInt(1));
-				vo.setSubCategory(rs.getString(2));
-				vo.setName(rs.getString(3));
+				BookVO bvo = new BookVO();
+				bvo.setId(rs.getInt(1));
+				bvo.setSubCategory(rs.getString(2));
+				bvo.setName(rs.getString(3));
 				String author=rs.getString(4);
 				if(author.contains("정보 더 보기")) {
 				author=author.substring(0,author.lastIndexOf("정보 더 보기"));
 				}
-				vo.setAuthor(author.trim());
-				vo.setPublisher(rs.getString(5));
-				vo.setRegdate(rs.getDate(6));
-				vo.setPoster(rs.getString(7));
+				bvo.setAuthor(author.trim());
+				bvo.setPublisher(rs.getString(5));
+				bvo.setRegdate(rs.getDate(6));
+				bvo.setPoster(rs.getString(7));
 				String content=rs.getString(8);
 				if(content!=null) {
 					Document doc = Jsoup.parse(content);
@@ -70,21 +106,20 @@ public class BookListDAO {
                     String description = doc.html().replace("<br>", "$$");
                     Document descriptionHtml = Jsoup.parse(description);
                     description = descriptionHtml.body().text().replace("$$", "\n").toString();
-                    vo.setDescription(description);
+                    bvo.setDescription(description);
 				}else {
-					vo.setDescription(rs.getString(8));
+					bvo.setDescription(rs.getString(8));
 				}
-				vo.setPrice(rs.getInt(9));
-				vo.setSaleRate(rs.getInt(10));
-				vo.setState(rs.getString(11));
-				vo.setTag(rs.getString(12));
-				vo.setSellCount(rs.getInt(13));
-				vo.setMainCategory(rs.getString(14));
-				vo.setScore(rs.getInt(15));
-				vo.setSubCateName(rs.getString(16));
+				bvo.setPrice(rs.getInt(9));
+				bvo.setSaleRate(rs.getInt(10));
+				bvo.setState(rs.getString(11));
+				bvo.setTag(rs.getString(12));
+				bvo.setSellCount(rs.getInt(13));
+				bvo.setMainCategory(rs.getString(14));
+				bvo.setScore(rs.getInt(15));
+				bvo.setSubCateName(rs.getString(16));
 				
-				list.add(vo);
-				
+				list.add(bvo);
 			}
 			rs.close();
 		}catch (Exception e) {
@@ -96,62 +131,112 @@ public class BookListDAO {
 		return list;
 	}
 	
-	public int searchTotalPage(int category,String keyword) {
+	// 총 페이지 구하기
+	public int searchTotalPage(SearchVO vo) {
 		int count= 0;
+		Double rowSize=(vo.getRowSize()*10.0)/10.0;
 		try {
-			conn=cm.getConnection();
+			StringBuffer sbSql = new StringBuffer("SELECT CEIL(COUNT(*)/"+rowSize+") FROM books_3 b, sub_category_3 s "
+					+ "WHERE b.category_id=s.id and ");
 			String main="";
-			if(category==4) {
-				 main="s.main_id in(1,2,3)";
+			if(vo.getMainCategory()==4) {
+				main = "s.main_id in(1,2,3) ";
+				sbSql.append(main);
 			}else {
-				main=" s.main_id="+category;
+				main="s.main_id="+vo.getMainCategory();
+				sbSql.append(main);
 			}
-			String sql="SELECT CEIL(COUNT(*)/10.0) FROM books_3 b, sub_category_3 s "
-					+ "WHERE b.category_id=s.id and "+main+" and "
-					+ "(title LIKE '%'||?||'%' OR author LIKE '%'||?||'%' OR publisher LIKE '%'||?||'%')"; 
-			ps=conn.prepareStatement(sql);
-
-			ps.setString(1, keyword);
-			ps.setString(2, keyword);
-			ps.setString(3, keyword);
+			String tapt="";
+			tapt="and (";
+			for(int i=0; i<vo.getTaft().length;i++) {
+				if(i!=vo.getTaft().length-1) {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+				}else {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+				}
+			}
 			
+			String except=vo.getStockCheck();
+			if(except.equals("N")) {
+				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				sbSql.append(exsql);
+			}
+			
+			if(!(vo.getSubcategory()[0].equals("all"))) {
+				String subcate="AND category_id IN (";
+				for(int i=0; i<vo.getSubcategory().length;i++) {
+					if(i!=vo.getSubcategory().length-1) {
+						subcate+=vo.getSubcategory()[i]+",";
+					}else {
+						subcate+=vo.getSubcategory()[i]+") ";
+					}
+				}
+				sbSql.append(subcate);
+			}
+			
+			sbSql.append(tapt);
+			String sql=sbSql.toString();
+			
+			conn=cm.getConnection();
+			ps=conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count=rs.getInt(1);
-			
 			rs.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
 			cm.disConnection(conn, ps);
 		}
-		
 		return count;
 	}
 	
-	public int[] searchBookCount(int category,String keyword) {
+	// 통합검색 , 국내도서, 외국도서, ebook 개수 
+	public int[] searchBookCount(SearchVO vo) {
 		int[] mainCount= {0,0,0,0};
 		try {
-			conn=cm.getConnection();
+			StringBuffer sbSql = new StringBuffer("SELECT nvl(MAIN_ID,0),COUNT(*) FROM books_3 b, sub_category_3 s "
+					+ "WHERE b.category_id=s.id and ");
 			String main="";
-			if(category==4) {
-				 main="s.main_id in(1,2,3)";
-			}else {
-				main=" s.main_id="+category;
+			main = "s.main_id in(1,2,3) ";
+			sbSql.append(main);
+		
+			String tapt="";
+			tapt="and (";
+			for(int i=0; i<vo.getTaft().length;i++) {
+				if(i!=vo.getTaft().length-1) {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+				}else {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+				}
 			}
-			String sql="SELECT nvl(MAIN_ID,0),COUNT(*) FROM books_3 b, sub_category_3 s "
-					+ "WHERE b.category_id=s.id and "+main+" and "
-					+ "(title LIKE '%'||?||'%' OR author LIKE '%'||?||'%' OR publisher LIKE '%'||?||'%') "
-					+ "group by rollup ( MAIN_ID ) "
-					+ "order by MAIN_ID nulls first"; 
-			ps=conn.prepareStatement(sql);
-
-			ps.setString(1, keyword);
-			ps.setString(2, keyword);
-			ps.setString(3, keyword);
+			sbSql.append(tapt);
 			
+			String except=vo.getStockCheck();
+			if(except.equals("N")) {
+				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				sbSql.append(exsql);
+			} 
+			
+			if(!(vo.getSubcategory()[0].equals("all"))) {
+				String subcate="AND category_id IN (";
+				for(int i=0; i<vo.getSubcategory().length;i++) {
+					if(i!=vo.getSubcategory().length-1) {
+						subcate+=vo.getSubcategory()[i]+",";
+					}else {
+						subcate+=vo.getSubcategory()[i]+") ";
+					}
+				}
+				sbSql.append(subcate);
+			}
+			
+			sbSql.append("group by rollup ( MAIN_ID ) "
+					+ "order by MAIN_ID nulls first");		
+			String sql=sbSql.toString();
+			
+			conn=cm.getConnection();
+			ps=conn.prepareStatement(sql);			
 			ResultSet rs = ps.executeQuery();
-			
 			while(rs.next()) {
 				switch(rs.getInt(1)){
 				case 0:
@@ -174,38 +259,115 @@ public class BookListDAO {
 		}finally {
 			cm.disConnection(conn, ps);
 		}
-		
 		return mainCount;
 	}
-	
-	public List<BookCountVO> bookSearchCount (String keyword) {
+	// 검색 결과 개수
+	public int searchResultCount(SearchVO vo) {
+		int count=0;
+		try {
+			StringBuffer sbSql = new StringBuffer("SELECT COUNT(*) FROM books_3 b, sub_category_3 s "
+					+ "WHERE b.category_id=s.id and ");
+			String main="";
+			if(vo.getMainCategory()==4) {
+				main = "s.main_id in(1,2,3) ";
+				sbSql.append(main);
+			}else {
+				main="s.main_id="+vo.getMainCategory();
+				sbSql.append(main);
+			}
+			
+			String tapt="AND (";
+			for(int i=0; i<vo.getTaft().length;i++) {
+				if(i!=vo.getTaft().length-1) {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+				}else {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+				}
+			}
+			sbSql.append(tapt);
+			
+			if(!(vo.getSubcategory()[0].equals("all"))) {
+				String subcate="AND category_id IN (";
+				for(int i=0; i<vo.getSubcategory().length;i++) {
+					if(i!=vo.getSubcategory().length-1) {
+						subcate+=vo.getSubcategory()[i]+",";
+					}else {
+						subcate+=vo.getSubcategory()[i]+") ";
+					}
+				}
+				sbSql.append(subcate);
+			}
+			
+			String except=vo.getStockCheck();
+			if(except.equals("N")) {
+				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				sbSql.append(exsql);
+			}
+			
+			
+			String sql=sbSql.toString();
+			conn=cm.getConnection();
+			ps=conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count=rs.getInt(1);
+			rs.close();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			cm.disConnection(conn, ps);
+		}
+		return count;
+	}
+	// subcategory 수 구하기
+	public List<BookCountVO> bookSearchCount (SearchVO vo) {
 		List<BookCountVO> list = new ArrayList<BookCountVO>();
 		try {
-			conn=cm.getConnection();
-			String sql="SELECT s.MAIN_ID,NVL(s.ID,0),NVL(s.NAME,(select name from MAIN_CATEGORY_3 m where m.ID=s.MAIN_ID)),count(*) "
+			StringBuffer sbSql = new StringBuffer("SELECT s.MAIN_ID,NVL(s.ID,0),NVL(s.NAME,(select name from MAIN_CATEGORY_3 m where m.ID=s.MAIN_ID)),count(*) "
 					+ "FROM BOOKS_3 b, SUB_CATEGORY_3 s "
-					+ "WHERE b.category_id=s.id AND "
-					+ "(b.title LIKE '%'||?||'%' OR b.author LIKE '%'||?||'%' OR b.publisher LIKE '%'||?||'%') "
-					+ "group by s.MAIN_ID, rollup ((s.id,s.name)) order by s.MAIN_ID,s.id nulls first";
-			ps=conn.prepareStatement(sql);
-			ps.setString(1, keyword);
-			ps.setString(2, keyword);
-			ps.setString(3, keyword);
+					+ "WHERE b.category_id=s.id AND ");
+			String main="";
+			if(vo.getMainCategory()==4) {
+				main = "s.main_id in(1,2,3) ";
+				sbSql.append(main);
+			}else {
+				main="s.main_id="+vo.getMainCategory();
+				sbSql.append(main);
+			}
+			String tapt="and (";
+			for(int i=0; i<vo.getTaft().length;i++) {
+				if(i!=vo.getTaft().length-1) {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+				}else {
+					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+				}
+			}
 			
+			String except=vo.getStockCheck();
+			if(except.equals("N")) {
+				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				sbSql.append(exsql);
+			}
+			
+			sbSql.append(tapt);
+			sbSql.append("group by s.MAIN_ID, rollup ((s.id,s.name)) order by s.MAIN_ID,s.id nulls first");
+			String sql=sbSql.toString();
+			
+			conn=cm.getConnection();
+			ps=conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				BookCountVO vo = new BookCountVO();
-				vo.setMainId(rs.getInt(1));
-				vo.setSubId(rs.getInt(2));
-				if(vo.getSubId()!=0) {	
-					vo.setSubCateName(rs.getString(3));
-					vo.setSubCount(rs.getInt(4));
+				BookCountVO bvo = new BookCountVO();
+				bvo.setMainId(rs.getInt(1));
+				bvo.setSubId(rs.getInt(2));
+				if(bvo.getSubId()!=0) {	
+					bvo.setSubCateName(rs.getString(3));
+					bvo.setSubCount(rs.getInt(4));
 				}else {
-					vo.setMainCateName(rs.getString(3));
-					vo.setMainCount(rs.getInt(4));
+					bvo.setMainCateName(rs.getString(3));
+					bvo.setMainCount(rs.getInt(4));
 				}
-				
-				list.add(vo);
+				list.add(bvo);
 			}
 			rs.close();
 		}catch (Exception e) {
@@ -213,8 +375,6 @@ public class BookListDAO {
 		}finally {
 			cm.disConnection(conn, ps);
 		}
-		
 		return list;
 	}
-	
 }

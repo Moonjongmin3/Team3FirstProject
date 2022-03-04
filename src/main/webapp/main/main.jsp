@@ -22,19 +22,7 @@
 <link rel="stylesheet" href="../css/login.css">
 <link rel="stylesheet" href="../css/bookList.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-<script type="text/javascript">
-function searchMain(){
-	let keyword=$('#keyword').val()==undefined?"":$('#keyword').val().trim()
-	console.log(keyword)
-	let f = $('#search_form')
-	if(keyword==""){
-		alert("검색어를 입력하시오!!")
-		return;
-	}else{ 
-		f.submit()
-	}
-} 
-</script>
+<script type="text/javascript" src="../js/search.js"></script>
 </head>
 <body>
 	<!-- 상단 공통 페이지 -->
@@ -152,14 +140,14 @@ function searchMain(){
 					<div class="col-xs-12 col-xs-offset-0 col-sm-8 col-md-6 col-sm-offset-1">
 						<form action="../book/bookList.do" method="get" id="search_form" class="form-inline">
 							<div class="form-group search-group">
-								<select class="form-control search-category" name="searchCategory">
+								<select class="form-control search-category" name="searchCategory" id="search_main_cate_sel">
 									<option ${category ==4?'selected': '' } value="4">통합검색</option>
 									<option ${category ==1?'selected': '' } value="1">국내도서</option>
 									<option ${category ==2?'selected': '' } value="2">외국도서</option>
 									<option ${category ==3?'selected': '' } value="3">E-Book</option>
 								</select>
 								<div class="input-group">
-									<input type="text" class="form-control search-input" id="keyword"name="keyword" placeholder="검색어를 입력해주세요.." value="${keyword }">
+									<input type="text" class="form-control search-input" id="keyword" name="keyword" placeholder="검색어를 입력해주세요.." value="${keyword }">
 								</div>
 								<button type="button" class="btn btn-default search-button" id="search-button" onclick="searchMain()">
 									<span class="glyphicon glyphicon-search" aria-hidden="true"></span>

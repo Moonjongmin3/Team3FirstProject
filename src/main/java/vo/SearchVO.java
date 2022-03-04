@@ -1,25 +1,40 @@
 package vo;
 
 public class SearchVO {
-	int mainCategory;
-	int subcategory;
-	String keyword;
-	String bookinfocate;
-	int stockCheck;
-	String sort;
-	int rowSize;
-	int keywordExcept;
+	int mainCategory; //메인 카테고리
+	String[] subcategory; // 서브 카테고리
+	String keyword; // 검색어
+	String[] taft;  // 제목, 저자, 출판사, 태그
+	String stockCheck; // 품절여부
+	String sort;  // 정렬
+	int rowSize;  // n개씩 보기
+	int keywordExcept; // 검색어 제외
+	int page;
+	
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
 	public int getMainCategory() {
 		return mainCategory;
 	}
 	public void setMainCategory(int mainCategory) {
 		this.mainCategory = mainCategory;
 	}
-	public int getSubcategory() {
+	public String[] getSubcategory() {
 		return subcategory;
 	}
-	public void setSubcategory(int subcategory) {
+	public void setSubcategory(String[] subcategory) {
 		this.subcategory = subcategory;
+	}
+	public String[] getTaft() {
+		return taft;
+	}
+	public void setTaft(String[] taft) {
+		this.taft = taft;
 	}
 	public String getKeyword() {
 		return keyword;
@@ -27,16 +42,10 @@ public class SearchVO {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	public String getBookinfocate() {
-		return bookinfocate;
-	}
-	public void setBookinfocate(String bookinfocate) {
-		this.bookinfocate = bookinfocate;
-	}
-	public int getStockCheck() {
+	public String getStockCheck() {
 		return stockCheck;
 	}
-	public void setStockCheck(int stockCheck) {
+	public void setStockCheck(String stockCheck) {
 		this.stockCheck = stockCheck;
 	}
 	public String getSort() {

@@ -9,44 +9,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript" src="../js/search.js"></script>
 <script type="text/javascript">
-function checkAll(){
-	let obj = document.querySelectorAll("#book_list_check")
-	if(obj[0].checked){
-		for(i=0;i<obj.length;i++){
-			obj[i].checked=false;
-		}
-	}else{
-		for(i=0;i<obj.length;i++){
-			obj[i].checked=true;
-		}
-	}
-}
-function btnplus(){
-	let count=$("#input_cnt").val()
-	count = (Number(count)+1)
-	$("#input_cnt").val(count)
-}
-function btndown(){
-	let count=$("#input_cnt").val()
-	count = (Number(count)-1)
-	if(count===0){
-		alert("1개 이상 구입할 수 있습니다.")
-		$("#input_cnt").val(1)
-	}else{
-		$("#input_cnt").val(count)
-	}
-}
 $(function(){
-	$('#taft_btn').on('click',function(){
-		let taft_val
-		let arr_taft = document.getElementsByName("taft_ck")
-		for(let i=0;i<arr_taft;i++){
-			if(arr_taft[i].checked==true){
-				taft_val=arr_taft[i]
-			}
-		}	
-	})
+	let length =${fn:length(svo.subcategory)}
+	let list = [];
+	<c:forEach var="cate" items="${svo.subcategory}" varStatus="status">
+		list.push("${cate}");
+	</c:forEach>
+	for(let i=0;i<length;i++){
+		$('.subChk_'+list[i]).prop("checked",true)
+	}
+	
 })
 </script>
 </head>
@@ -88,27 +62,43 @@ $(function(){
 					</div>
 					<form method="post" action="../book/bookList.do" id="taft_frm">
 					<div>
-						<ul style="list-style: none; padding-left: 0; margin-bottom: 0px;">
+						<ul style="list-style: none; padding-left: 0; margin-bottom: 0px;">	
+							<c:forEach items="${svo.taft }" var="taft">
+								<c:choose>
+									<c:when test="${taft=='title'}">
+										<c:set var="tCheck" value="checked"/>
+									</c:when>
+									<c:when test="${taft=='author'}">
+										<c:set var="aCheck" value="checked"/>
+									</c:when>
+									<c:when test="${taft=='publisher'}">
+										<c:set var="pCheck" value="checked"/>
+									</c:when>
+									<c:otherwise>
+										<c:set var="gCheck" value="checked"/>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>				
 							<li>
-								<input type="checkbox" id="search_field_KeyTitle" name="taft_ck" value="title">
+								<input type="checkbox" id="search_field_KeyTitle" name="taftck" value="title" ${tCheck}>
 								<label for="search_field_KeyTitle" class="bo2">
 									제목
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyAuthor" name="taft_ck" value="author">	
+								<input type="checkbox" id="search_field_KeyAuthor" name="taftck" value="author" ${aCheck}>	
 								<label for="search_field_KeyTitle" class="bo2">
 									저자
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyPublisher" name="taft_ck" value="publisher">
+								<input type="checkbox" id="search_field_KeyPublisher" name="taftck" value="publisher" ${pCheck}>
 								<label for="search_field_KeyTitle" class="bo2">
 									출판사
 								</label>
 							</li>
 							<li>
-								<input type="checkbox" id="search_field_KeyTag" name="taft_ck" value="tag">
+								<input type="checkbox" id="search_field_KeyTag" name="taftck" value="tag" ${gCheck}>
 								<label for="search_field_KeyTitle" class="bo2">
 									태그
 								</label>
@@ -118,7 +108,7 @@ $(function(){
 						
 					</div>
 					<div style="float: right;">
-						<input type="button" class="btn btn-sm" id="taft_btn" value="적용">
+						<input type="button" class="btn btn-sm" id="taft_btn" onclick="search();" value="적용">
 					</div>
 					</form>
 				</div>
@@ -130,12 +120,12 @@ $(function(){
 						<span style="color: #5d5d5d; font-size: 13px;">
 							<b>분야별 보기</b>
 						</span>
-						<!-- 전체선택 javascript ex)알라딘 -->
 					</div>
+					<form method="post" action="../book/bookList.do" id="subcate_frm">
 					<div class="search_left_list">
 						<ul style="height: 245px;overflow:auto">
-							<c:forEach items="${subCountList}" var="vo">
-								<c:if test="${vo.mainId==1}">
+							<c:forEach items="${subCountList}" var="vo">		
+								<c:if test="${vo.mainId==1&&svo.mainCategory==4||svo.mainCategory==1}">
 									<c:if test="${vo.subId==0 }">
 										<li>
 											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
@@ -143,7 +133,8 @@ $(function(){
 									</c:if>
 									<c:if test="${vo.subId!=0 }">
 									<li>
-										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_1_${vo.subId }" name="search_left_categoty">
+										<input type="checkbox" value="${vo.subId }" id="serarch_category_1_${vo.subId }" class="subChk_${vo.subId }" 
+												name="search_left_categoty">
 										<label for="serarch_category_1_${vo.subId }" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
 												${vo.subCateName }
 											<span class="ss_f_g">(${vo.subCount })</span>
@@ -151,7 +142,7 @@ $(function(){
 									</li>
 									</c:if>
 								</c:if>
-								<c:if test="${vo.mainId==2}">
+								<c:if test="${vo.mainId==2&&svo.mainCategory==4||svo.mainCategory==2}">
 									<c:if test="${vo.subId==0 }">
 										<li>
 											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
@@ -159,7 +150,8 @@ $(function(){
 									</c:if>
 									<c:if test="${vo.subId!=0 }">
 									<li>
-										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_2_${vo.subId }" name="search_left_categoty">
+										<input type="checkbox" value="${vo.subId }" id="serarch_category_2_${vo.subId }" class="subChk_${vo.subId }" 
+												name="search_left_categoty">
 										<label for="serarch_category_2_${vo.subId }" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
 											${vo.subCateName }
 											<span class="ss_f_g">(${vo.subCount })</span>
@@ -167,7 +159,7 @@ $(function(){
 									</li>
 									</c:if>
 								</c:if>
-								<c:if test="${vo.mainId==3}">
+								<c:if test="${vo.mainId==3&&svo.mainCategory==4||svo.mainCategory==3}">
 									<c:if test="${vo.subId==0 }">
 										<li>
 											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
@@ -175,7 +167,8 @@ $(function(){
 									</c:if>
 									<c:if test="${vo.subId!=0 }">
 									<li>
-										<input type="checkbox" value="${vo.subCateName }" id="serarch_category_3_${vo.subId }" name="search_left_categoty">
+										<input type="checkbox" value="${vo.subId }" id="serarch_category_3_${vo.subId }" class="subChk_${vo.subId }"
+												name="search_left_categoty">
 										<label for="serarch_category_3_${vo.subId }" class="bo2" style="cursor: pointer;" title="${vo.mainCateName }">
 											${vo.subCateName }
 											<span class="ss_f_g">(${vo.subCount })</span>
@@ -187,8 +180,12 @@ $(function(){
 						</ul>
 					</div>
 					<div style="float: right;">
-						<input type="submit" class="btn btn-sm" value="적용">
+					<c:if test="${svo.subcategory[0]!='all'}">
+						<input type="button" class="btn btn-sm" id="subcateDelBtn" onclick="subCateDel()" value="전체취소">
+					</c:if>
+						<input type="button" class="btn btn-sm" id="subcateBtn" onclick="search();" value="적용">
 					</div>
+					</form>
 				</div>
 			</div>
 			<!-- 메인 출력 시작 -->
@@ -197,85 +194,69 @@ $(function(){
 					<span class="search_t_g">
 						검색어"<span class="result_l"><strong>${keyword }</strong></span>
 						"총
-						<c:choose>
-							<c:when test="${category==4 }">
-								<span class="search_r_c_count">${mainCountArr[0]} </span>
-							</c:when>
-							<c:when test="${category==1 }">
-								<span class="search_r_c_count">${mainCountArr[1]} </span>
-							</c:when>
-							<c:when test="${category==2 }">
-								<span class="search_r_c_count">${mainCountArr[2]} </span>
-							</c:when>
-							<c:otherwise>
-								<span class="search_r_c_count">${mainCountArr[3]} </span>
-							</c:otherwise>
-						</c:choose>						
+						<span class="search_r_c_count">${totalCount} </span>					
 						개의 상품이 검색되었습니다.
 					</span>
 					<table class="search-result-count">
 						<tbody>
 							<tr>
-								<td width="18" height="47"><img src="../img/ss_m_l.jpeg"></td>
-								<td valign="bottom" style="width:400px; background:url(../img/ss_m_c.jpeg) top left repeat-x; padding-top:0px; text-align: left;">
-								<!-- 클릭했을때 css 변경밥법 고안 -->
+								<td valign="bottom" style="padding-top:0px; text-align: left;">
 									<ul>
 										<!-- 통합검색 -->
 										<c:if test="${category==4 }">
-                        	 			<c:set var="cate4" value="class=current_maincate"/>
+                        	 			<c:set var="cate4" value="current_maincate"/>
                         				</c:if>
-										<li ${cate4 }>
-											<a href="../book/bookList.do?searchCategory=4&keyword=${keyword }">
-												<img src="../img/ss_m_1.png">
+										<li class="${cate4} main_part" >
+											<a href="javascript:mainBtn(4)" >
+												<strong>통합검색</strong>
 												<br>
 												<span class="search_t_w_n">(${mainCountArr[0]})</span>
 											</a>
 										</li>
-										<li style="width: 2px;">
-											<img src="../img/ss_m_line.png">
-										</li>
-										<!-- 국내도서 -->
-										<c:if test="${category==1 }">
-                        	 			<c:set var="cate1" value="class=current_maincate"/>
-                        				</c:if>
-										<li ${cate1 }>
-										<a href="../book/bookList.do?searchCategory=1&keyword=${keyword }">
-											<img src="../img/ss_m_2.png">
-											<br>
-											<span class="search_t_w_n">(${mainCountArr[1]})</span>
-										</a>
-										</li>
-										<li style="width: 2px;">
-											<img src="../img/ss_m_line.png">
-										</li>
+										<li class="cate_part"></li>
+										<c:if test="${mainCountArr[1]!=0 }">
+											<!-- 국내도서 -->
+											<c:if test="${category==1 }">
+	                        	 			<c:set var="cate1" value="current_maincate"/>
+	                        				</c:if>
+											<li class="${cate1} main_part" >
+											<a href="javascript:mainBtn(1)">
+												<strong>국내도서</strong>
+												<br>
+												<span class="search_t_w_n">(${mainCountArr[1]})</span>
+											</a>
+											</li>
+										</c:if>
+										<c:if test="${mainCountArr[2]!=0 }">
+										<li class="cate_part"></li>
 										<!-- 외국도서 -->
-										<c:if test="${category==2 }">
-                        	 			<c:set var="cate2" value="class=current_maincate"/>
-                        				</c:if>
-										<li ${cate2 }>
-											<a href="../book/bookList.do?searchCategory=2&keyword=${keyword }">
-												<img src="../img/ss_m_3.png">
-												<br>
-												<span class="search_t_w_n">(${mainCountArr[2]})</span>
-											</a>
-										</li>
-										<li style="width: 2px;">
-											<img src="../img/ss_m_line.png">
-										</li>
-										<!-- eBook -->
-										<c:if test="${category==3 }">
-                        	 			<c:set var="cate3" value="class=current_maincate"/>
-                        				</c:if>
-										<li ${cate3 }>
-											<a href="../book/bookList.do?searchCategory=3&keyword=${keyword }">
-												<img src="../img/ss_m_15.png">
-												<br>
-												<span class="search_t_w_n">(${mainCountArr[3]})</span>
-											</a>
-										</li>
+											<c:if test="${category==2 }">
+	                        	 			<c:set var="cate2" value="current_maincate"/>
+	                        				</c:if>
+											<li class="${cate2} main_part">
+												<a href="javascript:mainBtn(2)" >
+													<strong>외국도서</strong>
+													<br>
+													<span class="search_t_w_n">(${mainCountArr[2]})</span>
+												</a>
+											</li>
+										</c:if>
+										<c:if test="${mainCountArr[3]!=0 }">
+										<li class="cate_part"></li>
+											<!-- eBook -->
+											<c:if test="${category==3 }">
+	                        	 			<c:set var="cate3" value="current_maincate"/>
+	                        				</c:if>
+											<li class="${cate3} main_part">
+												<a href="javascript:mainBtn(3)">
+													<strong>eBook</strong>
+													<br>
+													<span class="search_t_w_n">(${mainCountArr[3]})</span>
+												</a>
+											</li>
+										</c:if>
 									</ul>
 								</td>
-								<td width="18" height="47"><img src="../img/ss_m_r.jpeg"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -313,16 +294,16 @@ $(function(){
 								</td>
 								<!-- 미구현 -->
 								<td style="text-align: center">
-									<select>
-										<option value selected>품절포함</option>
-										<option value="Y">품절제외</option>
+									<select id="except" onchange="exceptSel(this)">
+										<option value="Y" ${svo.stockCheck=='Y'?'selected':'' }>품절포함</option>
+										<option value="N" ${svo.stockCheck=='N'?'selected':'' }>품절제외</option>
 									</select>
 								</td>
 								<td style="text-align: center">
-									<select>
-										<option value="10" selected>10개씩 보기</option>
-										<option value="20">20개씩 보기</option>
-										<option value="40">40개씩 보기</option>
+									<select id="rowSize" onchange="rowSize(this)">
+										<option value="10" ${svo.rowSize==10?'selected':'' }>10개씩 보기</option>
+										<option value="20" ${svo.rowSize==20?'selected':'' }>20개씩 보기</option>
+										<option value="40" ${svo.rowSize==40?'selected':'' }>40개씩 보기</option>
 									</select>
 								</td>
 								<!-- 미구현 -->
@@ -333,10 +314,10 @@ $(function(){
 				<div class="ss_line_2">
 					<div class="search_paging_bar">
 						<c:if test="${startPage>1 }">
-						<a href="../book/bookList.do?page=1&keyword=${keyword}&searchCategory=${category}" class="btn_prev">
+						<a href="javascript:pageNum(1)" class="btn_prev">
 							<img src="../img/btn_prev05_on.gif" alt="첫 페이지">
 						</a>
-						<a href="../book/bookList.do?page=${curpage-5}&keyword=${keyword}&searchCategory=${category}" class="btn_prev">
+						<a href="javascript:pageNum(${endPage-5 })" class="btn_prev">
 							<img src="../img/btn_prev03_on.gif" alt="이전 블록 첫 페이지">
 						</a>
 						</c:if>
@@ -348,14 +329,14 @@ $(function(){
                         	<c:if test="${i!=curpage }">
                         	 <c:set var="style" value=""/>
                         	</c:if>
-                        	<li ${style }><a href="../book/bookList.do?page=${i }&keyword=${keyword}&searchCategory=${category}">${i }</a></li>
+                        	<li ${style }><a href="javascript:pageNum(${i })">${i }</a></li>
 							</c:forEach>
 						</ul>
 							<c:if test="${endPage<totalPage }">
-							<a href="../book/bookList.do?page=${endPage+1}&keyword=${keyword}&searchCategory=${category}" class="btn_prev">
+							<a href="javascript:pageNum(${endPage+1 })" class="btn_prev">
 								<img src="../img/btn_next03_on.gif" alt="다음 블록 첫페이지">
 							</a>
-							<a href="../book/bookList.do?page=${totalPage}&keyword=${keyword}&searchCategory=${category}" class="btn_prev">
+							<a href="javascript:pageNum(${totalPage })" class="btn_prev">
 								<img src="../img/btn_next05_on.gif" alt="마지막 페이지">
 							</a>
 							</c:if>
@@ -466,7 +447,7 @@ $(function(){
 								</div>
 								<div class="search_book_check">
 									<div>
-										<input type="checkbox" id="book_list_check">
+										<input type="checkbox" class="book_list_check" name="bookChk" value="${vo.id }">
 										<span class="btn_count">
 										<label style="color:#666; font-size:11px;">
 											수량
