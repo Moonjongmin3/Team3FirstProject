@@ -276,7 +276,7 @@ nav{
 }
 .nav-bar{
   height: 50px;
-  width: 100vw;
+  width: 100%;
   background: linear-gradient( to right, #0052d4 30%, #4364f7, #6fb1fc);
 }
 .nav-main{
