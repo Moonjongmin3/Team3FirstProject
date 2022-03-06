@@ -8,16 +8,16 @@ import java.util.*;
 public class BoardDAO {
 	private Connection conn;
 	private PreparedStatement ps;
-	private ConnectionManager cm;
+	private ConnectionManager cm = new ConnectionManager();
 	
 	public List<BoardVO> boardList(int page){
 		List<BoardVO> list=new ArrayList<BoardVO>();
 		try {
-			conn=ps.getConnection();
-			String sql="SELECT no,user_id,title,created_at,hit,num"
-						+"FROM (SELECT no,user_id,title,created_at,hit,rownum as num"
-						+"FROM (SELECT no,user_id,title,created_at,hit"
-						+"FROM board_3 ORDER BY no DESC))"
+			conn=cm.getConnection();
+			String sql="SELECT no,user_id,title,created_at,hit,num "
+						+"FROM (SELECT no,user_id,title,created_at,hit,rownum as num "
+						+"FROM (SELECT no,user_id,title,created_at,hit "
+						+"FROM board_3 ORDER BY no DESC)) "
 						+"WHERE num BETWEEN ? AND ?";
 			int rowSize=10;
 			int start=(rowSize*page)-(rowSize-1);
@@ -52,7 +52,7 @@ public class BoardDAO {
 	public int boardTotalPage() {
 		int total=0;
 		try {
-			cm.getConnection();
+			conn=cm.getConnection();
 			String sql="SELECT CEIL(COUNT(*)/10.0) FROM board_3";
 			ps=conn.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
@@ -72,7 +72,7 @@ public class BoardDAO {
 	//글쓰기
 	public void boardInsert(BoardVO vo) {
 		try {
-			cm.getConnection();
+			conn=cm.getConnection();
 			String sql="INSERT INTO board_3(no,user_id,title,content,bfile,pwd)"
 					+"VALUES ((SELECT NVL(MAX(no)+1,1) FROM Board_3),?,?,?,?,?)";
 			ps=conn.prepareStatement(sql);
@@ -96,7 +96,7 @@ public class BoardDAO {
 		BoardVO vo=new BoardVO();
 		try {
 			//조회수 증가
-			cm.getConnection();
+			conn=cm.getConnection();
 			String sql="UPDATE board_3"
 					 +"SET hit=hit+1"
 					 +"WHERE no=?";
@@ -158,7 +158,7 @@ public class BoardDAO {
 	public boolean boardUpdate(BoardVO vo) {
 		boolean bCheck=false;
 		try {
-			cm.getConnection();
+			conn=cm.getConnection();
 			String sql="SELECT pwd FROM board_3"
 					+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
@@ -197,7 +197,7 @@ public class BoardDAO {
 	public boolean boardDelete(int no,String pwd) {
 		boolean bCheck=false;
 		try {
-			cm.getConnection();
+			conn=cm.getConnection();
 			String sql="SELECT pwd FROM board_3"
 						+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
