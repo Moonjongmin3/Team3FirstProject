@@ -10,9 +10,27 @@ public class NoticeVO {
     private Date created_At;
     private Date updated_At;
     private int hit;
+    private String filename;
+    private int filesize;
 
+    
+    public String getFilename() {
+		return filename;
+	}
 
-    public int getHit() {
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public int getFilesize() {
+		return filesize;
+	}
+
+	public void setFilesize(int filesize) {
+		this.filesize = filesize;
+	}
+
+	public int getHit() {
         return hit;
     }
 

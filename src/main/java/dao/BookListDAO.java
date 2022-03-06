@@ -13,11 +13,12 @@ public class BookListDAO {
 	public List<BookVO> bookSearchList(SearchVO vo) {
 		List<BookVO> list = new ArrayList<>();
 		try {
-			StringBuffer sbSql = new StringBuffer("SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,num "
+			 StringBuffer sbSql = new StringBuffer("SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,num "
 					+ "FROM (SELECT id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,main,score,sub_name,rownum as num "
 					+ "FROM (SELECT b.id,category_id,title,author,publisher,regdate,poster,content,price,salerate,state,tag,sell_count,s.main_id as main,score,s.name,s.NAME as sub_name "
 					+ "FROM books_3 b, sub_category_3 s "
 					+ "WHERE b.category_id=s.id and ");
+			 // 메인카테고리
 			String main="";
 			if(vo.getMainCategory()==4) {
 				main = "s.main_id in(1,2,3) ";
@@ -27,22 +28,28 @@ public class BookListDAO {
 				sbSql.append(main);
 			}
 			
-			String tapt="AND (";
-			for(int i=0; i<vo.getTaft().length;i++) {
-				if(i!=vo.getTaft().length-1) {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
-				}else {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+			// 검색어
+			String tapt="";
+			if(vo.getKeywordExcept().equals("N")) {
+			tapt="AND (";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+					}else {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+					}
 				}
 			}
 			sbSql.append(tapt);
 			
+			// 품절 여부
 			String except=vo.getStockCheck();
 			if(except.equals("N")) {
 				String exsql="AND state LIKE '%'||'판매'||'%' ";
 				sbSql.append(exsql);
 			}
 			
+			// sub_category 분류
 			if(!(vo.getSubcategory()[0].equals("all"))) {
 				String subcate="AND category_id IN (";
 				for(int i=0; i<vo.getSubcategory().length;i++) {
@@ -55,30 +62,45 @@ public class BookListDAO {
 				sbSql.append(subcate);
 			}
 			
+			// 정렬
 			String sort="";
-			if(vo.getSort().equals("sellSort")) {
-				sort="ORDER BY sell_count DESC)) ";
-			}else if(vo.getSort().equals("regdateSort")){
-				sort="ORDER BY regdate DESC)) ";
-			}else if(vo.getSort().equals("reviewSort")){
+			if(vo.getSort().equals("sellsort")) {
+				sort="ORDER BY sell_count DESC) ";
+			}else if(vo.getSort().equals("day")){
+				sort="ORDER BY regdate DESC) ";
+			}else if(vo.getSort().equals("review")){
 				sort=""; // 리뷰순
-			}else if(vo.getSort().equals("priceSort")){
-				sort="ORDER BY price)) ";
+			}else if(vo.getSort().equals("price")){
+				sort="ORDER BY price) ";
 			}else {
-				sort="ORDER BY score DESC)) "; // 인기순 더 구상 필요
+				sort="ORDER BY score DESC) "; // 인기순 더 구상 필요
 			}
 			sbSql.append(sort);
 			
+			//결과내 재검색
+			if(!(vo.getReKeyword().equals(""))) {
+				String reKey="WHERE ";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%' OR ";
+					}else {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%') ";
+					}
+				}
+				sbSql.append(reKey);
+			}else {
+				sbSql.append(") ");
+			}
+			// rowSize
 			sbSql.append("WHERE num between ? and ?");
-			
-			String sql=sbSql.toString();
-			
-			conn=cm.getConnection();
-			ps=conn.prepareStatement(sql);
-			
 			int rowSize=vo.getRowSize();
 			int startpage=(rowSize*vo.getPage())-(rowSize-1);
 			int endpage=rowSize*vo.getPage();
+			
+			String sql=sbSql.toString();
+			conn=cm.getConnection();
+			ps=conn.prepareStatement(sql);
+		
 			ps.setInt(1, startpage);
 			ps.setInt(2, endpage);
 			ResultSet rs = ps.executeQuery();
@@ -136,7 +158,12 @@ public class BookListDAO {
 		int count= 0;
 		Double rowSize=(vo.getRowSize()*10.0)/10.0;
 		try {
-			StringBuffer sbSql = new StringBuffer("SELECT CEIL(COUNT(*)/"+rowSize+") FROM books_3 b, sub_category_3 s "
+			String tmp="";
+			if(!(vo.getReKeyword().equals(""))) {
+				tmp="(select title,author,publisher FROM";
+			}
+			StringBuffer sbSql = new StringBuffer("SELECT CEIL(COUNT(*)/"+rowSize+") FROM"+ tmp+" (select title,author,publisher "
+					+ "FROM books_3 b, sub_category_3 s "
 					+ "WHERE b.category_id=s.id and ");
 			String main="";
 			if(vo.getMainCategory()==4) {
@@ -147,18 +174,21 @@ public class BookListDAO {
 				sbSql.append(main);
 			}
 			String tapt="";
-			tapt="and (";
-			for(int i=0; i<vo.getTaft().length;i++) {
-				if(i!=vo.getTaft().length-1) {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
-				}else {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+			if(vo.getKeywordExcept().equals("N")) {
+				tapt="and (";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+					}else {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+					}
 				}
 			}
+			sbSql.append(tapt);
 			
 			String except=vo.getStockCheck();
 			if(except.equals("N")) {
-				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				String exsql="AND (state LIKE '%'||'판매'||'%') ";
 				sbSql.append(exsql);
 			}
 			
@@ -174,7 +204,20 @@ public class BookListDAO {
 				sbSql.append(subcate);
 			}
 			
-			sbSql.append(tapt);
+			if(!(vo.getReKeyword().equals(""))) {
+				String reKey=") WHERE ";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%' OR ";
+					}else {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%')";
+					}
+				}
+				sbSql.append(reKey);
+			}else {
+				sbSql.append(")");
+			}
+			
 			String sql=sbSql.toString();
 			
 			conn=cm.getConnection();
@@ -202,12 +245,14 @@ public class BookListDAO {
 			sbSql.append(main);
 		
 			String tapt="";
-			tapt="and (";
-			for(int i=0; i<vo.getTaft().length;i++) {
-				if(i!=vo.getTaft().length-1) {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
-				}else {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+			if(vo.getKeywordExcept().equals("N")) {
+				tapt="and (";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+					}else {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+					}
 				}
 			}
 			sbSql.append(tapt);
@@ -228,6 +273,18 @@ public class BookListDAO {
 					}
 				}
 				sbSql.append(subcate);
+			}
+			
+			if(!(vo.getReKeyword().equals(""))) {
+				String reKey="AND (";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%' OR ";
+					}else {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%') ";
+					}
+				}
+				sbSql.append(reKey);
 			}
 			
 			sbSql.append("group by rollup ( MAIN_ID ) "
@@ -265,7 +322,12 @@ public class BookListDAO {
 	public int searchResultCount(SearchVO vo) {
 		int count=0;
 		try {
-			StringBuffer sbSql = new StringBuffer("SELECT COUNT(*) FROM books_3 b, sub_category_3 s "
+			String tmp="";
+			if(!(vo.getReKeyword().equals(""))) {
+				tmp="(select title,author,publisher FROM";
+			}
+			StringBuffer sbSql = new StringBuffer("SELECT COUNT(*) FROM"+ tmp+" (select title,author,publisher "
+					+ "FROM books_3 b, sub_category_3 s "
 					+ "WHERE b.category_id=s.id and ");
 			String main="";
 			if(vo.getMainCategory()==4) {
@@ -275,13 +337,15 @@ public class BookListDAO {
 				main="s.main_id="+vo.getMainCategory();
 				sbSql.append(main);
 			}
-			
-			String tapt="AND (";
-			for(int i=0; i<vo.getTaft().length;i++) {
-				if(i!=vo.getTaft().length-1) {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
-				}else {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+			String tapt="";
+			if(vo.getKeywordExcept().equals("N")) {
+				tapt="AND (";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+					}else {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+					}
 				}
 			}
 			sbSql.append(tapt);
@@ -300,10 +364,23 @@ public class BookListDAO {
 			
 			String except=vo.getStockCheck();
 			if(except.equals("N")) {
-				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				String exsql="AND (state LIKE '%'||'판매'||'%') ";
 				sbSql.append(exsql);
 			}
 			
+			if(!(vo.getReKeyword().equals(""))) {
+				String reKey=") WHERE ";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%' OR ";
+					}else {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%')";
+					}
+				}
+				sbSql.append(reKey);
+			}else {
+				sbSql.append(")");
+			}
 			
 			String sql=sbSql.toString();
 			conn=cm.getConnection();
@@ -334,22 +411,39 @@ public class BookListDAO {
 				main="s.main_id="+vo.getMainCategory();
 				sbSql.append(main);
 			}
-			String tapt="and (";
-			for(int i=0; i<vo.getTaft().length;i++) {
-				if(i!=vo.getTaft().length-1) {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
-				}else {
-					tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+			
+			String tapt="";
+			if(vo.getKeywordExcept().equals("N")) {
+			tapt="and (";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%' OR ";
+					}else {
+						tapt += vo.getTaft()[i]+" LIKE '%'||'"+vo.getKeyword()+"'||'%') ";
+					}
 				}
 			}
+			sbSql.append(tapt);
 			
 			String except=vo.getStockCheck();
 			if(except.equals("N")) {
-				String exsql="AND state LIKE '%'||'판매'||'%' ";
+				String exsql="AND (state LIKE '%'||'판매'||'%') ";
 				sbSql.append(exsql);
 			}
 			
-			sbSql.append(tapt);
+			if(!(vo.getReKeyword().equals(""))) {
+				String reKey="AND (";
+				for(int i=0; i<vo.getTaft().length;i++) {
+					if(i!=vo.getTaft().length-1) {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%' OR ";
+					}else {
+						reKey += vo.getTaft()[i]+" LIKE '%'||'"+vo.getReKeyword()+"'||'%') ";
+					}
+				}
+				sbSql.append(reKey);
+			}
+			
+			
 			sbSql.append("group by s.MAIN_ID, rollup ((s.id,s.name)) order by s.MAIN_ID,s.id nulls first");
 			String sql=sbSql.toString();
 			

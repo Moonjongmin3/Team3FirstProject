@@ -9,17 +9,17 @@
 </head>
 <body>
     <section>
-        <div class="nav_wrap">
-            <div class="nav_bar" style="padding-left: 20px">
-                <ul>
-                    <li><img src="../img/ico_bc_home.svg" style="padding-bottom: 3px;"></li>
-                    <li>></li>
-                    <li>고객센터</li>
-                    <li>></li>
-                    <li>공지사항</li>
-                </ul>
-            </div>
-        </div>
+        <div class="notice_nav_wrap">
+			<div class="notice_nav_bar">
+				<ul>
+					<li><img src="../img/ico_bc_home.svg" style="padding-bottom: 3px;"></li>
+					<li>></li>
+					<li>고객센터</li>
+					<li>></li>
+					<li>공지사항</li>
+				</ul>
+			</div>
+		</div>
         <div class="notice_detail_wrap">
             <div class="notice_side">
                 <div class="notice_side_top">
@@ -67,7 +67,13 @@
                         <td width="25%">${notice.hit}</td>
                     </tr>
                     <tr>
-                        <td colspan="4" height="300px" valign="top" style="padding:10px 15px;">
+                    	<td width="15%" class="text-center" style="background-color: #cdcdcd">첨부파일</td>
+                    	<td width="85%" colspan="3">
+                    	<a href="../customer/download.do?fn=${notice.filename }"> ${notice.filename}</a> (${notice.filesize }Bytes)
+                    	</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" height="600px" valign="top" style="padding:10px 15px; ">
                         <pre>${notice.content}</pre>
                         </td>
                     </tr>

@@ -7,11 +7,25 @@ public class SearchVO {
 	String[] taft;  // 제목, 저자, 출판사, 태그
 	String stockCheck; // 품절여부
 	String sort;  // 정렬
+	String reKeyword; // 검색내 검색 검색어
 	int rowSize;  // n개씩 보기
-	int keywordExcept; // 검색어 제외
+	String keywordExcept; // 검색어 제외
 	int page;
 	
 	
+
+	public String getKeywordExcept() {
+		return keywordExcept;
+	}
+	public void setKeywordExcept(String keywordExcept) {
+		this.keywordExcept = keywordExcept;
+	}
+	public String getReKeyword() {
+		return reKeyword;
+	}
+	public void setReKeyword(String reKeyword) {
+		this.reKeyword = reKeyword;
+	}
 	public int getPage() {
 		return page;
 	}
@@ -60,11 +74,6 @@ public class SearchVO {
 	public void setRowSize(int rowSize) {
 		this.rowSize = rowSize;
 	}
-	public int getKeywordExcept() {
-		return keywordExcept;
-	}
-	public void setKeywordExcept(int keywordExcept) {
-		this.keywordExcept = keywordExcept;
-	}
+	
 	
 }

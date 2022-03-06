@@ -146,7 +146,7 @@
 									<option ${category ==2?'selected': '' } value="2">외국도서</option>
 									<option ${category ==3?'selected': '' } value="3">E-Book</option>
 								</select>
-								<div class="input-group">
+								<div class="input-group" id="search_opt_list">
 									<input type="text" class="form-control search-input" id="keyword" name="keyword" placeholder="검색어를 입력해주세요.." value="${keyword }">
 								</div>
 								<button type="button" class="btn btn-default search-button" id="search-button" onclick="searchMain()">
@@ -174,6 +174,7 @@
 					 <ul class="cscenter-nav">
 								<li><a href="../customer/notice.do">공지사항</a></li>
 								<li><a href="#">FAQ</a></li>
+								<li><a href="#">1:1문의</a></li>
 							</ul>
 				</div>
 				<!-- Mobil 네비게이션 바 -->

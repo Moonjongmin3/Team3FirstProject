@@ -172,7 +172,6 @@
 }
 .ss_line td a{
     text-decoration: none;
-    color: black;
 }
 .ss_line ul>li>a:hover{
     color: #4364F7;
@@ -568,7 +567,10 @@
 	    text-indent: 0;
 	    cursor: pointer;
     }
-   
+   	.currnt_sort{
+   		color:#0052D4;
+    	font-weight: bold;
+   	}
     .current_maincate>a>span{
     	color:#0052D4;
     	font-weight: bold;
@@ -577,4 +579,14 @@
     	color:#0052D4;
     }
     
+    .search_book_state{
+    	margin:10px 0px;
+    }
+    .search_book_state>span{
+    	font-size: 20px;
+    }
+    
+    .search_sort{
+    	cursor:pointer;
+    }
     

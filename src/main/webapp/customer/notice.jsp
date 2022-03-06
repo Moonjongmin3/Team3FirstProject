@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +18,7 @@
 					<li>></li>
 					<li>고객센터</li>
 					<li>></li>
-					<li>${path }</li>
+					<li>공지사항</li>
 				</ul>
 			</div>
 		</div>
@@ -79,6 +80,7 @@
 						<ul>
 							<li>순번</li>
 							<li>제목</li>
+							<li>조회수</li>
 							<li>등록일</li>
 						</ul>
 					</div>
@@ -86,7 +88,14 @@
 						<c:forEach items="${notice_list}" var="list" varStatus="i">
 						<ul>
 							<li>${list.no}</li>
-							<li><a href="../customer/notice_detail.do?page=${curpage}&no=${list.no}">${list.title}</a> </li>
+							<li><a href="../customer/notice_detail.do?page=${curpage}&no=${list.no}">${list.title}</a>
+							<jsp:useBean id="today" class="java.util.Date" />
+							<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd" /></c:set>
+							<c:if test="${list.created_At==date }">
+								<sup style="color:red">new</sup>
+							</c:if>
+							 </li>
+							<li>${list.hit }</li>
 							<li>${list.created_At}</li>
 						</ul>
 						</c:forEach>

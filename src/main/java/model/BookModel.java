@@ -18,17 +18,30 @@ public class BookModel {
 		String category=request.getParameter("searchCategory");
 		String keyword=request.getParameter("keyword");
 		String page=request.getParameter("page");
-		String[] taft=request.getParameterValues("taftck");
+		String[] taft=request.getParameterValues("taftck_s");
 		String[] subcate=request.getParameterValues("sub_categoty");
 		String sort =request.getParameter("sort");
 		String rowSize=request.getParameter("rowsize");
 		String except = request.getParameter("except");
-		if(except==null) {
+		String reKeyword = request.getParameter("research");
+		String exceptRekeyword = request.getParameter("except_rekeyword");
+		
+		SearchVO svo = new SearchVO();
+		if(exceptRekeyword==null||exceptRekeyword.equals("N")) {
+			svo.setKeywordExcept("N");
+		}else {
+			svo.setKeywordExcept("Y");
+		}
+		if(reKeyword==null) 
+			reKeyword="";
+		
+		if(except==null){
 			except="Y";
 		}
-		if(sort==null) {
-			sort="sellSort";
-		}
+		
+		if(sort==null) 
+			sort="sellsort";
+		
 		if(taft==null) {
 			taft = new String[3];
 			taft[0]="title";
@@ -39,6 +52,7 @@ public class BookModel {
 			subcate=new String[1];
 			subcate[0]="all";
 		}
+		
 		if(rowSize==null)
 			rowSize="10";
 		if(page==null)
@@ -48,7 +62,7 @@ public class BookModel {
 		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
 		int endPage=startPage-1 +BLOCK;
 		
-		SearchVO svo = new SearchVO();
+		
 		svo.setMainCategory(Integer.parseInt(category));
 		svo.setSubcategory(subcate);
 		svo.setTaft(taft);
@@ -57,6 +71,7 @@ public class BookModel {
 		svo.setSort(sort);
 		svo.setRowSize(Integer.parseInt(rowSize));
 		svo.setStockCheck(except);
+		svo.setReKeyword(reKeyword);
 		
 		BookListDAO dao = new BookListDAO();
 		List<BookVO> list = new ArrayList<>();

@@ -1,10 +1,17 @@
 package model;
-import javax.servlet.http.*;
-import java.util.*;
+import java.io.*;
+import java.net.URLEncoder;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import controller.RequestMapping;
 import dao.NoticeDAO;
-import model.*;
 import vo.NoticeVO;
 
 public class NoticeModel {
@@ -50,7 +57,6 @@ public class NoticeModel {
             request.setAttribute("total", total);
             request.setAttribute("curpage", curpage);
             request.setAttribute("notice_list", list);
-            request.setAttribute("path", "공지사항");
             request.setAttribute("main_jsp", "../customer/notice.jsp");
         }catch (Exception e){
             e.printStackTrace();
@@ -97,18 +103,40 @@ public class NoticeModel {
         String page = request.getParameter("page");
     	try {
            HttpSession session = request.getSession();
-            request.setCharacterEncoding("UTF-8");
-            String content = request.getParameter("content");
-            String title = request.getParameter("title");
+           request.setCharacterEncoding("UTF-8");
            String adminID= (String)session.getAttribute("userId");
 
+           int maxSize=1024*1024*200; //200mb
+           String path="c:\\download";
+   			String enctype="UTF-8";
+   			MultipartRequest mr=
+    				new MultipartRequest(request, 
+    						path,maxSize,enctype,
+    						new DefaultFileRenamePolicy());
+   			String title=mr.getParameter("title");
+    		String userId=adminID;
+    		String content=mr.getParameter("content");
+    		String filename=mr.getOriginalFileName("upload");
+    		
+    		
             NoticeVO vo = new NoticeVO();
             vo.setNo(Integer.parseInt(no));
             vo.setTitle(title);
             vo.setContent(content);
-            vo.setAdminID(adminID);
-
-            vo.setAdminID("test1");
+            vo.setAdminID(userId);
+            
+            // 업로드가 안된 상태 
+            if(filename==null)
+    		{
+    			vo.setFilename("");
+    			vo.setFilesize(0);
+    		}
+    		else
+    		{
+    			File file=new File(path+"\\"+filename);
+    			vo.setFilename(file.getName());// 파일명만 저장 
+    			vo.setFilesize((int)file.length());
+    		}
             NoticeDAO dao = new NoticeDAO();
             dao.noticeUpdate(vo);
             
@@ -143,15 +171,39 @@ public class NoticeModel {
     public String noticeInsert(HttpServletRequest request, HttpServletResponse response) {
         try {
             request.setCharacterEncoding("UTF-8");
-            String title = request.getParameter("title");
-            String content = request.getParameter("content");
             HttpSession session = request.getSession();
     	    String adminID=(String)session.getAttribute("userId");
            
-            NoticeVO vo = new NoticeVO();
-            vo.setTitle(title);
-            vo.setContent(content);
-            vo.setAdminID(adminID);
+    	    int maxSize=1024*1024*200; //200mb
+            String path="c:\\download";
+    			String enctype="UTF-8";
+    			MultipartRequest mr=
+     				new MultipartRequest(request, 
+     						path,maxSize,enctype,
+     						new DefaultFileRenamePolicy());
+    		String title=mr.getParameter("title");
+     		String userId=adminID;
+     		String content=mr.getParameter("content");
+     		String filename=mr.getOriginalFileName("upload");
+     		
+     		
+             NoticeVO vo = new NoticeVO();
+             vo.setTitle(title);
+             vo.setContent(content);
+             vo.setAdminID(userId);
+             
+             // 업로드가 안된 상태 
+             if(filename==null)
+     		{
+     			vo.setFilename("");
+     			vo.setFilesize(0);
+     		}
+     		else
+     		{
+     			File file=new File(path+"\\"+filename);
+     			vo.setFilename(file.getName());// 파일명만 저장 
+     			vo.setFilesize((int)file.length());
+     		}
             NoticeDAO dao = new NoticeDAO();
             
             dao.noticeInsertData(vo);
@@ -160,18 +212,38 @@ public class NoticeModel {
         }
         return "redirect:notice.do";
     }
-//    @RequestMapping("customer/notice_search.do")
-//    public String noticeSearch(HttpServletRequest request,HttpServletResponse response){
-//        try {
-//            request.setCharacterEncoding("UTF-8");
-//            String notice_search_cate = request.getParameter("notice_search_cate");
-//            String notice_search = request.getParameter("notice_search");
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return "../main/main.jsp";
-//    }
+    @RequestMapping("customer/download.do")
+    public String noticeDownload(HttpServletRequest request, HttpServletResponse response) {
+    	try
+    	{
+    		request.setCharacterEncoding("UTF-8");
+    		//1. File명을 받는다 
+    		String fn=request.getParameter("fn");
+    		//2. header 생성 => 실제 데이터전에 전송 (클라이언트로)
+    		//2-1. 파일 크기 , 파일 이름 => 파일다운로드 창을 보여준다
+    		File file=new File("c:\\download\\"+fn);
+    		response.setContentLength((int)file.length());
+    		response.setHeader("Content-Disposition", "attachment;filename="
+    				          +URLEncoder.encode(fn, "UTF-8"));
+    		BufferedInputStream bis=
+    				new BufferedInputStream(new FileInputStream(file));
+    		BufferedOutputStream bos=
+    				new BufferedOutputStream(response.getOutputStream());
+    		
+    		int i=0;
+    		byte[] buffer=new byte[1024];
+    		while((i=bis.read(buffer, 0, 1024))!=-1)
+    		{
+    			bos.write(buffer, 0, i);
+    		}
+    		bis.close();
+    		bos.close();
+    		
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return"redirect:../notice/detail.do";
+    }
 }
 
 

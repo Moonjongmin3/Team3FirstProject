@@ -25,9 +25,9 @@ public class NoticeDAO{
 				type="content LIKE '%'||?||'%'";
 			}
             con=cm.getConnection();
-            String sql="SELECT no,title,created_at,num " +
-                    "FROM (SELECT no,title,created_at,rownum as num " +
-                    "FROM (SELECT no,title,created_at FROM notice_3 " +
+            String sql="SELECT no,title,created_at,hit,num " +
+                    "FROM (SELECT no,title,created_at,hit,rownum as num " +
+                    "FROM (SELECT no,title,created_at,hit FROM notice_3 " +
                     "WHERE "+type+
                     " ORDER BY no DESC)) " +
                     "WHERE num between ? and ?";
@@ -51,6 +51,7 @@ public class NoticeDAO{
                 vo.setNo(rs.getInt(1));
                 vo.setTitle(rs.getString(2));
                 vo.setCreated_At(rs.getDate(3));
+                vo.setHit(rs.getInt(4));
                 list.add(vo);
             }
         }catch (Exception e){
@@ -79,10 +80,8 @@ public class NoticeDAO{
             if(cate.equals("TC")) {
             	psmt.setString(1, keyword);
             	psmt.setString(2, keyword);
-            	System.out.println("keyword 2개");
             }else {
             	psmt.setString(1,keyword);
-            	System.out.println("keyword 1개");
             }
             ResultSet rs=psmt.executeQuery();
             rs.next();
@@ -98,12 +97,14 @@ public class NoticeDAO{
     public void noticeInsertData(NoticeVO vo) {
     	try {
     		con=cm.getConnection();
-    		String sql="INSERT INTO notice_3 (no,admin_id,title,content,created_at,hit) VALUES " +
-                    "((SELECT NVL(MAX(no)+1,1) FROM notice_3),?,?,?,sysdate,0)";
+    		String sql="INSERT INTO notice_3 (no,admin_id,title,content,created_at,hit,filename,filesize) VALUES " +
+                    "((SELECT NVL(MAX(no)+1,1) FROM notice_3),?,?,?,sysdate,0,?,?)";
     		psmt=con.prepareStatement(sql);
             psmt.setString(1,vo.getAdminID());
             psmt.setString(2,vo.getTitle());
             psmt.setString(3,vo.getContent());
+            psmt.setString(4, vo.getFilename());
+            psmt.setInt(5, vo.getFilesize());
             psmt.executeUpdate();
 
     	}catch(Exception e) {
@@ -126,7 +127,7 @@ public class NoticeDAO{
             //실행
             psmt.executeUpdate(); // commit()가 포함
 
-            sql="SELECT no,title,content,created_at,hit " +
+            sql="SELECT no,title,content,created_at,hit,filename,filesize " +
                     "FROM notice_3 " +
                     "WHERE no=?";
             psmt=con.prepareStatement(sql);
@@ -138,6 +139,8 @@ public class NoticeDAO{
             vo.setContent(rs.getString(3));
             vo.setCreated_At(rs.getDate(4));
             vo.setHit(rs.getInt(5));
+            vo.setFilename(rs.getString(6));
+            vo.setFilesize(rs.getInt(7));
 
             rs.close();
 
@@ -153,7 +156,7 @@ public class NoticeDAO{
         NoticeVO vo = new NoticeVO();
         try{
             con=cm.getConnection();
-            String sql = "SELECT no,title,content " +
+            String sql = "SELECT no,title,content,filename,filesize " +
                     "FROM notice_3 " +
                     "WHERE no=?";
             psmt= con.prepareStatement(sql);
@@ -163,6 +166,8 @@ public class NoticeDAO{
             vo.setNo(rs.getInt(1));
             vo.setTitle(rs.getString(2));
             vo.setContent(rs.getString(3));
+            vo.setFilename(rs.getString(4));
+            vo.setFilesize(rs.getInt(5));
 
             rs.close();
         }catch (Exception e){
@@ -177,13 +182,15 @@ public class NoticeDAO{
         try{
             con=cm.getConnection();
 //          추후 updated_at이 필요없다 판단되면 created_at=sysdate로 변경
-            String sql="UPDATE notice_3 SET title=?,content=?,admin_id=?,updated_at=sysdate " +
+            String sql="UPDATE notice_3 SET title=?,content=?,admin_id=?,updated_at=sysdate ,filename=?,filesize=?" +
                     "WHERE no=?";
             psmt=con.prepareStatement(sql);
             psmt.setString(1,vo.getTitle());
             psmt.setString(2,vo.getContent());
             psmt.setString(3,vo.getAdminID());
             psmt.setInt(4,vo.getNo());
+            psmt.setString(5, vo.getFilename());
+            psmt.setInt(6, vo.getFilesize());
             psmt.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();

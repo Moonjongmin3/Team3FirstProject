@@ -21,6 +21,24 @@ $(function(){
 		$('.subChk_'+list[i]).prop("checked",true)
 	}
 	
+	$('input[name=bookChk]').click(function(){
+		let total = $('input[name=bookChk]').length;
+		let checked=$('input[name=bookChk]:checked').length;
+		
+		if(total!=checked){
+			$('.bWrap').text("전체선택")
+			i=0;
+		}
+	})
+	$('input[name=rekeyword_except]').click(function(){
+		if($('input[name=inResearch]').val().trim()==""){
+			$('input[name=rekeyword_except]').prop("checked",false)
+			alert('검색내 검색 값을 입력하시오!!')
+			$('input[name=inResearch]').focus()
+			return false;
+		}
+	})
+	
 })
 </script>
 </head>
@@ -37,16 +55,16 @@ $(function(){
 						</span>
 					</div>
 					<div style="margin-bottom: 7px;">
-						<input type="text" name="research" style="border: 1px solid #dedede;">
+						<input type="text" name="inResearch" style="border: 1px solid #dedede;" value="${svo.reKeyword }">
 					</div>
 					<div style="float: left; ">
-						<input type="checkbox" id="except_search">
+						<input type="checkbox" id="except_search" name="rekeyword_except"  ${svo.keywordExcept=='Y'?"checked":""}>
 						<label for="except_search" class="bo2">
-						검색어 제외	
+						검색어 제외
 						</label> 
 					</div>
 					<div style="float: right; padding-top: 3px;">
-						<input type="submit" class="btn btn-sm" value="적용">
+						<input type="button" class="btn btn-sm" id="research_btn" onclick="search()" value="적용" >
 					</div>
 					<!-- 미구현 -->
 				</div>
@@ -125,7 +143,7 @@ $(function(){
 					<div class="search_left_list">
 						<ul style="height: 245px;overflow:auto">
 							<c:forEach items="${subCountList}" var="vo">		
-								<c:if test="${vo.mainId==1&&svo.mainCategory==4||svo.mainCategory==1}">
+								<c:if test="${vo.mainId==1}">
 									<c:if test="${vo.subId==0 }">
 										<li>
 											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
@@ -142,7 +160,7 @@ $(function(){
 									</li>
 									</c:if>
 								</c:if>
-								<c:if test="${vo.mainId==2&&svo.mainCategory==4||svo.mainCategory==2}">
+								<c:if test="${vo.mainId==2}">
 									<c:if test="${vo.subId==0 }">
 										<li>
 											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
@@ -159,7 +177,7 @@ $(function(){
 									</li>
 									</c:if>
 								</c:if>
-								<c:if test="${vo.mainId==3&&svo.mainCategory==4||svo.mainCategory==3}">
+								<c:if test="${vo.mainId==3}">
 									<c:if test="${vo.subId==0 }">
 										<li>
 											<span style="font-weight: bold; font-size: 13px;">${vo.mainCateName }</span>
@@ -192,10 +210,23 @@ $(function(){
 			<div class="search-result-content">
 				<div class="search-content-top">
 					<span class="search_t_g">
-						검색어"<span class="result_l"><strong>${keyword }</strong></span>
-						"총
-						<span class="search_r_c_count">${totalCount} </span>					
-						개의 상품이 검색되었습니다.
+						<c:if test="${svo.reKeyword=='' }">
+							검색어<span class="result_l"><strong>"${keyword }"</strong></span>
+							총
+							<span class="search_r_c_count">${totalCount} </span>					
+							개의 상품이 검색되었습니다.
+						</c:if>
+						<c:if test="${svo.reKeyword!='' }">
+							검색어
+							<c:if test="${svo.keywordExcept=='N'}">
+							<span class="result_l"><strong>"${keyword }"</strong></span>
+							검색결과 내 재검색어
+							</c:if>
+							<span class="result_l"><strong>"${svo.reKeyword }"</strong></span>
+							총
+							<span class="search_r_c_count">${totalCount} </span>					
+							개의 상품이 검색되었습니다.
+						</c:if>
 					</span>
 					<table class="search-result-count">
 						<tbody>
@@ -203,21 +234,28 @@ $(function(){
 								<td valign="bottom" style="padding-top:0px; text-align: left;">
 									<ul>
 										<!-- 통합검색 -->
-										<c:if test="${category==4 }">
-                        	 			<c:set var="cate4" value="current_maincate"/>
-                        				</c:if>
-										<li class="${cate4} main_part" >
-											<a href="javascript:mainBtn(4)" >
-												<strong>통합검색</strong>
-												<br>
-												<span class="search_t_w_n">(${mainCountArr[0]})</span>
-											</a>
-										</li>
-										<li class="cate_part"></li>
+										<c:if test="${!(mainCountArr[1]==0&&mainCountArr[2]==0||
+													mainCountArr[1]==0&&mainCountArr[3]==0||
+													mainCountArr[2]==0&&mainCountArr[3]==0) 
+													}">
+											<c:if test="${category==4}">
+	                        	 				<c:set var="cate4" value="current_maincate"/>
+	                        				</c:if>
+	                        				<c:if test="${svo.subcategory[0]=='all' }">
+											<li class="${cate4} main_part" >
+												<a href="javascript:mainBtn(4)" >
+													<strong>통합검색</strong>
+													<br>
+													<span class="search_t_w_n">(${mainCountArr[0]})</span>
+												</a>
+											</li>
+											<li class="cate_part"></li>
+											</c:if>
+										</c:if>
 										<c:if test="${mainCountArr[1]!=0 }">
 											<!-- 국내도서 -->
 											<c:if test="${category==1 }">
-	                        	 			<c:set var="cate1" value="current_maincate"/>
+	                        	 				<c:set var="cate1" value="current_maincate"/>
 	                        				</c:if>
 											<li class="${cate1} main_part" >
 											<a href="javascript:mainBtn(1)">
@@ -231,7 +269,7 @@ $(function(){
 										<li class="cate_part"></li>
 										<!-- 외국도서 -->
 											<c:if test="${category==2 }">
-	                        	 			<c:set var="cate2" value="current_maincate"/>
+	                        	 				<c:set var="cate2" value="current_maincate"/>
 	                        				</c:if>
 											<li class="${cate2} main_part">
 												<a href="javascript:mainBtn(2)" >
@@ -245,7 +283,7 @@ $(function(){
 										<li class="cate_part"></li>
 											<!-- eBook -->
 											<c:if test="${category==3 }">
-	                        	 			<c:set var="cate3" value="current_maincate"/>
+	                        	 				<c:set var="cate3" value="current_maincate"/>
 	                        				</c:if>
 											<li class="${cate3} main_part">
 												<a href="javascript:mainBtn(3)">
@@ -268,20 +306,37 @@ $(function(){
 							<!-- 미구현 -->
 								<td height="29" width="600">
 									<ul>
+									<c:choose>
+										<c:when test="${svo.sort=='hot' }">
+											<c:set var="sort1" value="currnt_sort"/>
+										</c:when>
+										<c:when test="${svo.sort=='sellsort' }">
+											<c:set var="sort2" value="currnt_sort"/>
+										</c:when>
+										<c:when test="${svo.sort=='day' }">
+											<c:set var="sort3" value="currnt_sort"/>
+										</c:when>
+										<c:when test="${svo.sort=='review' }">
+											<c:set var="sort4" value="currnt_sort"/>
+										</c:when>
+										<c:otherwise>
+											<c:set var="sort5" value="currnt_sort"/>
+										</c:otherwise>
+									</c:choose>
 										<li>
-											<a href="#">인기순</a>
+											<a class="search_sort ${sort1 }"  onclick="sortBtn('hot')" sorted="hot">인기순</a>
 										</li>
 										<li>
-											<a href="#">판매량순</a>
+											<a class="search_sort ${sort2 }" onclick="sortBtn('sellsort')" sorted="sellsort">판매량순</a>
 										</li>
 										<li>
-											<a href="#">출시일순</a>
+											<a class="search_sort ${sort3 }" onclick="sortBtn('day')" sorted="day">출시일순</a>
 										</li>
 										<li>
-											<a href="#">리뷰순</a>
+											<a class="search_sort ${sort4 }" onclick="sortBtn('review')" sorted="review">리뷰순</a>
 										</li>
 										<li>
-											<a href="#">저가격순</a>
+											<a class="search_sort ${sort5 }" onclick="sortBtn('price')" sorted="price">저가격순</a>
 										</li>
 									</ul>
 								</td>
@@ -294,13 +349,13 @@ $(function(){
 								</td>
 								<!-- 미구현 -->
 								<td style="text-align: center">
-									<select id="except" onchange="exceptSel(this)">
+									<select id="except" onchange="search()">
 										<option value="Y" ${svo.stockCheck=='Y'?'selected':'' }>품절포함</option>
 										<option value="N" ${svo.stockCheck=='N'?'selected':'' }>품절제외</option>
 									</select>
 								</td>
 								<td style="text-align: center">
-									<select id="rowSize" onchange="rowSize(this)">
+									<select id="rowSize" onchange="search()">
 										<option value="10" ${svo.rowSize==10?'selected':'' }>10개씩 보기</option>
 										<option value="20" ${svo.rowSize==20?'selected':'' }>20개씩 보기</option>
 										<option value="40" ${svo.rowSize==40?'selected':'' }>40개씩 보기</option>
@@ -446,6 +501,9 @@ $(function(){
 									</div>
 								</div>
 								<div class="search_book_check">
+									<div class="search_book_state">
+										<span>${vo.state }</span>
+									</div>
 									<div>
 										<input type="checkbox" class="book_list_check" name="bookChk" value="${vo.id }">
 										<span class="btn_count">
@@ -463,6 +521,7 @@ $(function(){
 												</span>
 											</a>
 										</div>
+										<c:if test="${vo.state=='판매중' }">
 										<div style="margin-top:7px;overflow: hidden;">
 											<a href="#">
 												<span class="search_buy_input">
@@ -470,6 +529,7 @@ $(function(){
 												</span>
 											</a>
 										</div>
+										</c:if>
 										<div style="margin-top:7px;overflow: hidden;">
 											<a href="#">
 												<span class="search_list_input">

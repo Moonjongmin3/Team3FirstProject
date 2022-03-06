@@ -25,27 +25,54 @@ function btndown(){
 	if(count===0){
 		alert("1개 이상 구입할 수 있습니다.")
 		$("#input_cnt").val(1)
+		return;
 	}else{
 		$("#input_cnt").val(count)
 	}
 }
 function search(){
 	let taftCheck=new Array()
-	let subcateCheck=new Array()
 	var tf = $('#search_form')
 	$("input:checkbox[name='taftck']:checked").each(function(){
 			taftCheck.push(this.value)
-			$('#keyword').before("<input type='hidden' name='taftck' value='"+this.value+"'>")
+			let htmlstr="";
+			htmlstr+= "<input type='hidden' name='taftck_s' value='"+this.value+"'>"
+			
+			let list=$('#search_opt_list')
+			list.after(htmlstr);
 		})
 		if(taftCheck.length < 1 ){
             alert('검색조건을 최소한 1개 이상 항목을 선택하셔야 합니다');
             return false;
         }
-		$("input:checkbox[name='search_left_categoty']:checked").each(function(){
-			subcateCheck.push($(this).attr("sub-id"))
-			$('#keyword').before("<input type='hidden' name='sub_categoty' value='"+this.value+"'>")
+	$("input:checkbox[name='search_left_categoty']:checked").each(function(){let htmlstr="";
+		let substr="";
+			substr+= "<input type='hidden' name='sub_categoty' value='"+this.value+"'>"
+			
+			let list=$('#search_opt_list')
+			list.after(substr);
 		})
-		tf.submit()
+	let exsel = $('#except').val()
+	$('#keyword').before("<input type='hidden' name='except' value='"+exsel+"'>")
+	
+	let rowSize=$('#rowSize').val()
+	$('#keyword').before("<input type='hidden' name='rowsize' value='"+rowSize+"'>")
+	
+	let rekeyword=$('input[name=inResearch]').val()
+		$('#keyword').before("<input type='hidden' name='research' value='"+rekeyword+"'>")
+		
+	if($('#except_search').is(":checked")==true){
+		$('#keyword').before("<input type='hidden' name='except_rekeyword' value='Y'>")
+	}else{
+		$('#keyword').before("<input type='hidden' name='except_rekeyword' value='N'>")
+	}	
+	
+	let sort = $('a[pick=check]').attr('sorted')
+	$('#keyword').before("<input type='hidden' name='sort' value='"+sort+"'>")
+	console.log("search sort="+sort)
+	
+		
+	tf.submit()
 }
 function mainBtn(maincate){
 	let sel =$('#search_main_cate_sel>option')
@@ -57,16 +84,6 @@ function mainBtn(maincate){
 	search()
 }
 
-function exceptSel(obj){
-	let exsel = $(obj).val()
-	$('#keyword').before("<input type='hidden' name='except' value='"+exsel+"'>")
-	search()
-}
-function rowSize(obj){
-	let rowSize=$(obj).val()
-	$('#keyword').before("<input type='hidden' name='rowsize' value='"+rowSize+"'>")
-	search()
-}
 function pageNum(page){
 	let pagenum = page;
 	console.log("pagenum은 "+pagenum);
@@ -90,20 +107,12 @@ function subCateDel(){
 	$('input[name=search_left_categoty]').prop("checked",false)
 	search()
 }
-$(function(){
-	$('input[name=bookChk]').click(function(){
-		let total = $('input[name=bookChk]').length;
-		let checked=$('input[name=bookChk]:checked').length;
-		
-		if(total!=checked){
-			$('.bWrap').text("전체선택")
-			i=0;
-		}
-	})
-	
-	
-})		
-		
+function sortBtn(sort){ 
+	console.log("sort="+sort)
+	$('a[sorted='+sort+']').attr('pick','check')
+	search()
+}
+
 
 
  

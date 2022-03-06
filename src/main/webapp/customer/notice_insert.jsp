@@ -9,17 +9,17 @@
 </head>
 <body>
 	<section>
-        <div class="nav_wrap">
-            <div class="nav_bar" style="padding-left: 20px">
-                <ul>
-                    <li><img src="../img/ico_bc_home.svg" style="padding-bottom: 3px;"></li>
-                    <li>></li>
-                    <li>고객센터</li>
-                    <li>></li>
-                    <li>공지사항</li>
-                </ul>
-            </div>
-        </div>
+        <div class="notice_nav_wrap">
+			<div class="notice_nav_bar">
+				<ul>
+					<li><img src="../img/ico_bc_home.svg" style="padding-bottom: 3px;"></li>
+					<li>></li>
+					<li>고객센터</li>
+					<li>></li>
+					<li>공지사항</li>
+				</ul>
+			</div>
+		</div>
         <div class="notice_detail_wrap">
             <div class="notice_side">
                 <%--  수정 필요 --%>
@@ -56,17 +56,22 @@
             </div>
             <div class="notice_detail">
                 <h3>공지사항 작성</h3>
-                <form method="post" action="notice_insert_ok.do">
+                <form method="post" action="notice_insert_ok.do" enctype="multipart/form-data">
                     <table class="table">
                         <tr style="background-color: #cdcdcd">
                             <td width="20%" class="text-center" style="font-size: 17px"><b>제목</b></td>
                             <td width="80%" style="background-color: white; padding: 0">
                                 <input type="text" name="title" size="85"
                                        style="border: none; line-height: 40px; padding-left: 10px">
-                                       <!-- 로그인 기능 구현까지 대기 -->
-                             <%-- <input type="hidden" name="admin_id" value="${sessionScope.admin_id }"> --%>
+                             <input type="hidden" name="admin_id" value="${sessionScope.userId }"> 
                             </td>
                         </tr>
+                        <tr>
+	                    	<td width="15%" class="text-center" style="background-color: #cdcdcd"><b>첨부파일</b></td>
+	                    	<td width="85%" colspan="3">
+	                    		<input type=file name=upload size=20 class="input-sm">
+	                    	</td>
+                    	</tr>
                         <tr>
                             <td colspan="4" height="300px" valign="top" style="padding: 0">
                                 <textarea rows="20" cols="100" name="content"

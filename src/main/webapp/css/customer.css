@@ -153,9 +153,12 @@ section{
     width: 15%;
 }
 .contents_top>ul>li:nth-child(2) {
-    width: 65%;
+    width: 50%;
 }
 .contents_top>ul>li:nth-child(3) {
+	width: 15%;
+}
+.contents_top>ul>li:nth-child(4) {
     width: 20%;
 }
 .contents_main{
@@ -173,10 +176,13 @@ section{
     width: 15%;
 }
 .contents_main>ul>li:nth-child(2) {
-    width: 65%;
+    width: 50%;
     text-align: left;
 }
 .contents_main>ul>li:nth-child(3) {
+	width: 15%;
+}
+.contents_main>ul>li:nth-child(4) {
     width: 20%;
 }
 
