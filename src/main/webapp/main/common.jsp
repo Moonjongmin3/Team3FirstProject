@@ -137,7 +137,7 @@
 															<li id="youtube-book-price">${youtubeBooks[i].price}원</li>
 															<li id="youtube-book-tag">${youtubeBooks[i].tag}</li>
 														</ul>
-														<button class="btn btn-primary" id="youtube-book-button">바로보기</button>
+														<button class="btn btn-primary" id="youtube-book-button" onclick="window.location.href='../book/productdetail.do?no=${youtubeBooks[i].id}'">바로보기</button>
 													</div>
 												</div>
 												<div class="row">
