@@ -169,7 +169,7 @@
 					<span class="hidden-xs hidden-sm">&nbsp;&nbsp;&nbsp;카테고리</span></a></div>
 				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:void(0)">베스트셀러</a></div>
 				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:void(0)">신간도서</a></div>
-				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:void(0)">자유게시판</a></div>
+				<div class="nav-option hidden-xs hidden-sm"><a href="../board/list.do">자유게시판</a></div>
 				<div class="nav-option hidden-xs hidden-sm cscenter-main"><a href="../customer/notice.do">고객센터</a>
 					 <ul class="cscenter-nav">
 								<li><a href="../customer/notice.do">공지사항</a></li>
@@ -182,7 +182,7 @@
 					<div class="swiper-wrapper nav-mobile-wrapper">
 						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">베스트셀러</a></div>
 						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">신간도서</a></div>
-						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">자유게시판</a></div>
+						<div class="swiper-slide nav-mobile-option"><a href="../board/list.do">자유게시판</a></div>
 						<div class="swiper-slide nav-mobile-option"><a href="../customer/notice.do">고객센터</a></div>
 					</div>
 				</div>
