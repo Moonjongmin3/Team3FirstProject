@@ -24,7 +24,7 @@ public class PayDAO {
             
             vo.setPoster(rs.getString(1));
             vo.setName(rs.getString(3));
-            vo.setAuthor(rs.getNString(4));
+            vo.setAuthor(rs.getString(4));
             vo.setPrice(rs.getInt(5));
             vo.setSaleRate(rs.getInt(6));
             //MainCategory
@@ -51,23 +51,28 @@ public class PayDAO {
    }
    //배송정보 출력 (default:회원)
    public UserVO orderer_info(String userId){
+	   
       UserVO vo=new UserVO();
       try {
-         conn=cm.getConnection();
-         String sql="SELECT name,phone_number,email,address1,address2 " //'point' UserVO에 없음
-                  +"FROM user_3 "
-                  +"WHERE id=?";
-         ps=conn.prepareStatement(sql);
-         ps.setString(1, userId);
-         ResultSet rs=ps.executeQuery();
-         
-         vo.setName(rs.getString(1));
-         vo.setTel(rs.getInt(2));
-         vo.setEmail(rs.getString(3));
-         vo.setAddress1(rs.getString(4));
-         vo.setAddress2(rs.getString(5));
-         //vo.setPoint(rs.getInt(6)); // point
-         rs.close();
+    	if(userId!=null) {
+    		conn=cm.getConnection();
+    		String sql="SELECT name,phone_number,email,address1,address2 " //'point' UserVO에 없음
+    				+"FROM user_3 "
+    				+"WHERE id=?";
+    		ps=conn.prepareStatement(sql);
+    		ps.setString(1, userId);
+    		ResultSet rs=ps.executeQuery();
+    		
+    		vo.setName(rs.getString(1));
+    		vo.setTel(rs.getInt(2));
+    		vo.setEmail(rs.getString(3));
+    		vo.setAddress1(rs.getString(4));
+    		vo.setAddress2(rs.getString(5));
+    		//vo.setPoint(rs.getInt(6)); // point
+    		rs.close();
+    	}else {//비회원
+    			vo=null;
+    	}
          
       }catch(Exception ex){
          ex.printStackTrace();

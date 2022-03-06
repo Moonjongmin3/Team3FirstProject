@@ -157,6 +157,9 @@ input[type=text], input[type=tel] , input[type=email]{
   cursor:pointer;
   border-radius: 15px;
 }
+label{
+	cursor: pointer;
+}
 .box-radio-input input[type="radio"]:checked +span{
   border:1px solid;
   background:#72a4d9;
@@ -191,7 +194,12 @@ input[type=text], input[type=tel] , input[type=email]{
     right: 50px;
     box-shadow: 5px 5px 5px 5px #dfdfdf;
 } 
-
+.caution_img{
+	height: 10px;
+	width: 17px;
+	
+	
+}
 
 </style>
 <link rel="stylesheet" href="shadow/css/shadowbox.css">
@@ -245,21 +253,21 @@ $(function(){
 
 
 //주문상품 판매가,할인가,합계 계산
-function total(){
+/* function total(){
    var price=$("#price").val();//정가
    var saleRate=10;//할인율
    var qty=$("#qty").val();//주문 수량
    
     var discount=price*(salerate/100);//할인금액
     var sellingPrice=price-discount; // 판매금액 (사용point 제외)
-    var bTotal=sellingPrice*qty;//총합계(할인적용O)
-    var disTotal=price*qty;//총합계(할인적용X)
+    var disTotal=sellingPrice*qty;//총합계(할인적용O)
+    var bTotal=price*qty;//총합계(할인적용X)
    // var total+=bTotal//list total
     $("#disTotal").val(disTotal);
     $("#sellingPrice").val(sellingPrice);
     $(".discount").val(discount);
     $(".bTotal").val(bTotal);   
-}
+} */
 </script>
 </head>
 <body>
@@ -284,13 +292,13 @@ function total(){
             <tr>
              <td class="img_oi"><img alt="poster" src="${poster }" width="120px" height="150px"></td>
               <td class="title_oi" style="padding-top:20px"><a href="#">[ ${ mainCategory} ] ${title }</a><br>${author }</td>
-              <td><fmt:formatNumber pattern="#,##0 원" id="price" value="${price}"/><br>
-                (<span>${saleRate }%</span><img src="../img/arrow.PNG" style="height: 15px;width: 15px;">)<br>
+              <td><fmt:formatNumber pattern="#,##0 원" value="${price}"/><br>
+                (${saleRate }%<img src="../img/arrow.PNG" style="height: 15px;width: 15px;">)<br>
                 <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${point}"/>
               </td>
-              <td><fmt:formatNumber pattern="#,##0 원"  id="sellingPrice" value="${sellingPrice}"/></td>
-              <td id="#qty">${qty}</td>
-              <td><fmt:formatNumber pattern="#,##0 원" class="bTotal" value=""/></td><!--책 개별 합계 -->
+              <td><fmt:formatNumber pattern="#,##0 원"  value="${sellingPrice}"/></td>
+              <td id="qty">${qty}</td>
+              <td><fmt:formatNumber pattern="#,##0 원" value="${sellingPrice*qty }"/></td><!--책 개별 합계 -->
               <td><fmt:formatDate value ="${diliveryDate}" pattern ="MM/dd" var="now"/><br>도착예정</td>
             </tr>
             <!-- <tr> ....위치 고민중.....
@@ -339,9 +347,9 @@ function total(){
                 상세 주소<input type="text" id="addr2_pay" size="35" style="margin-left:14px;margin-bottom:8px;"><br>                
                 <ul class="caution_ul">
                   <li style="font-size: 10px">
-                    <img alt="!!" src="../img/caution_sm.PNG" style="height: 9px;width: 9px;"> 
-                     주소/우편번호 체계가 새롭게 변경되었습니다.<br>
-                    정확하고 빠른 배송을 위해 입력된 주소를 확인 해주시기 바랍니다.
+                    <img alt="!!" src="../img/caution_sm.PNG" style="height: 13px;width: 5px;margin-top:0px;"> 
+                     &nbsp;주소/우편번호 체계가 새롭게 변경되었습니다.<br>
+                    &nbsp;&nbsp; 정확하고 빠른 배송을 위해 입력된 주소를 확인 해주시기 바랍니다.
                   </li>
                 </ul>     
               </td>
@@ -396,7 +404,9 @@ function total(){
                 <input type='tel' name="u_phone1" value="${fn:substring(userPhone,0,3) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
                 <input type='tel' name='u_phone2' value="${fn:substring(userPhone,3,7) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
                 <input type='tel' name='u_phone3' value="${fn:substring(userPhone,7,11) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/><br>
-                <img alt="SMS" src="../img/sms.PNG"><p class="caution">이 번호로 주문진행과정이 SMS로 안내됩니다.</p>
+                <div class="caution">
+                  <img class="caution_img" alt="SMS" src="../img/sms_2.PNG"><span class="caution">&nbsp;이 번호로 주문진행과정이 SMS로 안내됩니다.</span>
+                </div>
               </td>              
             </tr>
             <tr>
@@ -411,9 +421,12 @@ function total(){
               <th>이메일</th>
               <td>
                 <input type="email" name="u_email" id="u_email_pay"size="24"value="${userEmail }"class="input_gray" readonly="readonly"/>
+                <div class="caution">
+                  <img class="caution_img" alt="SMS" src="../img/email.PNG"><span class="caution">&nbsp;이 이메일로 주문진행과정이 SMS로 안내됩니다.</span>
+              	</div>
               </td>
             </tr>
-            <!-- <tr><td><br></td></tr>공백용 .. 수정예정!! -->
+            <!-- <tr><td><br></td></tr> -->
             <tr>
               <td colspan="2" align="right">
                 <a href="#">회원정보 수정하러 가기</a>
@@ -546,7 +559,7 @@ function total(){
                   <th width="60%"><strong>최종 결제금액</strong></th>
                   <td style="font-size: 25px;text-align: right;">
                     <strong>
-                      <fmt:formatNumber pattern="#,##0 원"  value="${price_var}"/>
+                      <fmt:formatNumber pattern="#,##0 원"  value="${sellingPrice*qty }"/>
                     </strong>
                   </td>
                 </tr>
@@ -576,17 +589,17 @@ function total(){
       <table class="table_f">
           <tr >
             <th width=40%><strong>상품가격</strong></th>
-            <td><fmt:formatNumber pattern="#,##0 원" id="disTotal"/></td>
+            <td><fmt:formatNumber pattern="#,##0 원" value="${price*qty }"/></td>
           </tr>
           <tr class="tr_dot">
             <th><strong>할인금액</strong></th>
-            <td><fmt:formatNumber pattern="#,##0 원" class="discount"/></td><!--(${Price}*${saleRate })+${usePoint} .. UserVO에 point가 없어서 일단  -->
+            <td><fmt:formatNumber pattern="#,##0 원" value="${ price*(saleRate/100)}"/></td><!--(${Price}*${saleRate })+${usePoint} .. UserVO에 point가 없어서 일단  -->
           </tr>
           <tr>
             <th colspan="2" style="padding-top:10px;" ><strong>총 결제 금액</strong></th> 
           </tr>
           <tr>
-            <td colspan="2" style="text-align:right; font-size:30px;"><fmt:formatNumber pattern="#,##0 원"  class="bTotal"/></td>
+            <td colspan="2" style="text-align:right; font-size:30px;"><fmt:formatNumber pattern="#,##0 원" value="${sellingPrice*qty }"/></td>
           </tr> 
           <tr>
             <td colspan="2" style="font-size:18px"><label><input type="checkbox"/><strong>&nbsp;구매 및 이용약관 모두 동의</strong></label></td>

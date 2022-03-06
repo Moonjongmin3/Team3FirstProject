@@ -39,13 +39,13 @@ public class PayModel {
       request.setAttribute("mainCategory", bvo.getMainCategory());
       request.setAttribute("title", bvo.getName());
       request.setAttribute("author", bvo.getAuthor());
-      request.setAttribute("price", bvo.getPrice());//wjdrk
+      request.setAttribute("price", bvo.getPrice());//정가
       request.setAttribute("saleRate", bvo.getSaleRate());
       request.setAttribute("point", bvo.getPrice()*0.05);//적립포인트
       request.setAttribute("qty", qty);
       //배송예정일자:주문 후 2일 이후
       request.setAttribute("diliveryDate",new Date(new Date().getTime() + 60*60*24*1000*2));
-      //request.setAttribute("sellingPrice", bvo.getPrice()*(bvo.getSaleRate()/100));//판매가
+      request.setAttribute("sellingPrice", bvo.getPrice()*(1.0-(bvo.getSaleRate()/100)));//판매가
       
       request.setAttribute("main_jsp","../pay/pay.jsp");
       return "../main/main.jsp";
