@@ -11,7 +11,26 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="../js/search.js"></script>
 <script type="text/javascript">
+
 $(function(){
+	 
+	var currentPosition = parseInt($("#scroll").css("top"));
+	
+	  $(window).scroll(function() {
+	     var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+	     console.log(position)
+	     if(position>250){
+	     	$('#top_icon').show()
+	     	$("#scroll").stop().animate({"top":position+45+"px"},300);
+	  	 }else{
+		    $('#top_icon').hide()
+		     $("#scroll").stop().animate({"top":currentPosition+"px"},300);
+	  	 }
+	  	 if(position>2674){
+		 	$("#scroll").stop().animate({"top":2710+"px"},100);
+	     }
+	});
+	    
 	let length =${fn:length(svo.subcategory)}
 	let list = [];
 	<c:forEach var="cate" items="${svo.subcategory}" varStatus="status">
@@ -38,6 +57,9 @@ $(function(){
 			return false;
 		}
 	})
+	$('#go_top').click(function(){
+		$(window).scrollTop(0);
+	})
 	
 })
 </script>
@@ -45,9 +67,16 @@ $(function(){
 <body>
 	<section class="search-result">
 		<div class="search-result-wrap">
+			<div id="scroll_top">
+					<span>
+						<a href="#" id="go_top">
+							<img src="../img/up.jpeg" id="top_icon">
+						</a>
+					</span>
+			</div>
 			<!-- 검색내 결과 시작-->
 			<div class="search-result-option" id="scroll">
-				<div class="left_conts">
+				<div class="left_conts" >
 				<!-- 미구현 -->
 					<div style="margin-bottom: 7px;">
 						<span style="color: #5d5d5d; font-size: 13px;">
@@ -209,9 +238,25 @@ $(function(){
 			<!-- 메인 출력 시작 -->
 			<div class="search-result-content">
 				<div class="search-content-top">
+					<c:if test="${ svo.subcategory[0]!='all' }">
+					<div class="selSubCate">
+						선택한 분야 :
+						<c:forEach items="${subCountList}" var="subna">
+							<c:forEach var="sb" items="${svo.subcategory }">
+								<c:if test="${subna.subId==sb }">
+									<span>
+						  				${subna.subCateName }
+									</span>
+								</c:if>
+							</c:forEach>
+						</c:forEach>
+					</div>
+					</c:if>
 					<span class="search_t_g">
 						<c:if test="${svo.reKeyword=='' }">
-							검색어<span class="result_l"><strong>"${keyword }"</strong></span>
+							<c:if test="${svo.keyword!='' }">
+								검색어<span class="result_l"><strong>"${keyword }"</strong></span>
+							</c:if>
 							총
 							<span class="search_r_c_count">${totalCount} </span>					
 							개의 상품이 검색되었습니다.
@@ -254,7 +299,7 @@ $(function(){
 										</c:if>
 										<c:if test="${mainCountArr[1]!=0 }">
 											<!-- 국내도서 -->
-											<c:if test="${category==1 }">
+											<c:if test="${category==1 || mainCountArr[2] ==0 && mainCountArr[3]==0  }">
 	                        	 				<c:set var="cate1" value="current_maincate"/>
 	                        				</c:if>
 											<li class="${cate1} main_part" >
@@ -265,10 +310,12 @@ $(function(){
 											</a>
 											</li>
 										</c:if>
+										<c:if test="${mainCountArr[1]!=0 && mainCountArr[2]!=0 }">
+											<li class="cate_part"></li>
+										</c:if>
 										<c:if test="${mainCountArr[2]!=0 }">
-										<li class="cate_part"></li>
 										<!-- 외국도서 -->
-											<c:if test="${category==2 }">
+											<c:if test="${category==2 || mainCountArr[1] ==0 && mainCountArr[3]==0}">
 	                        	 				<c:set var="cate2" value="current_maincate"/>
 	                        				</c:if>
 											<li class="${cate2} main_part">
@@ -282,7 +329,7 @@ $(function(){
 										<c:if test="${mainCountArr[3]!=0 }">
 										<li class="cate_part"></li>
 											<!-- eBook -->
-											<c:if test="${category==3 }">
+											<c:if test="${category==3 || mainCountArr[1] ==0 && mainCountArr[2]==0}">
 	                        	 				<c:set var="cate3" value="current_maincate"/>
 	                        				</c:if>
 											<li class="${cate3} main_part">
@@ -454,7 +501,7 @@ $(function(){
 									</c:if>
 									</div>
 									<div class="search_book_price sbi">
-										<span><strong>${vo.price }</strong>원</span>
+										<span>정가&nbsp;<strong>${vo.price }</strong>원</span>
 										<c:if test="${vo.saleRate!=0 }">
 										<span>(10% 할인)</span>
 										</c:if>
@@ -502,7 +549,9 @@ $(function(){
 								</div>
 								<div class="search_book_check">
 									<div class="search_book_state">
-										<span>${vo.state }</span>
+										<c:forTokens var="s" delims="|" items="${vo.state }">
+											<div>${s }</div>
+										</c:forTokens>
 									</div>
 									<div>
 										<input type="checkbox" class="book_list_check" name="bookChk" value="${vo.id }">

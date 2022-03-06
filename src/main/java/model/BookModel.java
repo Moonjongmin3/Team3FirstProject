@@ -26,6 +26,12 @@ public class BookModel {
 		String reKeyword = request.getParameter("research");
 		String exceptRekeyword = request.getParameter("except_rekeyword");
 		
+		if(keyword==null) {
+			keyword="";
+		}
+		if(category==null) {
+			category="4";
+		}
 		SearchVO svo = new SearchVO();
 		if(exceptRekeyword==null||exceptRekeyword.equals("N")) {
 			svo.setKeywordExcept("N");
@@ -61,7 +67,6 @@ public class BookModel {
 		int BLOCK=5;
 		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
 		int endPage=startPage-1 +BLOCK;
-		
 		
 		svo.setMainCategory(Integer.parseInt(category));
 		svo.setSubcategory(subcate);

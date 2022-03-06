@@ -27,7 +27,6 @@ public class BookListDAO {
 				main="s.main_id="+vo.getMainCategory();
 				sbSql.append(main);
 			}
-			
 			// 검색어
 			String tapt="";
 			if(vo.getKeywordExcept().equals("N")) {
