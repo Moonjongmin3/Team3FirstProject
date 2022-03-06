@@ -109,15 +109,18 @@ public class BookDAO {
                 	}
 
                 // 유튜브 주소 추출
-                Document doc2 = Jsoup.parse(content);
-                if (doc2.select("iframe") != null) {            		
-                    String[] href = doc2.select("iframe").attr("src").split("/");
-            		String contentId = href[href.length-1];
-            		book.setContentId(contentId);
-				} else {
-					book.setContentId(null);	
-				}
-                
+               if(content!=null) 	{
+	                if(content.contains("iframe")) {
+	                	Document doc2 = Jsoup.parse(content);
+	                	if (doc2.select("iframe") != null)      {       		
+		                    String[] href = doc2.select("iframe").attr("src").split("/");
+		            		String contentId = href[href.length-1];
+		            		book.setContentId(contentId);
+	                	}
+	                }else {
+						book.setContentId(null);	
+					}
+               }
                 books.add(book);
             }
             rs.close();

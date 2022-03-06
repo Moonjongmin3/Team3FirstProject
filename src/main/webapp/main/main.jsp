@@ -182,8 +182,8 @@
 				<!-- Mobil 네비게이션 바 -->
 				<div class="swiper navSwiper hidden-md hidden-lg">
 					<div class="swiper-wrapper nav-mobile-wrapper">
-						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">베스트셀러</a></div>
-						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">신간도서</a></div>
+						<div class="swiper-slide nav-mobile-option"><a href="javascript:hotBooksearch()">베스트셀러</a></div>
+						<div class="swiper-slide nav-mobile-option"><a href="javascript:newBooksearch()">신간도서</a></div>
 						<div class="swiper-slide nav-mobile-option"><a href="../board/list.do">자유게시판</a></div>
 						<div class="swiper-slide nav-mobile-option"><a href="../customer/notice.do">고객센터</a></div>
 					</div>

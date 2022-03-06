@@ -7,21 +7,26 @@
 <head>
 <meta charset="UTF-8">
 <title>자유게시판</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style type="text/css">
 th{
   color:black;
 }
-.row{
+.board_wrap{
   margin: 0px auto;
   width:800px;
+}
+.board{
+	width:1080px;
+	height:800px;
+	margin: 0px auto;
+	overflow:hidden;
 }
 </style>
 </head>
 <body>
-  <div class="wrapper row3">
-   <h3>자유 게시판</h3>
-   <div class="row">
+  <div class="board row3">
+   <div class="board_wrap">
+    <h3>자유 게시판</h3>
     <table class="table">
 	     <tr>
 	      <td>
