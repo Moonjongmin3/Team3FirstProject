@@ -180,10 +180,10 @@ input[type=text], input[type=tel] , input[type=email]{
    border:1px;
 }
 .Rrow:not(button){
-   padding:10px;
-   border-radius: 15px;
+    padding:10px;
+    border-radius: 15px;
     position: absolute;
-   margin: 0px auto;
+    margin: 0px auto;
     width:18%;
     background-color: #fda4ba;
     color:white;
