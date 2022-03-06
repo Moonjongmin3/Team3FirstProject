@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
 /* 메인페이지 전체 */
 /* 이벤트 섹션 */
+section{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
 #myVideo{
 	padding: 0 0;
 	width: 100%;
@@ -17,7 +21,6 @@
 .event-image{
 	width: 60vw;
 	height: 25vw;
-	background-color: green;
 }
 .event-cursor{
 	width: 20vw;
@@ -40,14 +43,33 @@
 	}
 }
 @media screen and (max-width: 992px) {
-  .event-cursor{
+    .event-cursor{
 		font-size: 10px;
+	}
+	#myVideo{
+		width: auto;
+		height: 85%;
+		margin-bottom: -250px;
+	}
+	.event-space{
+		top: 40%;
+		left: 5%;
+	}
+	.event-image{
+		width: 90vw;
+		height: 35vw;
+	}
+	.event-cursor{
+		width: 30vw;
+		height: 6vw;
+		padding-top: 0.5vw;
+		font-size: 20px;
 	}
 }
 /* 베스트셀러 섹션 */
 .bestseller-space{
 	padding-top: 50px;
-	padding-bottom: 300px;
+	padding-bottom: 200px;
 	margin-top: 50px;
 	background-image: url("img/bg1.jpg");
 	background-size: cover;
@@ -62,24 +84,53 @@
 	margin-bottom: 100px;
 }
 .bestseller-title>h1{
-	font-weight: bolder;
+	font-weight: 300;
+	font-size: 50px;
 	text-align: center;
 	color: #0b3c8b;
 }
 #bestseller-slide{
 	max-height: 400px;
 }
-#bestseller-slide>img{
+#bestseller-slide>a>img{
 	width: 100%;
 	height: 380px;
+}
+.book-info{
+	padding-top: 10px;
+	padding-left: 10px;
+	color: white;
+	font-size: 18px;
+	font-weight: 100;
+	background-color: black;
+	position: absolute;
+	width: 100%;
+	height: 100px;
+	bottom: 0;
+	opacity: 0.9;
+	white-space: nowrap;
+}
+.book-info>ul>li{
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#book-name{
+	font-size: 18px;
+	font-weight: bold;
+}
+#book-author{
+	font-size: 14px;
+}
+#book-price{
+	font-size: 18px;
+	font-weight: 400;
 }
 /* 신간도서 섹션 */
 .newbook-space{
 	z-index: 1;
 	background-color: #6fb1fc;
-	padding-top: 50px;
 	padding-bottom: 50px;
-	margin-bottom: 200px;
+	margin-bottom: 100px;
 	box-shadow: 0 0 100px 100px #6fb1fc;
 }
 #newbook-slide-area{
@@ -89,14 +140,15 @@
 	margin-bottom: 100px;
 }
 .newbook-title>h1{
+	font-weight: 300;
+	font-size: 50px;
 	text-align: center;
 	color: white;
-	font-weight: bold;
 }
 #newbook-slide{
 	max-height: 400px;
 }
-#newbook-slide>img{
+#newbook-slide>a>img{
 	width: 100%;
 	height: 380px;
 }
@@ -108,16 +160,16 @@
 	color: #0B3C8B;
 	text-align: center;
 }
-.youtube-title>h2{
-	font-size: 40px;
-	font-weight: bold;
+.youtube-title>h1{
+	font-weight: 300;
+	font-size: 50px;
 }
 #youtube-area{
 	height: 37vw;
 	position: relative;
 	border-radius: 20px;
 	margin-top: 50px;
-	margin-bottom: 200px;
+	margin-bottom: 100px;
 	padding: 20px 35px;
 	overflow-y: hidden;
 	box-shadow: 0px 0px 80px rgba(67, 100, 247, 0.5);
@@ -158,7 +210,34 @@
 	-webkit-line-clamp: 7;
 	-webkit-box-orient: vertical;
 }
-
+#youtube-book-name{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 25px;
+	font-weight: 600;
+}
+#youtube-book-price{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 20px;
+	font-weight: 600;
+}
+#youtube-book-author{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 17px;
+	font-weight: 300;
+}
+#youtube-book-tag{
+	color: #4364F7;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 17px;
+	font-weight: 500;
+}
+#youtube-book-button{
+	background-color: #0052D4;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 17px;
+	font-weight: 500;
+	float: right;
+}
 #video-area{
 	padding: 0 0;
 }
@@ -184,8 +263,19 @@
 		-webkit-line-clamp: 5;
 	}
 	.youtube-book-info{
-		font-size: 12px;
 		line-height: 30px;
+	}
+	#youtube-book-name{
+		font-size: 20px;
+	}
+	#youtube-book-price{
+		font-size: 15px;
+	}
+	#youtube-book-author{
+		font-size: 13px;
+	}
+	#youtube-book-tag{
+		font-size: 13px;
 	}
 	.myDescription {
 	  width: 100%;
@@ -207,26 +297,24 @@
 	color: #0B3C8B;
 	text-align: center;
 }
-.sns-title>h2{
-	font-size: 40px;
-	font-weight: bold;
+.sns-title>h1{
+	font-weight: 300;
+	font-size: 50px;
 }
 #sns-area{
 	height: 37vw;
-	/* position: absolute; */
 	border-radius: 20px;
 	margin-top: 50px;
-	margin-bottom: 200px;
-	padding: 20px 35px;
+	margin-bottom: 100px;
+	padding: 50px 50px;
 	overflow-y: hidden;
 	box-shadow: 0px 0px 80px rgba(67, 100, 247, 0.5);
 	text-align: center;
 }
-#sns-area.h1{
-	position: relative;
-	top: 200px;
-	display: block;
-	margin-top: 100px;
+#sns-area>h1{
+	color: #5A5A5A;
+	font-weight: 600;
+	font-size: 30px;
 }
 #monkey{
 	margin-top: 5%;
