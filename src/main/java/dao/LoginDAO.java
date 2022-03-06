@@ -87,6 +87,7 @@ public class LoginDAO {
  		   ps.setString(10, vo.getContent());
  		   ps.setString(11, vo.getAdmin());
  		   ps.setString(12, vo.getMsg());
+ 		   ps.setString(13, vo.getEmail());
  		   
  		   
  		   ps.executeUpdate();

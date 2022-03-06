@@ -4,8 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.User;
+
+
 import controller.RequestMapping;
 import dao.BookDAO;
+import dao.LoginDAO;
+import dao.UserDAO;
+import vo.UserVO;
 import dao.LoginDAO;
 
 import java.io.IOException;
@@ -67,6 +73,49 @@ public class LoginModel {
     public String memberJoin(HttpServletRequest request,HttpServletResponse response){
 	    request.setAttribute("main_jsp", "../user/join.jsp");
         return "../main/main.jsp";
+	   }
+	   // 회원 가입 처리 ==> 요청 처리 => 화면 이동 
+	   @RequestMapping("user/join_ok.do")
+	   public String memberJoinOk(HttpServletRequest request,
+			   HttpServletResponse response)
+	   {
+		   try
+		   {
+			   request.setCharacterEncoding("UTF-8");
+		   }catch(Exception ex){}
+		   // 입력값 받기 
+		   String id=request.getParameter("id");
+		   String password=request.getParameter("password");
+		   String name=request.getParameter("name");
+		   String gender=request.getParameter("gender");
+		   String birth=request.getParameter("birth");
+		   String email=request.getParameter("email");
+		   String post=request.getParameter("post");
+		   String address1=request.getParameter("address1");
+		   String address2=request.getParameter("address2");
+		   String tel=request.getParameter("tel");
+		   String content=request.getParameter("content");
+		   String admin=request.getParameter("admin");
+		   String msg=request.getParameter("msg");
+		   // MemberDAO로 전송 ==> 오라클 Insert
+		   UserVO vo=new UserVO();
+		   vo.setId(id);
+		   vo.setPassword(password);
+		   vo.setName(name);
+		   vo.setGender(gender);
+		   vo.setBirth(null);
+		   vo.setEmail(email);
+		   vo.setPost(0);
+		   vo.setAddress1(address1);
+		   vo.setAddress2(address2);
+		   vo.setTel(0);
+		   vo.setContent(content);
+		   vo.setAdmin(admin);
+		   vo.setMsg(msg);
+		   LoginDAO dao=new LoginDAO();
+		   //메소드 (INSERT)
+		   dao.memberJoin(vo);
+		   return "redirect:../main/main.do";
 	   }
 	@RequestMapping("user/idcheck.do")
     public String memberIdCheck(HttpServletRequest request, HttpServletResponse respose) {

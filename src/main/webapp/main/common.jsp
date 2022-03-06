@@ -40,7 +40,16 @@
 									<!-- Slides -->
 									<c:forEach items="${bestBooks}" var="bestBook">
 										<div class="bestseller-info swiper-slide" id="bestseller-slide">
-											<img src="${bestBook.poster}" alt="${bestBook.name}">
+											<a href="../book/productdetail.do?no=${bestBook.id}">
+												<img src="${bestBook.poster}" alt="${bestBook.name}">
+											</a>
+											<div class="book-info">
+									    		<ul class="list-unstyled">
+									    			<li id="book-name">${bestBook.name}</li>
+									    			<li id="book-author">${bestBook.author} | ${bestBook.publisher}</li>
+									    			<li id="book-price">${bestBook.price}원</li>
+									    		</ul>
+									    	</div>
 										</div>
 									</c:forEach>
 								</div>
@@ -69,7 +78,16 @@
 									<!-- Slides -->
 									<c:forEach items="${newBooks}" var="newBook">
 										<div class="bestseller-info swiper-slide" id="bestseller-slide">
-											<img src="${newBook.poster}" alt="${newBook.name}">
+											<a href="../book/productdetail.do?no=${newBook.id}">
+												<img src="${newBook.poster}" alt="${newBook.name}">
+											</a>
+											<div class="book-info">
+									    		<ul class="list-unstyled">
+									    			<li id="book-name">${newBook.name}</li>
+									    			<li id="book-author">${newBook.author} | ${newBook.publisher}</li>
+									    			<li id="book-price">${newBook.price}원</li>
+									    		</ul>
+									    	</div>
 										</div>
 									</c:forEach>
 								</div>
@@ -88,7 +106,7 @@
 				<div class="youtube-space">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 youtube-title"><h2>Youtube 리뷰</h2></div>
+							<div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 youtube-title"><h1>Youtube 리뷰</h1></div>
 						</div>
 						<div class="row">
 							<div class="col-xs-10 col-xs-offset-1" id="youtube-area">
@@ -114,12 +132,12 @@
 													</div>
 													<div class="col-xs-6 youtube-book-info">
 														<ul class="list-unstyled">
-															<li>${youtubeBooks[i].name}</li>
-															<li>${youtubeBooks[i].price}</li>
-															<li>${youtubeBooks[i].author} | ${youtubeBooks[i].publisher}</li>
-															<li class="youtube-book-tag">${youtubeBooks[i].tag}</li>
+															<li id="youtube-book-name">${youtubeBooks[i].name}</li>
+															<li id="youtube-book-author">${youtubeBooks[i].author} | ${youtubeBooks[i].publisher}</li>
+															<li id="youtube-book-price">${youtubeBooks[i].price}원</li>
+															<li id="youtube-book-tag">${youtubeBooks[i].tag}</li>
 														</ul>
-														<button class="btn btn-primary" style="float:right">구매하기</button>
+														<button class="btn btn-primary" id="youtube-book-button" onclick="window.location.href='../book/productdetail.do?no=${youtubeBooks[i].id}'">바로보기</button>
 													</div>
 												</div>
 												<div class="row">
@@ -137,12 +155,12 @@
 					<!-- SNS 리뷰 섹션 -->
 					<div class="container-fluid"> 
 						<div class="row">
-							<div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 sns-title"><h2>SNS 게시판</h2></div>
+							<div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4 sns-title"><h1>SNS 게시판</h1></div>
 						</div>
 						<div class="sns-main"> 
 							<div class="col-xs-10 col-xs-offset-1" id="sns-area">
 								<h1>준비 중 입니다...</h1>
-								<img id="monkey" src="../img/monkey.png">
+								<img id="monkey" src="../img/index_monkey.png">
 							</div>
 						</div>
 					</div>
