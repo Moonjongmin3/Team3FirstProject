@@ -523,7 +523,7 @@ $(function(){
 										</div>
 										<c:if test="${vo.state=='판매중' }">
 										<div style="margin-top:7px;overflow: hidden;">
-											<a href="#">
+											<a href="../pay/order.do?no=${vo.id}">
 												<span class="search_buy_input">
 													<em class ="search_btn_txt">바로구매</em>
 												</span>
