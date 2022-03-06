@@ -6,6 +6,7 @@
 	<bean class="model.BookModel"/>
 	<bean class="model.CartModel"/>
 	<bean class="model.ProductDetailModel"/>
-	<bean class="model.PayModel"/>
 	<bean class="model.OrderHistoryModel"/>
+	<bean class="model.PayModel"/>
+	<bean class="model.BoardModel"/>
 </beans>

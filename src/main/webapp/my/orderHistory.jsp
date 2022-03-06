@@ -50,7 +50,6 @@
 .color_Mgray{
 	color:#999999;
 }
-
 .color_sky_point{
 	color:#3A85C7;
 	font-wight: bold;

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -16,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import Common.DBConnPool;
+import vo.BookCountVO;
 import vo.BookVO;
 
 public class BookDAO {
@@ -264,4 +266,27 @@ public class BookDAO {
 
         return book;
     }
+    
+   public List<BookCountVO> subCateList(){
+	   List<BookCountVO> list = new ArrayList<BookCountVO>();
+	   try {
+           con=cm.getConnection();
+           String sql="SELECT id,main_id,name FROM sub_category_3 ORDER BY id ASC";
+           psmt=con.prepareStatement(sql);
+           ResultSet rs = psmt.executeQuery();
+           while(rs.next()) {
+        	   BookCountVO vo = new BookCountVO();
+        	   vo.setSubId(rs.getInt(1));
+        	   vo.setMainId(rs.getInt(2));
+        	   vo.setSubCateName(rs.getString(3));
+        	   
+        	   list.add(vo);
+           }
+	   }catch (Exception e) {
+		   e.printStackTrace();
+	   }finally {
+           cm.disConnection(con,psmt);
+       }
+	   return list;
+   }
 }

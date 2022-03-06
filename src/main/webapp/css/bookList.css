@@ -4,9 +4,7 @@
 .search-result-wrap{
     width: 1080px;
     overflow: hidden;
-    margin: 0 auto;
-    margin-top: 20px;
-    
+    margin: 20px auto ;
 }
 
 .search-result-wrap .bo2{
@@ -19,7 +17,6 @@
 
 .search-result-count{
     height: 47px;
-    margin-top: 10px;
     float: right;
 }
 
@@ -56,6 +53,7 @@
 	font-size:12px;
 }
 .search-result-option{
+	position:absolute;
     width: 216px;
     overflow: hidden;
     border: 1px solid #dedede;
@@ -64,11 +62,12 @@
     margin: 20px 20px 0 0;
     border-radius: 10px;
     padding-top: 10px;
+    top:290px;
 }
 
 .search-result-content{
     width: 844px;
-    margin: 20px 0;
+    margin: 20px 0 0 240px;
     float: left;
 }
 .left_conts{
@@ -129,6 +128,7 @@
 }
 .search_t_g {
     position: absolute;
+    left: 5;
     bottom: 0;
     color: #555555;
     font-size: 13px;
@@ -582,11 +582,42 @@
     .search_book_state{
     	margin:10px 0px;
     }
-    .search_book_state>span{
+    .search_book_state>div{
     	font-size: 20px;
+    	font-weight: bold;
     }
     
     .search_sort{
     	cursor:pointer;
     }
+    .selSubCate{
+    	margin-left :5px;
+	    font-size: 14px;
+	    color: #555;
+	    margin: 10px 0px 0px 5px;
+    }
+    .selSubCate>span{
+    	font-size: 15px;
+	    color: black;
+	    font-weight: 500;
+	    border: 1px solid #cdcdcd;
+	    margin-right: 5px;
+	    text-align: center;
+	    border-radius: 10px;
+	    background-color: #cdcdcd;
+	    white-space: nowrap;
+	    padding-left: 3px;
+    }
+    #scroll_top{
+    	position:fixed;
+    	top: 730;
+    	right: 70;
+    }
+    #scroll_top img{
+    	width:60px;
+    	opacity: 0.7;
+    	display:none;
+    	
+    }
+    
     

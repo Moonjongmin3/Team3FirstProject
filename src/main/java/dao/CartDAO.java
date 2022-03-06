@@ -29,7 +29,7 @@ public class CartDAO {
     private final static String SELECT_Q = "SELECT b.*, mc.NAME main_category, sc.NAME sub_category, c.quantity quantity FROM cart_3 c "
 								    		+ "INNER JOIN BOOKS_3 b ON c.BOOK_ID = b.ID "
 								    		+ "INNER JOIN SUB_CATEGORY_3 sc ON b.CATEGORY_ID = sc.ID "
-								    		+ "INNER JOIN MAIN_CATEGORY_3 mc ON sc.MAIN_ID = mc.ID ORDER BY c.cart_id DESC";
+								    		+ "INNER JOIN MAIN_CATEGORY_3 mc ON sc.MAIN_ID = mc.ID WHERE user_id = ? ORDER BY c.cart_id DESC";
     private final static String DELETE_Q = "DELETE FROM CART_3 c WHERE USER_ID = ? AND BOOK_ID = ?";
     private final static String UPDATE_Q = "UPDATE CART_3 SET quantity = ? WHERE user_id = ? AND book_id = ?";
     
@@ -42,6 +42,7 @@ public class CartDAO {
     	try {
     		conn = cm.getConnection();
     		ps = conn.prepareStatement(SELECT_Q);
+    		ps.setString(1,userId);
     		rs = ps.executeQuery();
     		
     		while (rs.next()) {

@@ -38,6 +38,7 @@
 					<li><a href="javascript:void(0)" onclick="toggleMobileEbookList()">E-Book</a></li>
 				</ul>
 			</div>
+			
 			<!-- 모바일 : 서브 카테고리 -->
 			<div id="mobile-domesticlist">
 				<ul>
@@ -81,6 +82,7 @@
 					<li><a href="#">판타지/무협</a></li>
 				</ul>
 			</div>
+			
 		</div>
 	</aside>
 	<!-- 최상단 섹션 (로그인, 장바구니 등) -->
@@ -167,9 +169,9 @@
 				<div class="nav-option" id="category-btn"><a href="javascript:void(0)" onclick="javascript:toggleMainList();toggleMobileMainList();">
 					<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true" onclick=""></span>
 					<span class="hidden-xs hidden-sm">&nbsp;&nbsp;&nbsp;카테고리</span></a></div>
-				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:void(0)">베스트셀러</a></div>
-				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:void(0)">신간도서</a></div>
-				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:void(0)">자유게시판</a></div>
+				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:hotBooksearch()">베스트셀러</a></div>
+				<div class="nav-option hidden-xs hidden-sm"><a href="javascript:newBooksearch()">신간도서</a></div>
+				<div class="nav-option hidden-xs hidden-sm"><a href="../board/list.do">자유게시판</a></div>
 				<div class="nav-option hidden-xs hidden-sm cscenter-main"><a href="../customer/notice.do">고객센터</a>
 					 <ul class="cscenter-nav">
 								<li><a href="../customer/notice.do">공지사항</a></li>
@@ -182,7 +184,7 @@
 					<div class="swiper-wrapper nav-mobile-wrapper">
 						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">베스트셀러</a></div>
 						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">신간도서</a></div>
-						<div class="swiper-slide nav-mobile-option"><a href="javascript:void(0)">자유게시판</a></div>
+						<div class="swiper-slide nav-mobile-option"><a href="../board/list.do">자유게시판</a></div>
 						<div class="swiper-slide nav-mobile-option"><a href="../customer/notice.do">고객센터</a></div>
 					</div>
 				</div>
@@ -204,44 +206,44 @@
 			<!-- 서브 카테고리 -->
 			<div class="nav-sublist hidden-xs hidden-sm" id="domesticList">
 				<ul>
-					<li><a href="#">가정 살림</a></li>
-					<li><a href="#">건강 취미</a></li>
-					<li><a href="#">경제 경영</a></li>
-					<li><a href="#">국어 외국어사전</a></li>
-					<li><a href="#">대학교재</a></li>
-					<li><a href="#">만화/라이트노벨</a></li>
-					<li><a href="#">사회 정치</a></li>
-					<li><a href="#">소설/시/희곡</a></li>
-					<li><a href="#">수험서 자격증</a></li>
-					<li><a href="#">어린이</a></li>
+					<li><a href="javascript:sub_search(1)">가정 살림</a></li>
+					<li><a href="javascript:sub_search(2)">건강 취미</a></li>
+					<li><a href="javascript:sub_search(3)">경제 경영</a></li>
+					<li><a href="javascript:sub_search(4)">국어 외국어사전</a></li>
+					<li><a href="javascript:sub_search(5)">대학교재</a></li>
+					<li><a href="javascript:sub_search(6)">만화/라이트노벨</a></li>
+					<li><a href="javascript:sub_search(7)">사회 정치</a></li>
+					<li><a href="javascript:sub_search(8)">소설/시/희곡</a></li>
+					<li><a href="javascript:sub_search(9)">수험서 자격증</a></li>
+					<li><a href="javascript:sub_search(10)">어린이</a></li>
 				</ul>
 			</div>
 			<div class="nav-sublist hidden-xs hidden-sm" id="foreignList">
 				<ul>
-					<li><a href="#">경제 경영</a></li>
-					<li><a href="#">인문 사회</a></li>
-					<li><a href="#">문학 소설</a></li>
-					<li><a href="#">취미 라이프스타일</a></li>
-					<li><a href="#">자연과학</a></li>
-					<li><a href="#">ELT 사전</a></li>
-					<li><a href="#">해외잡지</a></li>
-					<li><a href="#">컴퓨터</a></li>
-					<li><a href="#">예술 대중문화</a></li>
-					<li><a href="#">대학교재 전문서</a></li>
+					<li><a href="javascript:sub_search(29)">경제 경영</a></li>
+					<li><a href="javascript:sub_search(30)">인문 사회</a></li>
+					<li><a href="javascript:sub_search(28)">문학 소설</a></li>
+					<li><a href="javascript:sub_search(32)">취미 라이프스타일</a></li>
+					<li><a href="javascript:sub_search(34)">자연과학</a></li>
+					<li><a href="javascript:sub_search(27)">ELT 사전</a></li>
+					<li><a href="javascript:sub_search(36)">해외잡지</a></li>
+					<li><a href="javascript:sub_search(33)">컴퓨터</a></li>
+					<li><a href="javascript:sub_search(31)">예술 대중문화</a></li>
+					<li><a href="javascript:sub_search(35)">대학교재 전문서</a></li>
 				</ul>
 			</div>
 			<div class="nav-sublist hidden-xs hidden-sm" id="ebookList">
 				<ul>
-					<li><a href="#">경제 경영</a></li>
-					<li><a href="#">라이트노벨</a></li>
-					<li><a href="#">로맨스</a></li>
-					<li><a href="#">만화</a></li>
-					<li><a href="#">사회 정치</a></li>
-					<li><a href="#">소설</a></li>
-					<li><a href="#">에세이 시</a></li>
-					<li><a href="#">인문</a></li>
-					<li><a href="#">자기계발</a></li>
-					<li><a href="#">판타지/무협</a></li>
+					<li><a href="javascript:sub_search(49)">경제 경영</a></li>
+					<li><a href="javascript:sub_search(50)">라이트노벨</a></li>
+					<li><a href="javascript:sub_search(45)">로맨스</a></li>
+					<li><a href="javascript:sub_search(46)">만화</a></li>
+					<li><a href="javascript:sub_search(53)">사회 정치</a></li>
+					<li><a href="javascript:sub_search(48)">소설</a></li>
+					<li><a href="javascript:sub_search(51)">에세이 시</a></li>
+					<li><a href="javascript:sub_search(52)">인문</a></li>
+					<li><a href="javascript:sub_search(54)">자기계발</a></li>
+					<li><a href="javascript:sub_search(47)">판타지/무협</a></li>
 				</ul>
 			</div>
 		</div>

@@ -13,7 +13,26 @@
 		f.submit()
 	}
 } 
-
+function newBooksearch(){
+	var tf = $('#search_form')
+	$('#keyword').before("<input type='hidden' name='rowsize' value='10'>")
+	$('#keyword').before("<input type='hidden' name='sort' value='day'>")
+	$('#keyword').val("")
+	tf.submit()
+}
+function hotBooksearch(){
+	var tf = $('#search_form')
+	$('#keyword').before("<input type='hidden' name='rowsize' value='10'>")
+	$('#keyword').before("<input type='hidden' name='sort' value='sellsort'>")
+	$('#keyword').val("")
+	tf.submit()
+}
+function sub_search(subid){
+	var tf = $('#search_form')
+	$('#keyword').before("<input type='hidden' name='sub_categoty' value='"+subid+"'>")
+	$('#keyword').before("<input type='hidden' name='rowsize' value='10'>")
+	tf.submit()
+}
 function btnplus(){
 	let count=$("#input_cnt").val()
 	count = (Number(count)+1)
@@ -45,7 +64,7 @@ function search(){
             alert('검색조건을 최소한 1개 이상 항목을 선택하셔야 합니다');
             return false;
         }
-	$("input:checkbox[name='search_left_categoty']:checked").each(function(){let htmlstr="";
+	$("input:checkbox[name='search_left_categoty']:checked").each(function(){;
 		let substr="";
 			substr+= "<input type='hidden' name='sub_categoty' value='"+this.value+"'>"
 			
@@ -68,10 +87,12 @@ function search(){
 	}	
 	
 	let sort = $('a[pick=check]').attr('sorted')
-	$('#keyword').before("<input type='hidden' name='sort' value='"+sort+"'>")
-	console.log("search sort="+sort)
-	
-		
+	if(sort==null){
+		let xsort=$('a.currnt_sort').attr('sorted')
+		$('#keyword').before("<input type='hidden' name='sort' value='"+xsort+"'>")
+	}else{
+		$('#keyword').before("<input type='hidden' name='sort' value='"+sort+"'>")
+	}
 	tf.submit()
 }
 function mainBtn(maincate){
