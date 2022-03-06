@@ -8,4 +8,5 @@
 	<bean class="model.ProductDetailModel"/>
 	<bean class="model.OrderHistoryModel"/>
 	<bean class="model.PayModel"/>
+	<bean class="model.BoardModel"/>
 </beans>
