@@ -17,12 +17,14 @@ function newBooksearch(){
 	var tf = $('#search_form')
 	$('#keyword').before("<input type='hidden' name='rowsize' value='10'>")
 	$('#keyword').before("<input type='hidden' name='sort' value='day'>")
+	$('#keyword').val("")
 	tf.submit()
 }
 function hotBooksearch(){
 	var tf = $('#search_form')
 	$('#keyword').before("<input type='hidden' name='rowsize' value='10'>")
 	$('#keyword').before("<input type='hidden' name='sort' value='sellsort'>")
+	$('#keyword').val("")
 	tf.submit()
 }
 function sub_search(subid){
