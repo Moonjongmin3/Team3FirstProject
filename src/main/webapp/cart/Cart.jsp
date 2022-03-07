@@ -147,20 +147,19 @@
 				    <div class="swiper-pagination"></div>
 			    </div>
 			    <!-- Recent-Swiper -->
+			    <h3 id="history-title">최근 본 상품</h3>
 			  	<div class="swiper recentSwiper">
 				    <div class="swiper-wrapper">
-				      <div class="swiper-slide">Slide 1</div>
-				      <div class="swiper-slide">Slide 2</div>
-				      <div class="swiper-slide">Slide 3</div>
-				      <div class="swiper-slide">Slide 4</div>
-				      <div class="swiper-slide">Slide 5</div>
-				      <div class="swiper-slide">Slide 6</div>
-				      <div class="swiper-slide">Slide 7</div>
-				      <div class="swiper-slide">Slide 8</div>
-				      <div class="swiper-slide">Slide 9</div>
+				    	<c:forEach items="${historyBooks}" var="historyBook">
+				    		<div class="swiper-slide" id="history-slide">
+				    			<a href="../book/productdetail.do?no=${historyBook.id}">
+									<img src="${historyBook.poster}" alt="${historyBook.name}">
+								</a>
+				      		</div>
+				    	</c:forEach>
 				    </div>
-				    <div class="swiper-button-next"></div>
-				    <div class="swiper-button-prev"></div>
+				    <div class="swiper-button-next" id="swiper-button"></div>
+				    <div class="swiper-button-prev" id="swiper-button"></div>
 				    <div class="swiper-pagination"></div>
 			    </div>
 			</div>
@@ -179,7 +178,7 @@
       var recommendSwiper = new Swiper(".recommendSwiper", {
       	slidesPerView: 3,
       	slidesPerGroup: 3,
-        spaceBetween: 10,
+        spaceBetween: 5,
         pagination: {
           el: ".swiper-pagination",
           type: "fraction",
@@ -209,7 +208,6 @@
       var recentSwiper = new Swiper(".recentSwiper", {
         slidesPerView: 3,
       	slidesPerGroup: 3,
-        spaceBetween: 10,
         pagination: {
           el: ".swiper-pagination",
           type: "fraction",

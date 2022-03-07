@@ -31,11 +31,16 @@ public class ProductDetailModel {
 			cookie = new Cookie("history", id);
 		} else {
 			// 쿠키가 존재할 때
+			// 동일 상품 존재할 때
+			if(BookCookieManager.isSameCookie(request, "history", id) == true) {
+				return"../main/main.jsp";
+			}
+			
 			cookie = (Cookie)BookCookieManager.findCookie(request, "history");
 			String history = cookie.getValue() + "x" + id;
 			cookie.setValue(history);			
 		}
-		cookie.setMaxAge(60);
+		cookie.setMaxAge(360); // 쿠키 유지시간 1시간
 		cookie.setPath("/FirstProject");
 		response.addCookie(cookie);
 

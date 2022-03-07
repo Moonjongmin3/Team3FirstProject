@@ -131,7 +131,7 @@ public class BookDAO {
         return books;
     }
     
-    public List<BookVO> selectListById(String[] bookHistory) {
+    public List<BookVO> selectListById(String[] bookHistory, String cookieValue) {
         List<BookVO> books = new ArrayList<BookVO>();
 
         String query =    "SELECT b.*, mc.NAME main_category, sc.NAME sub_category FROM BOOKS_3 b "
@@ -141,10 +141,23 @@ public class BookDAO {
         
         try {
         	con = cm.getConnection();
-        	for(int i = 0; i < bookHistory.length - 1; i++ ) query += ",?";
-        	query += ")";
+        	// 쿼리 처리
+        	for(int i = 0; i < bookHistory.length - 1; i++ ) {
+        		query += ",?";
+        	}
+        	query += ") ORDER BY case ";
+        	int lastNum = 1;
+        	for(int j = 0; j < bookHistory.length; j++ ) {
+        		query += "when b.id = ? then " + (j + 1) + " ";
+        		lastNum++;
+        	}
+        	query += "else " + lastNum + " end";
+        	
+        	// 파라미터 매핑
         	psmt = con.prepareStatement(query);
-        	for(int j = 0; j < bookHistory.length; j++) psmt.setString(j+1, bookHistory[j]);
+        	for(int k = 0; k < bookHistory.length * 2; k++) {
+        		psmt.setString(k+1, bookHistory[k % bookHistory.length]);
+        	}
         	ResultSet rs = psmt.executeQuery();
         	
             while (rs.next()) {

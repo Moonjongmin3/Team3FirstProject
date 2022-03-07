@@ -202,9 +202,9 @@ td#quantity-column{
 	padding-bottom: 10px;
 }
 
-/* 추천 영역 (추천 도서 & 최근 조회한 도서) */
+/* 추천 도서 영역 */
 .jumbotron{
-	height: 100vh;
+	height: 110vh;
     background-repeat: no-repeat;
     background-position: center;
     -webkit-background-size: cover;
@@ -223,12 +223,57 @@ td#quantity-column{
 .recommendSwiper>.swiper-wrapper>.swiper-slide{
 	background-color: white;
 }
-.recentSwiper{
-	background-color: gray;
-	width: 80vw;
-	height: 30vh;
-	z-index: 0;
+/* 최근 조회한 도서 목록 */
+#history-title{
+	font-weight: 500;
+	font-size: 30px;
+	text-align: center;
+	color: #0052D4;
+	margin-bottom: 30px;
 }
-.recentSwiper>.swiper-wrapper>.swiper-slide{
-	background-color: white;
+.recentSwiper{
+	text-align: center;
+	margin-top: 20px;
+	padding-right: 30px;
+	width: 80vw;
+	height: 34vh;
+	z-index: 0;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+#history-slide>a>img{
+	left:10px;
+	margin-top: 1vw;
+	margin-left: 0.5vw;
+	margin-right: 0.5vw;
+	width: 12vw;
+	height: 30vh;
+}
+#swiper-button{
+	color: white;
+	background-color: lightgrey;
+}
+@media screen and (max-width: 1200px) {
+	#history-slide>a>img{
+		width: 15vw;
+	}
+	.recentSwiper{
+		padding-right: 15px;
+	}
+}
+@media screen and (max-width: 992px) {
+	#history-slide>a>img{
+		width: 18vw;
+	}
+	.recentSwiper{
+		padding-right: 10px;
+	}
+}
+@media screen and (max-width: 768px) {
+	#history-slide>a>img{
+		width: 25vw;
+		margin-right: 10px;
+	}
+	.recentSwiper{
+		padding-right: 0;
+	}
 }
