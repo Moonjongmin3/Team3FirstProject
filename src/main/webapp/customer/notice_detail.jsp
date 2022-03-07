@@ -8,52 +8,7 @@
 <title>공지사항 상세</title>
 </head>
 <body>
-    <section>
-        <div class="notice_nav_wrap">
-			<div class="notice_nav_bar">
-				<ul>
-					<li><img src="../img/ico_bc_home.svg" style="padding-bottom: 3px;"></li>
-					<li>></li>
-					<li>고객센터</li>
-					<li>></li>
-					<li>공지사항</li>
-				</ul>
-			</div>
-		</div>
-        <div class="notice_detail_wrap">
-            <div class="notice_side">
-                <div class="notice_side_top">
-                    <img alt="고객센터" src="../img/cscenter.png">
-                </div>
-                <div class="faq_nav" style="border: 1px solid #cdcdcd">
-                    <dl>
-                        <dt>FAQ</dt>
-                        <dd>
-                            <ul>
-                                <li>상품</li>
-                                <li>주문/결제</li>
-                                <li>배송</li>
-                                <li>환불</li>
-                            </ul>
-                        </dd>
-
-                    </dl>
-                    <dl>
-                        <dt>1:1 문의</dt>
-                        <dd>
-                            <ul>
-                                <li>1:1 문의하기</li>
-                                <li>1:1 문의내역</li>
-                            </ul>
-                        </dd>
-
-                    </dl>
-                    <dl>
-                        <dt><a href="../customer/notice.do">공지사항</a></dt>
-                    </dl>
-                </div>
-            </div>
-                <div class="notice_detail">
+    
                 <h3>공지사항</h3>
                 <table class="table">
                     <tr style="background-color: #cdcdcd">
@@ -87,8 +42,6 @@
                         </td>
                     </tr>
                 </table>
-            </div>
-        </div>
-    </section>
+      
 </body>
 </html>
