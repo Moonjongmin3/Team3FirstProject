@@ -49,7 +49,6 @@ public class GetCartModel extends HttpServlet {
 		
 		Gson gson = new Gson();
 		String cartJson = gson.toJson(cartValues);
-		System.out.println(cartJson);
 		
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");

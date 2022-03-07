@@ -8,6 +8,7 @@
 	<title>장바구니</title>
 	<!-- Cart 페이지 StyleSheet -->
 	<link rel="stylesheet" href="../css/cart.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<!-- 카트 페이지 시작 -->
@@ -109,6 +110,17 @@
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-10 col-md-offset-1 btn-lg-area">
+						<c:if test="${not empty userId}">					
+							<button type="button" class="btn btn-primary btn-lg" id="user-btn">주문하기</button>
+						</c:if>
+						<c:if test="${empty userId}">
+							<button type="button" class="btn btn-primary btn-lg" id="user-btn">회원 주문</button>			
+							<button type="button" class="btn btn-default btn-lg" id="guest-btn">비회원 주문</button>
+						</c:if>
+					</div>
+				</div>
 			</div>
 		</aritcle>
 		<aritcle>
@@ -147,7 +159,8 @@
 				    <div class="swiper-pagination"></div>
 			    </div>
 			    <!-- Recent-Swiper -->
-			    <h3 id="history-title">최근 본 상품</h3>
+			    <h3 id="history-title">최근 본 상품 
+			    <span class="glyphicon glyphicon-time" id="timeicon" aria-hidden="true"></span></h3>
 			  	<div class="swiper recentSwiper">
 				    <div class="swiper-wrapper">
 				    	<c:forEach items="${historyBooks}" var="historyBook">

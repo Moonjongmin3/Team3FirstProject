@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
 .cart-process{
 	background-color: #0B3C8B;
 	font-size: 20px;
@@ -201,7 +201,20 @@ td#quantity-column{
 #delivery-table-info>.row{
 	padding-bottom: 10px;
 }
-
+.btn-lg-area{
+	text-align: center;
+	margin-top: 5vh;
+	margin-bottom: 10vh;
+}
+.btn-lg{
+	width: 200px;
+	height: 75px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 30px
+}
+#user-btn{
+	background-color: #0052D4;
+}
 /* 추천 도서 영역 */
 .jumbotron{
 	height: 110vh;
@@ -225,11 +238,16 @@ td#quantity-column{
 }
 /* 최근 조회한 도서 목록 */
 #history-title{
+	font-family: 'IBM Plex Sans KR', sans-serif;
 	font-weight: 500;
 	font-size: 30px;
 	text-align: center;
 	color: #0052D4;
 	margin-bottom: 30px;
+}
+#timeicon{
+	marging-top: 10px;
+	padding-top: 10px;
 }
 .recentSwiper{
 	text-align: center;
@@ -238,6 +256,7 @@ td#quantity-column{
 	width: 80vw;
 	height: 34vh;
 	z-index: 0;
+	border-radius: 10px;
 	background-color: rgba(0, 0, 0, 0.2);
 }
 #history-slide>a>img{
