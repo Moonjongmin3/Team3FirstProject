@@ -9,14 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.servlet.ServletContext;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import Common.DBConnPool;
 import vo.BookCountVO;
 import vo.BookVO;
 
@@ -133,6 +130,54 @@ public class BookDAO {
 
         return books;
     }
+    
+    public List<BookVO> selectListById(String[] bookHistory) {
+        List<BookVO> books = new ArrayList<BookVO>();
+
+        String query =    "SELECT b.*, mc.NAME main_category, sc.NAME sub_category FROM BOOKS_3 b "
+        				+ "INNER JOIN SUB_CATEGORY_3 sc ON b.CATEGORY_ID = sc.ID "
+        		        + "INNER JOIN MAIN_CATEGORY_3 mc ON sc.MAIN_ID = mc.ID "
+        				+ "WHERE b.ID IN (?";
+        
+        try {
+        	con = cm.getConnection();
+        	for(int i = 0; i < bookHistory.length - 1; i++ ) query += ",?";
+        	query += ")";
+        	psmt = con.prepareStatement(query);
+        	for(int j = 0; j < bookHistory.length; j++) psmt.setString(j+1, bookHistory[j]);
+        	ResultSet rs = psmt.executeQuery();
+        	
+            while (rs.next()) {
+                BookVO book = new BookVO();
+                book.setId(rs.getInt("id"));
+                book.setPoster(rs.getString("poster"));
+                book.setName(rs.getString("title"));
+                book.setPrice(Integer.parseInt(rs.getString("price")));
+                book.setQuantity(1);
+                book.setAuthor(rs.getString("author"));
+                book.setPublisher(rs.getString("publisher"));
+                book.setSaleRate(rs.getInt("salerate"));
+                book.setScore(rs.getInt("score"));
+                book.setIsbn(rs.getString("isbn"));
+                book.setBsize(rs.getString("bsize"));
+                book.setState(rs.getString("state"));
+                book.setTag(rs.getString("tag"));
+                book.setMainCategory(rs.getString("main_category"));
+                book.setSubCategory(rs.getString("sub_category"));
+                
+                books.add(book);
+            }
+            rs.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            cm.disConnection(con,psmt);
+        }
+
+        return books;
+    } 
+    
     public List<BookVO> selectYoutubeList() {
         List<BookVO> books = new Vector<BookVO>();
 
