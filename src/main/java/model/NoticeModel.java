@@ -57,6 +57,7 @@ public class NoticeModel {
             request.setAttribute("total", total);
             request.setAttribute("curpage", curpage);
             request.setAttribute("notice_list", list);
+            request.setAttribute("cscenter_jsp", "../customer/notice_list.jsp");
             request.setAttribute("main_jsp", "../customer/notice.jsp");
         }catch (Exception e){
             e.printStackTrace();
@@ -76,7 +77,8 @@ public class NoticeModel {
 
         request.setAttribute("notice",vo);
         request.setAttribute("page",page);
-        request.setAttribute("main_jsp","../customer/notice_detail.jsp");
+        request.setAttribute("cscenter_jsp", "../customer/notice_detail.jsp");
+        request.setAttribute("main_jsp","../customer/notice.jsp");
         return "../main/main.jsp";
     }
 
@@ -93,7 +95,8 @@ public class NoticeModel {
         request.setAttribute("notice",vo);
 
         request.setAttribute("page",page);
-        request.setAttribute("main_jsp", "../customer/notice_update.jsp");
+        request.setAttribute("cscenter_jsp", "../customer/notice_update.jsp");
+        request.setAttribute("main_jsp","../customer/notice.jsp");
         return "../main/main.jsp";
     }
 
@@ -163,7 +166,8 @@ public class NoticeModel {
         String page = request.getParameter("page");
 
         request.setAttribute("page",page);
-        request.setAttribute("main_jsp", "../customer/notice_insert.jsp");
+        request.setAttribute("cscenter_jsp", "../customer/notice_insert.jsp");
+        request.setAttribute("main_jsp","../customer/notice.jsp");
         return "../main/main.jsp";
     }
     
