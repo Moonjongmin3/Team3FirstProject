@@ -8,14 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import controller.RequestMapping;
 
 public class PayModel {
    
    @RequestMapping("pay/order.do")//바로구매 클릭시
    public String order_info(HttpServletRequest request,
-         HttpServletResponse response) {
-    
+         HttpServletResponse response) {	   
+	   
       HttpSession session=request.getSession();
       String id=(String)session.getAttribute("userId");//user_id
       String bid=request.getParameter("no");//book_id 'bid'로 받고

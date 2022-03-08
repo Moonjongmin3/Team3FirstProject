@@ -25,7 +25,7 @@
 						<input type="checkbox" id="check-all" checked>
 						<label for="all-checked">전체선택</label>&nbsp;&nbsp;&nbsp;
 						<div class="btn-group" role="group" aria-label="...">
-						  <button type="button" class="btn btn-default">주문하기</button>
+						  <button type="button" class="btn btn-default checkout-selected">주문하기</button>
 						  <button type="button" class="btn btn-default">찜목록 넣기</button>
 						  <button type="button" class="btn btn-default" id="delete-selected">삭제</button>
 						</div>
@@ -116,8 +116,8 @@
 							<button type="button" class="btn btn-primary btn-lg" id="user-btn">주문하기</button>
 						</c:if>
 						<c:if test="${empty userId}">
-							<button type="button" class="btn btn-primary btn-lg" id="user-btn">회원 주문</button>			
-							<button type="button" class="btn btn-default btn-lg" id="guest-btn">비회원 주문</button>
+							<button type="button" class="btn btn-primary btn-lg checkout-selected" id="user-btn" onclick="location.href ='../user/login.do'">회원 주문</button>			
+							<button type="button" class="btn btn-default btn-lg checkout-selected" id="guest-btn">비회원 주문</button>
 						</c:if>
 					</div>
 				</div>
@@ -282,6 +282,33 @@
       	});
     	  
       })
+      // 주문하기 - 개별 상품
+       $(document).on('click', '#checkout-btn', function(){
+    	    let books = [];
+    	    let book = {};
+    	    book['id'] = $(this).val();
+  		    book['quantity'] = $('#quantity-' + $(this).val()).val();
+  		    books.push(book);
+  		    
+      		let url = "../pay/order.do";
+    		
+      		postToUrl(books, url)
+      });
+   	  // 주문하기 - 선택 상품
+      $('.checkout-selected').click(function(){
+    	  let books = [];
+    	  let url = "../pay/order.do";
+    	  
+    	  $.each($("input.book-check:checked"), function(){
+    		  let book = {};
+    		  book['id'] = $(this).val();
+    		  book['quantity'] = $('#quantity-' + $(this).val()).val();
+    		  books.push(book);
+      	  });
+    	  
+    	  postToUrl(books, url)
+    	  
+      })
       // 카트 삭제 - 개별 상품
       $(document).on('click', '#del-button', function(){
     	  $.ajax({
@@ -353,7 +380,7 @@
 	    		book_data += '<br><button type="button" class="quantity" name="bookId" value="' + value.id +'" style="width:70px">변경</button></td>';
 	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
 	    		book_data += '<td id="cart-table-info">내일</td>';
-	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary" style="width:85px">주문하기</button>';
+	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary" id="checkout-btn" value="' + value.id + '" style="width:85px">주문하기</button>';
 	    		book_data += '<button type="button" class="btn btn-info" style="width:85px">찜하기</button>';
 	    		book_data += '<button type="button" class="btn btn-default" id="del-button" value="' + value.id + '" style="width:85px">삭제하기</button></td>';
 	    		book_data += '</tr>';
@@ -384,6 +411,26 @@
 	    	$('div.price-table-info-1>span#sale-price').text(salePrice);
 	    	$('div.price-table-header-2>span#price-table-header-price').text(delivery + '원');
 	    	$('div.price-table-header-4>span#price-table-header-price').text(finalPrice + '원');
+      }
+      function postToUrl(books, url) {
+    	    let data = JSON.stringify(books)
+    	  
+  	        let form = document.createElement('form');
+		
+	  	    let obj1;
+	  		obj1 = document.createElement('input');
+	  		obj1.setAttribute('type', 'hidden');
+	  		obj1.setAttribute('name', 'books');
+	  		obj1.setAttribute('value', data);
+
+	  		form.appendChild(obj1);
+
+	  		form.setAttribute('method', 'post');
+	  		form.setAttribute('action', url);
+	
+	  		document.body.appendChild(form);
+	
+	  		form.submit();
       }
       
       
