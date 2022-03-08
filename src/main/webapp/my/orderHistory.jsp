@@ -171,20 +171,20 @@ hr{
         <div class="periodBox">
           <div style="margin-bottom:10px;">
           <label class="box-radio-input">
-             <input type="radio" id="recent" name="recent"class="rdbtn" value="recent"><span>최근 일주일</span>
+             <input type="radio" id="recent" name="period"class="rdbtn" value="recent"><span>최근 일주일</span>
           </label>
           <label class="box-radio-input">
-             <input type="radio" id="1m" name="1m"class="rdbtn" value="1m" ><span>1개월</span>
+             <input type="radio" id="1m" name="period"class="rdbtn" value="1m" ><span>1개월</span>
           </label>
           <label class="box-radio-input">
-             <input type="radio" id="3m" name="3m"class="rdbtn" value="3m"><span>3개월</span>
+             <input type="radio" id="3m" name="period"class="rdbtn" value="3m"><span>3개월</span>
           </label>
           <label class="box-radio-input">
-             <input type="radio" id="6m" name="6m"class="rdbtn" value="6m"><span>6개월</span>
+             <input type="radio" id="6m" name="period"class="rdbtn" value="6m"><span>6개월</span>
           </label> 
           <span style="margin-left:10px; height: 40px; width:250px;">
              <input type="date" value="${SYSDATE}" style=" height: 35px; width:130px;">&nbsp;
-      		 <img alt="~" src="">&nbsp;
+      		 <span style="font-size: 18px;color:#72a4d9;">~</span>&nbsp;
       		 <input type="date" value="${SYSDATE}"style=" height: 35px; width:130px;">&nbsp;
     	  </span>
        </div>      
