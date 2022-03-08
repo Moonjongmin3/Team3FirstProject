@@ -28,7 +28,8 @@ $(function(){
 	      	 success:function(res){
 	      		 console.log(res)
 	      		$('#one_detail_answer_wrap').hide()
-	      		 $('#one_detail_question_wrap').after(res);
+	      		 $('#one_detail_answer_wrap').before(res);
+	      		 $('.admin_update').show()
 	      	 }
 		})
 	})
@@ -129,7 +130,7 @@ function answerInsert(){
 	</div>
 	<div class="one_detail_btnbox">
 		<a href="../customer/one_inquiry.do?page=${page }" class="one_detail_cancel">목록보기</a>
-		<c:if test="${avo==null && sessionScope.admin==1 }">
+		<div class="one_answer_update_ok_btn" style="display: none">
 			<span class="one_detia_answer_insert" id="admin_insert_btn_span">
 				<a class="btn btn-sm" id="admin_insert_btn">답변작성</a>
 			</span>
@@ -137,14 +138,16 @@ function answerInsert(){
 				<a href="javascript:oneInsertBack()" class="btn btn-sm">취소</a>
 				<a href="javascript:answerInsert()" class="btn btn-sm" id="admin_insert_ok_btn" >답변제출</a>
 			</span>
-		</c:if>
+		</div>
 		<c:if test="${avo!=null && sessionScope.admin==1 }">
-			<span class="one_detia_ques_delete" id="">
-				<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${avo.groupId }" style="background-color:#008B8B;">답변삭제</a>
-			</span>
-			<span class="one_detia_ques_update" id="">
-				<a class="btn btn-sm" id="one_answer_update" groupid="${avo.groupId }" style="background-color:#4169E1;">답변수정</a>
-			</span>
+			<div class="one_answer_update_btn" style="display: none">
+				<span class="one_detia_ques_delete" id="">
+					<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${avo.groupId }" style="background-color:#008B8B;">답변삭제</a>
+				</span>
+				<span class="one_detia_ques_update" id="">
+					<a class="btn btn-sm" id="one_answer_update" groupid="${avo.groupId }" style="background-color:#4169E1;">답변수정</a>
+				</span>
+			</div>
 		</c:if>
 		<c:if test="${qvo.userId==sessionScope.userId }">
 			<span class="one_detia_ques_delete" id="">

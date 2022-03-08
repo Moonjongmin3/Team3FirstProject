@@ -46,6 +46,7 @@
 						<dt>1:1 문의</dt>
 						<dd>
 							<ul>
+								<!-- 로그인 하지 않은 경우 이동하지 못하도록 수정 예정 -->
 								<li><a href="../customer/one_insert.do">1:1 문의하기</a></li>
 								<li><a href="../customer/one_inquiry.do">1:1 문의내역</a></li>
 							</ul>
