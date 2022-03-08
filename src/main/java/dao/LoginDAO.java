@@ -39,7 +39,7 @@ public class LoginDAO {
                 if(db_pwd.equals(pwd)){
                     vo.setMsg("OK");
                     vo.setName(name);
-                 
+                    vo.setAdmin(aCheck);
                 }else{
                     vo.setMsg("NOPWD");
                 }

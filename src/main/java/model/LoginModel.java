@@ -40,11 +40,11 @@ public class LoginModel {
 			// UserVO로 결과값을 받을지 고민
 			UserVO vo = dao.isLogin(id, pwd);
 			request.setAttribute("result",vo);
-			if(!(vo.equals("NOID")||vo.equals("NOPWD"))){
-				StringTokenizer st = new StringTokenizer(vo), "|");
-
-				session.setAttribute("userName",st.nextToken());
-				String admin_check=st.nextToken();
+			String result=vo.getMsg();
+			if(!(result.equals("NOID")||result.equals("NOPWD"))){
+				
+				session.setAttribute("userName",vo.getName());
+				String admin_check=vo.getAdmin();
 				if(admin_check.equals("N")){
 					session.setAttribute("admin",0);
 				}else {
