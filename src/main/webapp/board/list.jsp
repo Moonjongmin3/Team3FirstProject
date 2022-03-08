@@ -21,6 +21,14 @@ th{
 	margin: 0px auto;
 	overflow:hidden;
 }
+nav{
+	width:100%;
+	text-align:center;
+}
+nav>ul>li{
+	display:inline-block;
+	font-size:15px;
+}
 </style>
 </head>
 <body>
@@ -69,7 +77,7 @@ th{
             <c:if test="${i!=curpage }">
               <c:set var="style" value=""/>
             </c:if>
-            <li ${style }><a href="../board/list.do?page=${i }">${i }</a></li>
+            <li><a href="../board/list.do?page=${i }">${i }</a></li>
           </c:forEach>
           <c:if test="${endpage<totalpage }">
             <li><a href="../board/list.do?page=${endpage+1 }">&raquo;</a></li>
