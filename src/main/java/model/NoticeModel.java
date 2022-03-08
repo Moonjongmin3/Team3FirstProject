@@ -50,6 +50,7 @@ public class NoticeModel {
 
             List<NoticeVO> list = dao.noticeList(curpage,type,notice_keyword);
 
+            request.setAttribute("path", "공지사항");
             request.setAttribute("type",type);
             request.setAttribute("notice_keyword",notice_keyword);
             request.setAttribute("startpage", startpage);
@@ -75,6 +76,7 @@ public class NoticeModel {
         NoticeDAO dao = new NoticeDAO();
         vo= dao.noticeDetailData(Integer.parseInt(no));
 
+        request.setAttribute("path", "공지사항");
         request.setAttribute("notice",vo);
         request.setAttribute("page",page);
         request.setAttribute("cscenter_jsp", "../customer/notice_detail.jsp");
@@ -91,9 +93,9 @@ public class NoticeModel {
         NoticeVO vo = new NoticeVO();
         NoticeDAO dao = new NoticeDAO();
         vo = dao.noticeUpdateData(Integer.parseInt(no));
-
+        
+        request.setAttribute("path", "공지사항 수정");
         request.setAttribute("notice",vo);
-
         request.setAttribute("page",page);
         request.setAttribute("cscenter_jsp", "../customer/notice_update.jsp");
         request.setAttribute("main_jsp","../customer/notice.jsp");
@@ -164,7 +166,8 @@ public class NoticeModel {
     @RequestMapping("customer/notice_insert.do")
     public String noticeInsertForm(HttpServletRequest request, HttpServletResponse response){
         String page = request.getParameter("page");
-
+        
+        request.setAttribute("path", "공지사항 작성");
         request.setAttribute("page",page);
         request.setAttribute("cscenter_jsp", "../customer/notice_insert.jsp");
         request.setAttribute("main_jsp","../customer/notice.jsp");

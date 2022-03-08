@@ -33,22 +33,7 @@ function sub_search(subid){
 	$('#keyword').before("<input type='hidden' name='rowsize' value='10'>")
 	tf.submit()
 }
-function btnplus(){
-	let count=$("#input_cnt").val()
-	count = (Number(count)+1)
-	$("#input_cnt").val(count)
-}
-function btndown(){
-	let count=$("#input_cnt").val()
-	count = (Number(count)-1)
-	if(count===0){
-		alert("1개 이상 구입할 수 있습니다.")
-		$("#input_cnt").val(1)
-		return;
-	}else{
-		$("#input_cnt").val(count)
-	}
-}
+
 function search(){
 	let taftCheck=new Array()
 	var tf = $('#search_form')

@@ -28,6 +28,9 @@ public class BoardModel {
 			if(endpage>totalpage) {
 				endpage=totalpage;
 			}
+			System.out.println(curpage);
+			System.out.println(totalpage);
+			System.out.println(endpage);
 			
 			List<BoardVO> list=dao.boardList(curpage);
 			request.setAttribute("curpage", curpage);

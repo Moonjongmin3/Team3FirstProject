@@ -13,12 +13,12 @@
 	<section>
 		<div class="notice_nav_wrap">
 			<div class="notice_nav_bar">
-				<ul>
+				<ul style="padding-left:23px;">
 					<li><img src="../img/ico_bc_home.svg" style="padding-bottom: 3px;"></li>
 					<li>></li>
 					<li>고객센터</li>
 					<li>></li>
-					<li>공지사항</li>
+					<li>${path }</li>
 				</ul>
 			</div>
 		</div>
@@ -46,8 +46,8 @@
 						<dt>1:1 문의</dt>
 						<dd>
 							<ul>
-								<li>1:1 문의하기</li>
-								<li>1:1 문의내역</li>
+								<li><a href="../customer/one_insert.do">1:1 문의하기</a></li>
+								<li><a href="../customer/one_inquiry.do">1:1 문의내역</a></li>
 							</ul>
 						</dd>
 

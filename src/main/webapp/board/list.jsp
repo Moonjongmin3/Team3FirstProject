@@ -46,7 +46,7 @@ th{
 	      <tr>
 	       <td class="text-center" width=10%>${vo.no }</td>
 	       <td width=45%>
-	        <a href="../board/board_detil.do?page=${curpage }&no=${vo.no }">${vo.title }</a>
+	        <a href="../board/board_detail.do?page=${curpage }&no=${vo.no }">${vo.title }</a>
 	       </td>
 	       <td class="text-center" width=15%>${vo.user_id }</td>
 	       <td class="text-center" width=20%>

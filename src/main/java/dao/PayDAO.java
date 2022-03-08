@@ -21,7 +21,7 @@ public class PayDAO {
             ps=conn.prepareStatement(sql);
             ps.setInt(1, bid);
             ResultSet rs=ps.executeQuery();
-            
+            rs.next();
             vo.setPoster(rs.getString(1));
             vo.setName(rs.getString(3));
             vo.setAuthor(rs.getString(4));
@@ -63,6 +63,7 @@ public class PayDAO {
     		ps.setString(1, userId);
     		ResultSet rs=ps.executeQuery();
     		
+    		rs.next();
     		vo.setName(rs.getString(1));
     		vo.setTel(rs.getInt(2));
     		vo.setEmail(rs.getString(3));

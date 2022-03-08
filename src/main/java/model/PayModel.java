@@ -25,6 +25,9 @@ public class PayModel {
       String quantity=request.getParameter("qty");// bookList_qty
       int qty=Integer.parseInt(quantity); 
      
+      System.out.println(quantity);
+      System.out.println(bid);
+      
       PayDAO dao=new PayDAO();
       UserVO uvo=dao.orderer_info(id);//배송정보
       BookVO bvo=dao.book_info(Integer.parseInt(bid));//상품정보     

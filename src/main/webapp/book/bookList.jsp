@@ -61,6 +61,46 @@ $(function(){
 		$(window).scrollTop(0);
 	})
 	
+	$('.search_buy_input').click(function(){
+		let id = $(this).attr("value")
+		console.log(id)
+		let qty = $('#input_cnt_'+id).val()
+		console.log(qty)
+		
+		var pform = $('<form></form>');
+		pform.attr("method","GET")
+		pform.attr("action","../pay/order.do")
+
+		pform.append($('<input/>',{type:'hidden',name:'no',value:id}));
+		pform.append($('<input/>',{type:'hidden',name:'qty',value:qty}));
+		
+  		pform.appendTo('body');
+  		document.charset="UTF-8"
+
+  		pform.submit();
+		
+	})
+	
+	$('.btn_plus').click(function(){
+		let id = $(this).attr('book-id')
+		console.log(id)
+		let count=$("#input_cnt_"+id).val()
+		count = (Number(count)+1)
+		$("#input_cnt_"+id).val(count)
+	})
+	
+	$('.btn_down').click(function(){
+		let id = $(this).attr('book-id')
+		let count=$("#input_cnt_"+id).val()
+		count = (Number(count)-1)
+		if(count===0){
+			alert("1개 이상 구입할 수 있습니다.")
+			$("#input_cnt_"+id).val(1)
+			return;
+		}else{
+			$("#input_cnt_"+id).val(count)
+		}
+	})
 })
 </script>
 </head>
@@ -558,10 +598,10 @@ $(function(){
 										<span class="btn_count">
 										<label style="color:#666; font-size:11px;">
 											수량
-											<input type="text" name="qty" value="1" size="4" id="input_cnt">
+											<input type="text" name="qty" value="1" size="4" id="input_cnt_${vo.id }">
 										</label>
-											<a href="javascript:btnplus()" class="btn_plus">수량 더하기</a>
-											<a href="javascript:btndown()" class="btn_down">수량 빼기</a>
+											<a book-id="${vo.id }" class="btn_plus plus_${vo.id }">수량 더하기</a>
+											<a book-id="${vo.id }" class="btn_down down_${vo.id }">수량 빼기</a>
 										</span>
 										<div style="margin-top:7px;overflow: hidden;">
 											<a href="#">
@@ -572,11 +612,9 @@ $(function(){
 										</div>
 										<c:if test="${vo.state=='판매중' }">
 										<div style="margin-top:7px;overflow: hidden;">
-											<a href="../pay/order.do?no=${vo.id}">
-												<span class="search_buy_input">
+												<span class="search_buy_input" value=${vo.id }>
 													<em class ="search_btn_txt">바로구매</em>
 												</span>
-											</a>
 										</div>
 										</c:if>
 										<div style="margin-top:7px;overflow: hidden;">
