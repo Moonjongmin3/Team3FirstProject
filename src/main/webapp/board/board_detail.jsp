@@ -8,65 +8,78 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style type="text/css">
 th{
   color:black;
 }
-.row{
+.board_wrap{
   margin: 0px auto;
   width:800px;
+}
+.board{
+	width:1080px;
+	height:800px;
+	margin: 0px auto;
+	overflow:hidden;
 }
 </style>
 </head>
 <body>
-  <div class="container">
-   <h3>자유게시판 상세보기</h3>
-    <div class="row">
-     <table class="table">
-      <tr>
-       <th width=20% class="text-center danger">번호</th>
-       <td width=30% class="text-center">${vo.no }</td>
-       <th width=20% class="text-center danger">작성일</th>
-       <td width=30% class="text-center">
-       <fmt:formatDate value="${vo.created_at }" pattern="yyyy-MM-dd"/></td>
-      </tr>
-      <tr>
-       <th width=20% class="text-center danger">이름</th>
-       <td width=30% class="text-center">${vo.user_id }</td>
-       <th width=20% class="text-center danger">조회수</th>
-       <td width=30% class="text-center">${vo.hit }</td>
-      </tr>
-      <tr>
-       <th width=20% class="text-center danger">제목</th>
-       <td colspan="3">${vo.subject }</td>
-      </tr>
-      <tr>
-        <td colspan="4" height="200" class="text-left" valign="top">
-         <pre style="white-space: pre-wrap;background-color: white;border:none">${vo.content }</pre>
-        </td>
-      </tr>
-      <tr>
-       <td class="text-right" colspan="4">
-         <a href="../board/update.do?no=${vo.no }" class="btn btn-xs btn-danger">수정</a>
-         <span class="btn btn-xs btn-success" id="delBtn">삭제</span>
-         <a href="../board/list.do" class="btn btn-xs btn-info">목록</a>
-       </td>
-      </tr>
-      <tr style="display:none" id="tr">
-        <td class="text-right inline" colspan="4">
-           <input type=hidden name=no value="${vo.no }" id="data-no">
-           비밀번호 : <input type=password name=pwd class="input-sm"
-                      size=15 id="data-pwd">
-           <input type=button id="del" class="btn btn-sm btn-danger"
-             value="삭제">
-          
-        </td>
-      </tr>
-     </table>
+  <div class="board row3">
+   <div class="board_wrap">
+    <h3>자유 게시판 상세보기</h3>
+    <c:forEach var="vo" items="${board_list }">
+	    <table class="table">
+	      <tr>
+	       <th width=20% class="text-center danger">번호</th>
+	       <td width=30% class="text-center">${vo.no }</td>
+	       <th width=20% class="text-center danger">작성일</th>
+	       <td width=30% class="text-center">
+	       <fmt:formatDate value="${vo.created_at }" pattern="yyyy-MM-dd"/></td>
+	      </tr>
+	      <tr>
+	       <th width=20% class="text-center danger">이름</th>
+	       <td width=30% class="text-center">${vo.user_id }</td>
+	       <th width=20% class="text-center danger">조회수</th>
+	       <td width=30% class="text-center">${vo.hit }</td>
+	      </tr>
+	      <tr>
+	       <th width=20% class="text-center danger">제목</th>
+	       <td width=80%>${vo.title }</td>
+	      </tr>
+		  <tr>
+ 			<td width="20%" class="text-center">첨부파일</td>
+		  	<td width="80%">
+		  	<a href="../board/download.do?fn=${vo.bfile }"> ${vo.bfile}</a>
+		  	</td>
+	      </tr>
+	      <tr>
+	        <td colspan="4" height="200" class="text-left" valign="top">
+	         <pre style="white-space: pre-wrap;background-color: white;border:none">${vo.content }</pre>
+	        </td>
+	      </tr>
+	      <tr>
+	       <td class="text-right" colspan="4">
+	         <a href="board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
+	         <a href="board_delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
+	         <a href="list.do" class="btn btn-xs btn-info">목록</a>
+	       </td>
+	      </tr>
+	      <tr style="display:none" id="tr">
+	        <td class="text-right inline" colspan="4">
+	           <input type=hidden name=no value="${vo.no }" id="data-no">
+	           비밀번호 : <input type=password name=pwd class="input-sm"
+	                      size=15 id="data-pwd">
+	           <input type=button id="del" class="btn btn-sm btn-danger"
+	             value="삭제">
+	          
+	        </td>
+	      </tr>
+	     </table>
+     </c:forEach>
      
-    </div>
-<!--  <div id="comments">
+    </div><!-- 
+    <div id="comments">
         <h2 class="sectiontitle">댓글</h2>
         <ul>
          <c:forEach var="rvo" items="${rList }">

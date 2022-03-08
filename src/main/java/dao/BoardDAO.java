@@ -73,7 +73,7 @@ public class BoardDAO {
 	public void boardInsert(BoardVO vo) {
 		try {
 			conn=cm.getConnection();
-			String sql="INSERT INTO board_3(no,user_id,title,content,bfile,pwd)"
+			String sql="INSERT INTO board_3(no,user_id,title,content,bfile,pwd) "
 					+"VALUES ((SELECT NVL(MAX(no)+1,1) FROM Board_3),?,?,?,?,?)";
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, vo.getUser_id());
@@ -97,16 +97,16 @@ public class BoardDAO {
 		try {
 			//조회수 증가
 			conn=cm.getConnection();
-			String sql="UPDATE board_3"
-					 +"SET hit=hit+1"
+			String sql="UPDATE board_3 "
+					 +"SET hit=hit+1 "
 					 +"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, no);
 			ps.executeUpdate();
 			
 			//상세 게시물 가져오기
-			sql="SELECT no,user_id,title,content,created_at,bfile,hit"
-					+"FROM board_3"
+			sql="SELECT no,user_id,title,content,created_at,bfile,hit "
+					+"FROM board_3 "
 					+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, no);
@@ -134,8 +134,8 @@ public class BoardDAO {
 		BoardVO vo=new BoardVO();
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT no,title,content"
-					+"FROM board_3"
+			String sql="SELECT no,title,content "
+					+"FROM board_3 "
 					+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, no);
@@ -159,7 +159,7 @@ public class BoardDAO {
 		boolean bCheck=false;
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT pwd FROM board_3"
+			String sql="SELECT pwd FROM board_3 "
 					+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, vo.getNo());
@@ -169,8 +169,8 @@ public class BoardDAO {
 			rs.close();
 			
 			if(db_pwd.equals(vo.getPwd())) {
-				sql="UPDATE board_3" 
-						+"SET title=?,content=?,created_at=sysdate,bfile=?,pwd=?"
+				sql="UPDATE board_3 " 
+						+"SET title=?,content=?,created_at=sysdate,bfile=?,pwd=? "
 						+"WHERE no=?";
 				ps.setString(1, vo.getTitle());
 				ps.setString(2, vo.getContent());
@@ -198,7 +198,7 @@ public class BoardDAO {
 		boolean bCheck=false;
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT pwd FROM board_3"
+			String sql="SELECT pwd FROM board_3 "
 						+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, no);
@@ -231,8 +231,8 @@ public class BoardDAO {
 		List<BoardVO> list=new ArrayList<>();
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT no,user_id,title,created_at,hit"
-					+"FROM board_3"
+			String sql="SELECT no,user_id,title,created_at,hit "
+					+"FROM board_3 "
 					+"WHERE ? LIKE '%'||?||'%'";
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, fs);

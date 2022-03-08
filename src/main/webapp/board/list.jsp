@@ -46,7 +46,7 @@ th{
 	      <tr>
 	       <td class="text-center" width=10%>${vo.no }</td>
 	       <td width=45%>
-	        <a href="../board/board_detil.do?no=${vo.no }">${vo.title }</a>
+	        <a href="../board/board_detil.do?page=${curpage }&no=${vo.no }">${vo.title }</a>
 	       </td>
 	       <td class="text-center" width=15%>${vo.user_id }</td>
 	       <td class="text-center" width=20%>
@@ -56,15 +56,26 @@ th{
 	      </tr>
 	     </c:forEach>
     </table>
-    <table class="table"> <!-- 변경필요 -->
-	      <tr>
-	       <td class="text-center">
-	        <a href="../board/list.do?page=${curpage>1?curpage-1:curpage }" class="btn btn-sm btn-warning">이전</a>
-	         ${curpage } page / ${totalpage } pages
-	        <a href="../board/list.do?page=${curpage<totalpage?curpage+1:curpage }" class="btn btn-sm btn-info">다음</a>
-	       </td>
-	      </tr>
-	    </table>
+    <nav class="pagination">
+        <ul>
+          <c:if test="${startpage>1 }">
+            <li><a href="../list/list.do?page=${startpage-1 }">&laquo;</a></li>
+          </c:if>
+          <c:set var="style" value=""/>
+          <c:forEach var="i" begin="${startpage }" end="${endpage }">
+            <c:if test="${i==curpage }">
+              <c:set var="style" value="class=current"/>
+            </c:if>
+            <c:if test="${i!=curpage }">
+              <c:set var="style" value=""/>
+            </c:if>
+            <li ${style }><a href="../board/list.do?page=${i }">${i }</a></li>
+          </c:forEach>
+          <c:if test="${endpage<totalpage }">
+            <li><a href="../board/list.do?page=${endpage+1 }">&raquo;</a></li>
+          </c:if>
+        </ul>
+      </nav>
   </div>
  </div>
 </body>

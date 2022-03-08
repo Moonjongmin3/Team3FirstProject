@@ -30,7 +30,7 @@ public class BoardModel {
 			}
 			
 			List<BoardVO> list=dao.boardList(curpage);
-			request.setAttribute("cutpage", curpage);
+			request.setAttribute("curpage", curpage);
 			request.setAttribute("totalpage", totalpage);
 			request.setAttribute("board_list", list);
 			request.setAttribute("startpage", startpage);
@@ -48,8 +48,9 @@ public class BoardModel {
 		String no=request.getParameter("no");
 		String page=request.getParameter("page");
 		
+		BoardVO vo=new BoardVO();
 		BoardDAO dao=new BoardDAO();
-		BoardVO vo=dao.boardDetailData(Integer.parseInt(no));
+		vo=dao.boardDetailData(Integer.parseInt(no));
 		request.setAttribute("vo", vo);
 		request.setAttribute("page", page);
 		request.setAttribute("main_jsp", "../board/board_detail.jsp");
@@ -58,7 +59,11 @@ public class BoardModel {
 	
 	@RequestMapping("board/board_insert.do")
 	public String boardInsert(HttpServletRequest request, HttpServletResponse response) {
+		String page=request.getParameter("page");
+		
+		request.setAttribute("pagd", page);
 		request.setAttribute("main_jsp", "../board/board_insert.jsp");
+		request.setAttribute("main_jsp", "../board/list.jsp");
 		return "../main/main.jsp";
 	}
 	
