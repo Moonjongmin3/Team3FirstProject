@@ -26,25 +26,22 @@ public class GetCartModel extends HttpServlet {
 		Map<String,BookVO> cart;
 		//로그인 상태
 		if (session.getAttribute("userId") != null) {
-			System.out.println("회원카트!");
 			CartDAO cartDAO = new CartDAO();
 			String userId = session.getAttribute("userId").toString();
 			
 			if (session.getAttribute("cart") != null && session.getAttribute("isLogin") == null) {
 				Map<String,BookVO> guestCart = (LinkedHashMap<String, BookVO>) session.getAttribute("cart");
 				for(BookVO book : guestCart.values()) cartDAO.insertCart(book, userId);
-				System.out.println("비회원 카트에 있는 상품 회원카트로 옮기기 완료!");
 				session.removeAttribute("cart");
-				System.out.println("비회원카트 삭제!");
 			}			
 			
 			cart = (LinkedHashMap<String, BookVO>) cartDAO.getCart(userId);
-			System.out.println("DAO에서 회원카트 가져오기 완료!");
 			session.setAttribute("isLogin", "T");	
 
 		} else {
 			// 비회원 상태
-			System.out.println("비회원 카트!");
+			// 카트에 아무것도 담지 않은 채 장바구니 링크 진입
+			if(session.getAttribute("cart") == null) return;
 			cart = (LinkedHashMap<String, BookVO>) session.getAttribute("cart");
 		}
 		List<BookVO> cartValues = new ArrayList<BookVO>(cart.values());
@@ -52,7 +49,6 @@ public class GetCartModel extends HttpServlet {
 		
 		Gson gson = new Gson();
 		String cartJson = gson.toJson(cartValues);
-		System.out.println(cartJson);
 		
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");

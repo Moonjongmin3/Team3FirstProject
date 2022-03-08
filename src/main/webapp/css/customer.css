@@ -295,19 +295,19 @@ section{
     overflow: hidden;
 
 }
-.notice_detail{
+.cs_wrap{
     float: left;
     width: 80%;
     overflow: hidden;
     padding-left:10px;
 }
-.notice_detail table tr{
+.cs_wrap table tr{
 	border: 1px solid #cdcdcd;
 }
-.notice_detail table tr:last-child{
+.cs_wrap table tr:last-child{
 	border:none;
 }
-.notice_detail>h3{
+.cs_wrap>h3{
     margin: 10px 0 10px 10px;
 }
 .faq_nav dl{
