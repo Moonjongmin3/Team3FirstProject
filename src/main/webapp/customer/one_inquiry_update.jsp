@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <tr id="admin_insert_wrap" class="admin_update">
 	<td class="one_insert_answer">
-		<form  action="../customer/one_insert_ok.do?groupId=${qvo.groupId }" method="post" enctype="multipart/form-data" id="answerFrm">
+		<form  action="../customer/one_answer_update_ok.do?groupId=${vo.groupId }" method="post" enctype="multipart/form-data" id="answerUpdateFrm">
 			<div class="one_insert_answer_top">
 				<h3>답변하기</h3>
 					<span>파일첨부&nbsp;

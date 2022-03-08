@@ -774,27 +774,34 @@ section{
     position: relative;
 }
 
-.one_detail_btnbox .one_detia_answer_insert{
+.one_detail_btnbox .one_detail_answer_insert{
 	position:absolute;
 	top: 10;
     right: 15;
 }
-.one_detail_btnbox .one_detia_ques_delete{
+
+.one_detail_btnbox .one_detail_ques_delete{
 	position:absolute;
 	top: 10;
     right: 100;
 }
-.one_detail_btnbox .one_detia_ques_update{
+.one_detail_btnbox .one_detail_answer_update{
+	position:absolute;
+	top: 10;
+    right: 20;
+}
+
+.one_detail_btnbox .one_detail_ques_update{
 	position:absolute;
 	top: 10;
     right: 15;
 }
-.one_detail_btnbox>span>a{
+.one_detail_btnbox span>a{
 	background-color :#0052D4;
 	color:white;
 	font-size:14px;
 }
-.one_detail_btnbox>span>a:hover{
+.one_detail_btnbox span>a:hover{
 	color:white;
 	text-decoration: none;
 }
