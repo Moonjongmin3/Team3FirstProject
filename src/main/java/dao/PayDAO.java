@@ -63,12 +63,14 @@ public class PayDAO {
     		ps.setString(1, userId);
     		ResultSet rs=ps.executeQuery();
     		
-    		vo.setName(rs.getString(1));
-    		vo.setTel(rs.getInt(2));
-    		vo.setEmail(rs.getString(3));
-    		vo.setAddress1(rs.getString(4));
-    		vo.setAddress2(rs.getString(5));
-    		//vo.setPoint(rs.getInt(6)); // point
+    		while(rs.next()) {
+    			vo.setName(rs.getString(1));
+    			vo.setTel(rs.getInt(2));
+    			vo.setEmail(rs.getString(3));
+    			vo.setAddress1(rs.getString(4));
+    			vo.setAddress2(rs.getString(5));
+    			//vo.setPoint(rs.getInt(6)); // point    			
+    		}
     		rs.close();
     	}else {//비회원
     			vo=null;

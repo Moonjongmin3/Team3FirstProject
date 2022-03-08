@@ -70,14 +70,14 @@
 						</div>
 						<div class="row">
 							<div class="col-xs-3 price-table-info-1">
-								정가 <span id="full-price"></span>원에서 <span id="sale-price"></span>원 즉시 할인
+								정가 <span id="full-price"></span>원에서 <span id="sale-price" class="text-danger"><strong></strong></span>원 즉시 할인
 							</div>
 							<div class="col-xs-2 price-table-info-2"></div>
 							<div class="col-xs-2 price-table-info-3"></div>
 							<div class="col-xs-5 price-table-info-4">
 								<div class="row">
 									<div class="col-xs-6">기본적립 포인트</div>
-									<div class="col-xs-6">3,980원</div>
+									<div id="std-point" class="col-xs-6"></div>
 								</div>
 								<div class="row">
 									<div class="col-xs-6">추가적립 포인트</div>
@@ -93,7 +93,7 @@
 								</div>
 								<div class="row">
 									<div class="col-xs-6">총 예상적립 포인트</div>
-									<div class="col-xs-6">3,980원</div>
+									<div id="tot-point" class="col-xs-6 text-danger"><strong></strong></div>
 								</div>
 							</div>
 						</div>
@@ -104,8 +104,8 @@
 						<div class="row">
 							<div class="col-xs-3" id="delivery-table-header">배송일 안내</div>
 							<div class="col-xs-9" id="delivery-table-info">
-								<div class="row">배송지 : 서울 강남구 강남대로36 157-34 5층</div>
-								<div class="row">YES24배송 : 내일(2/24, 목) 도착예정</div>
+								<div class="row">배송지 : <c:if test="${not empty userId}">${fullAddress}</c:if></div>
+								<div class="row">YES24배송 : <strong>내일(${deliveryDate})</strong> 도착예정</div>
 							</div>
 						</div>
 					</div>
@@ -116,7 +116,7 @@
 							<button type="button" class="btn btn-primary btn-lg" id="user-btn">주문하기</button>
 						</c:if>
 						<c:if test="${empty userId}">
-							<button type="button" class="btn btn-primary btn-lg checkout-selected" id="user-btn" onclick="location.href ='../user/login.do'">회원 주문</button>			
+							<button type="button" class="btn btn-primary btn-lg" id="user-btn" onclick="location.href ='../user/login.do'">회원 주문</button>			
 							<button type="button" class="btn btn-default btn-lg checkout-selected" id="guest-btn">비회원 주문</button>
 						</c:if>
 					</div>
@@ -374,12 +374,13 @@
 	    		book_data += '<tr>';
 	    		book_data += '<td><input type="checkbox" class="book-check" value="' + value.id + '" checked></td>';
 	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
-	    		book_data += '<td>' + value.name + '</td>';
+	    		book_data += '<td>[' + value.mainCategory + '] ' + value.name + '<br><h5><span class="text-muted"><del>' + value.price + '원</del>';
+	    		book_data += '</span> ' + value.price * 0.9 + '원 (10% 할인)</h5></td>';
 	    		book_data += '<td style="text-align:center">';
 	    		book_data += '<input type="number" id="quantity-' + value.id + '" min="1" max="100" value="' + value.quantity +'" style="text-align:center">';
 	    		book_data += '<br><button type="button" class="quantity" name="bookId" value="' + value.id +'" style="width:70px">변경</button></td>';
-	    		book_data += '<td id="cart-table-info">' + value.price + '원</td>';
-	    		book_data += '<td id="cart-table-info">내일</td>';
+	    		book_data += '<td id="cart-table-info"><strong>' + value.price * 0.9 + '원</strong></td>';
+	    		book_data += '<td id="cart-table-info"><strong>내일</strong><br>(${deliveryDate})</td>';
 	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary" id="checkout-btn" value="' + value.id + '" style="width:85px">주문하기</button>';
 	    		book_data += '<button type="button" class="btn btn-info" style="width:85px">찜하기</button>';
 	    		book_data += '<button type="button" class="btn btn-default" id="del-button" value="' + value.id + '" style="width:85px">삭제하기</button></td>';
@@ -399,18 +400,28 @@
 	    	let delivery = (totalPrice >= 10000) ? 0 : 3000;
 	    	
 	    	let finalPrice = totalPrice + delivery;
+	    	let totalPoint = Math.round(finalPrice * 0.05);
+	    	
+	    	if (finalPrice >= 10000) {
+	    		$('div.price-table-info-2').text('만원 이상 배송비 무료');
+	    	} else {
+	    		$('div.price-table-info-2').text('만원 미만 배송비 3000원');
+	    	}
 	    	
 	    	fullPrice = fullPrice.toLocaleString("en-US");
 	    	salePrice = salePrice.toLocaleString("en-US");
 	    	totalPrice = totalPrice.toLocaleString("en-US");
 	    	delivery = delivery.toLocaleString("en-US");
 	    	finalPrice = finalPrice.toLocaleString("en-US");
+	    	totalPoint = totalPoint.toLocaleString("en-US");
 	    	
 	    	$('div.price-table-header-1>span#price-table-header-price').text(totalPrice + '원');
 	    	$('div.price-table-info-1>span#full-price').text(fullPrice);
-	    	$('div.price-table-info-1>span#sale-price').text(salePrice);
+	    	$('div.price-table-info-1>span#sale-price>strong').text(salePrice);
 	    	$('div.price-table-header-2>span#price-table-header-price').text(delivery + '원');
 	    	$('div.price-table-header-4>span#price-table-header-price').text(finalPrice + '원');
+	    	$('#std-point').text(totalPoint + '원');
+	    	$('#tot-point>strong').text(totalPoint + '원');
       }
       function postToUrl(books, url) {
     	    let data = JSON.stringify(books)

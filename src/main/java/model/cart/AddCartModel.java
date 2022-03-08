@@ -23,15 +23,21 @@ public class AddCartModel extends HttpServlet{
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		// 책 객체 생성
-		BookDAO bookDAO = new BookDAO();
+		// 책 id 가져오기
 		String bookId = request.getParameter("bookId");
-		BookVO book = bookDAO.findBook(bookId);
 		
 		//로그인 상태
 		if (session.getAttribute("userId") != null) {
 			String userId = session.getAttribute("userId").toString();
 			CartDAO cartDAO = new CartDAO();
+			int checkedQuantity = cartDAO.checkCart(userId, bookId);
+			// 이미 해당 책 존재하는 경우
+			if(checkedQuantity > 0) {
+				cartDAO.updateCart((checkedQuantity+1), userId, Integer.parseInt(bookId));
+				return;
+			}
+			BookDAO bookDAO = new BookDAO();
+			BookVO book = bookDAO.findBook(bookId);
 			cartDAO.insertCart(book, userId);
 		} else {
 			// 비회원 상태
@@ -40,6 +46,14 @@ public class AddCartModel extends HttpServlet{
 				session.setAttribute("cart", cart);
 			}
 			Map<String,BookVO> cart = (LinkedHashMap<String, BookVO>) session.getAttribute("cart");
+			
+			// 이미 해당 책 존재하는 경우
+			if(cart.containsKey(bookId) == true) {
+				cart.get(bookId).setQuantity(cart.get(bookId).getQuantity() + 1);
+				return;
+			}
+			BookDAO bookDAO = new BookDAO();
+			BookVO book = bookDAO.findBook(bookId);
 			cart.put(bookId, book);
 		}
 	}
