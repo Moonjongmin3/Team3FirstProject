@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,14 +12,7 @@ th{
 }
 .board_wrap{
   margin: 0px auto;
-  width:800px;
-}
-.board{
-	width:1080px;
-	height:800px;
-	margin: 0px auto;
-	overflow:hidden;
-}
+  width:1000px;
 </style>
 </head>
 <body>

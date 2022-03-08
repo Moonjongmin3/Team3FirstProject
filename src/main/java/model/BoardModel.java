@@ -95,11 +95,14 @@ public class BoardModel {
 	@RequestMapping("board/board_update.do")
 	public String boardUpdate(HttpServletRequest request,HttpServletResponse response) {
 		String no=request.getParameter("no");
+		String page=request.getParameter("page");
 		BoardDAO dao=new BoardDAO();
 		BoardVO vo=dao.boardUpdateDate(Integer.parseInt(no));
 		
+		request.setAttribute("page", page);
 		request.setAttribute("vo", vo);
 		request.setAttribute("main_jsp", "../board/update.jsp");
+		request.setAttribute("main_jsp", "../board/list.jsp");
 		
 		return "../main/main.jsp";
 	}

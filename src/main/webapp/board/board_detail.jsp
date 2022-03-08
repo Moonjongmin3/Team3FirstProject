@@ -13,8 +13,8 @@ th{
   color:black;
 }
 .board_wrap{
-  margin: 0px auto;
-  width:800px;
+  margin: 50px auto;
+  width:850px;
 }
 .board{
 	width:1080px;
@@ -22,33 +22,38 @@ th{
 	margin: 0px auto;
 	overflow:hidden;
 }
+
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
 </style>
 </head>
 <body>
   <div class="board row3">
    <div class="board_wrap">
-    <h3>자유 게시판 상세보기</h3>
-    <c:forEach var="vo" items="${board_list }">
-	    <table class="table">
+    <h4></h4>
+	    <table class="table" style = "width:100%; table-layout: fixed;">
 	      <tr>
-	       <th width=20% class="text-center danger">번호</th>
-	       <td width=30% class="text-center">${vo.no }</td>
-	       <th width=20% class="text-center danger">작성일</th>
-	       <td width=30% class="text-center">
+	       <td width="20%" class="text-center danger">번호</td>
+	       <td width="30%" class="text-center">${vo.no }</td>
+	       <td width="20%" class="text-center danger">작성일</td>
+	       <td width="30%" class="text-center">
 	       <fmt:formatDate value="${vo.created_at }" pattern="yyyy-MM-dd"/></td>
 	      </tr>
 	      <tr>
-	       <th width=20% class="text-center danger">이름</th>
-	       <td width=30% class="text-center">${vo.user_id }</td>
-	       <th width=20% class="text-center danger">조회수</th>
-	       <td width=30% class="text-center">${vo.hit }</td>
+	       <td width="20%" class="text-center danger">이름</td>
+	       <td width="30%" class="text-center">${vo.user_id }</td>
+	       <td width="20%" class="text-center danger">조회수</td>
+	       <td width="30%" class="text-center">${vo.hit }</td>
 	      </tr>
 	      <tr>
-	       <th width=20% class="text-center danger">제목</th>
-	       <td width=80%>${vo.title }</td>
+	       <td width="20%" class="text-center danger">제목</td>
+	       <td colspan="3" class="text-cetner">${vo.title }</td>
 	      </tr>
 		  <tr>
- 			<td width="20%" class="text-center">첨부파일</td>
+ 			<td width="20%" class="text-center danger">첨부파일</td>
 		  	<td width="80%">
 		  	<a href="../board/download.do?fn=${vo.bfile }"> ${vo.bfile}</a>
 		  	</td>
@@ -62,7 +67,7 @@ th{
 	       <td class="text-right" colspan="4">
 	         <a href="board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
 	         <a href="board_delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
-	         <a href="list.do" class="btn btn-xs btn-info">목록</a>
+	         <a href="list.do" class="btn btn-xs btn-success">목록</a>
 	       </td>
 	      </tr>
 	      <tr style="display:none" id="tr">
@@ -72,11 +77,10 @@ th{
 	                      size=15 id="data-pwd">
 	           <input type=button id="del" class="btn btn-sm btn-danger"
 	             value="삭제">
-	          
 	        </td>
 	      </tr>
 	     </table>
-     </c:forEach>
+
      
     </div><!-- 
     <div id="comments">

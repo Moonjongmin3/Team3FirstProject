@@ -13,7 +13,7 @@ th{
 }
 .board_wrap{
   margin: 0px auto;
-  width:800px;
+  width:1000px;
 }
 .board{
 	width:1080px;

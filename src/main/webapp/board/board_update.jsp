@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,7 @@ th{
 }
 .board_wrap{
   margin: 0px auto;
-  width:800px;
+  width:850px;
 }
 .board{
 	width:1080px;
@@ -42,16 +43,16 @@ th{
         </td>
        </tr>
        <tr>
-        <th width=15% class="text-right success">내용</th>
-        <td width=85%>
-         <textarea rows="8" cols="55" name=content>${board.content }</textarea>
-        </td>
-       </tr>
-       <tr>
         <th width=15% class="text-right success">첨부파일</th>
         <td width=85%>
          <input type=file name=upload size=20 class="input-sm"
          value="${board.bfile }">
+        </td>
+       </tr>
+       <tr>
+        <th width=15% class="text-right success">내용</th>
+        <td width=85%>
+         <textarea rows="8" cols="55" name=content>${board.content }</textarea>
         </td>
        </tr>
        <tr>
@@ -62,8 +63,10 @@ th{
        </tr>
        <tr>
          <td colspan=2 class="text-center">
-           <input type=submit value="수정" class="btn btn-sm btn-primary">
-           <input type=button value="취소" class="btn btn-sm btn-danger"
+           <c:if test="pwd==${board.pwd }">
+            <input type=submit value="수정" class="btn btn-sm btn-primary">
+           </c:if>
+           <input type=button value="취소" class="btn btn-sm btn-warning"
             onclick="javascript:history.back()">
          </td>
        </tr>
