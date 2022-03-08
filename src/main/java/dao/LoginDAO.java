@@ -40,7 +40,7 @@ public class LoginDAO {
                     vo.setMsg("OK");
                     vo.setName(name);
                     vo.setAdmin(aCheck);
-                 
+
                 }else{
                     vo.setMsg("NOPWD");
                 }
