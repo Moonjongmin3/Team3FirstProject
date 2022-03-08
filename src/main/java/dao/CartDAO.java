@@ -32,6 +32,7 @@ public class CartDAO {
 								    		+ "INNER JOIN MAIN_CATEGORY_3 mc ON sc.MAIN_ID = mc.ID WHERE user_id = ? ORDER BY c.cart_id DESC";
     private final static String DELETE_Q = "DELETE FROM CART_3 c WHERE USER_ID = ? AND BOOK_ID = ?";
     private final static String UPDATE_Q = "UPDATE CART_3 SET quantity = ? WHERE user_id = ? AND book_id = ?";
+    private final static String CHECK_Q = "SELECT * FROM CART_3 WHERE user_id = ? AND book_id = ?";
     
     public CartDAO() {
     	cm = new ConnectionManager();
@@ -126,6 +127,27 @@ public class CartDAO {
         }finally {
         	cm.disConnection(conn, ps);
         }
+    }
+    
+    public int checkCart(String userId, String bookId) {
+        int quantity = 0;
+    	try {
+        	conn = cm.getConnection();
+            ps = conn.prepareStatement(CHECK_Q);
+            ps.setString(1,userId);
+            ps.setString(2,bookId);
+
+            rs = ps.executeQuery();
+            
+            if(rs == null) return quantity;
+            
+            while(rs.next()) quantity = rs.getInt("quantity");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+        	cm.disConnection(conn, ps);
+        }
+    	return quantity;
     }
 
 }
