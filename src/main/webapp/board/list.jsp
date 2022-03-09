@@ -39,11 +39,12 @@ form{
   <div class="board row3">
    <div class="board_wrap">
     <h3>자유 게시판</h3>
-    
     <ul>
      <li>
+     <c:if test="${sessionScope.userId!=null }">
        <a href="../board/board_insert.do" class="btn btn-sm btn-danger">새글</a>
-	 	<form method="get" action="../board/list.do">
+     </c:if>
+	 	<form method="get" action="../board/list.do" style="margin-bottom: 10px;">
 				 <select name="type">
 					<option ${(type=="title")?"selected":""} value="title">제목</option>
 					<option ${(type=="content")?"selected":""} value="content">내용</option>
@@ -79,7 +80,7 @@ form{
     <nav class="pagination">
         <ul>
           <c:if test="${startpage>1 }">
-            <li><a href="../list/list.do?page=${startpage-1 }&type=${type}&keyword=${keyword}">&laquo;</a></li>
+            <li><a href="../board/list.do?page=${startpage-1 }&type=${type}&keyword=${keyword}">&laquo;</a></li>
           </c:if>
           <c:set var="style" value=""/>
           <c:forEach var="i" begin="${startpage }" end="${endpage }">

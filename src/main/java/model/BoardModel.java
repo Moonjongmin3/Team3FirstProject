@@ -45,9 +45,6 @@ public class BoardModel {
 			if(endpage>totalpage) {
 				endpage=totalpage;
 			}
-			System.out.println(curpage);
-			System.out.println(totalpage);
-			System.out.println(endpage);
 			
 			List<BoardVO> list=dao.boardList(curpage,type,board_keyword);
 			request.setAttribute("type", type);
@@ -73,6 +70,7 @@ public class BoardModel {
 		BoardVO vo=new BoardVO();
 		BoardDAO dao=new BoardDAO();
 		vo=dao.boardDetailData(Integer.parseInt(no));
+		
 		request.setAttribute("vo", vo);
 		request.setAttribute("page", page);
 		request.setAttribute("main_jsp", "../board/board_detail.jsp");
@@ -161,8 +159,8 @@ public class BoardModel {
 		
 		request.setAttribute("no", no);
 		request.setAttribute("page", page);
-		request.setAttribute("vo", vo);
-		request.setAttribute("main_jsp", "../board/list.jsp");
+		request.setAttribute("board", vo);
+		request.setAttribute("main_jsp", "../board/board_update.jsp");
 		
 		return "../main/main.jsp";
 	}
@@ -175,6 +173,7 @@ public class BoardModel {
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
+		// 파일 넣게 만드려면 insert_ok 처럼  MultipartRequest 사용
 		String no=request.getParameter("no");
 		String user_id=request.getParameter("userID");
 		String title=request.getParameter("title");
@@ -196,6 +195,8 @@ public class BoardModel {
 		request.setAttribute("bCheck", bCheck);
 		request.setAttribute("no", no);
 		request.setAttribute("page", page);
+		// update가 정상적으로 이루어 졌으면 detail로 다시 이동하게 해야됨
+		//return "../board/board_detail.do?no="+no (페이지도 넘겨줘야하면 넘겨줘야 함)
 		return "../board/update_ok.jsp";
 	}
 	
@@ -214,6 +215,9 @@ public class BoardModel {
 			temp="no";
 		}
 		request.setAttribute("result", temp);
+		// board_delete 페이지를 띄울건지?
+		// 그럴꺼면 request.setAttribute("main_jsp","../board/board_delete.jsp")
+		//return "../main/main.jsp"
 		return "../board/delete.jsp";
 	}
 }
