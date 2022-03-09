@@ -80,16 +80,10 @@ $(function(){
 			alert("우편번호를 검색하세요")
 			return;
 		}
-		let tel2=$('#tel2').val()
+		let tel2=$('#tel').val()
 		if(tel2.trim()=="")
 		{
-			$('#tel2').focus()
-			return;
-		}
-		let tel4=$('#tel4').val()
-		if(tel4.trim()=="")
-		{
-			$('#tel4').focus()
+			$('#tel').focus()
 			return;
 		}
 		let cont=$('#content').val()
@@ -120,7 +114,7 @@ $(function(){
    <form method="post" action="../user/join_ok.do" name="join_frm" id="join_frm">
     <table class="table">
     <div class="exform_txt" align="right">
-    <span>* 표시는 필수적으로 입력해주셔야 가입이 가능합니다.</span>
+    	<span>* 표시는 필수적으로 입력해주셔야 가입이 가능합니다.</span>
     </div>
       <tr>
        <td class="text-right" width=15%>아이디 *</td>
@@ -146,8 +140,8 @@ $(function(){
       <tr>
        <td class="text-right" width=15%>성별 *</td>
        <td width=85% class="inline">
-         <input type=radio value="남자" name=gender checked="checked">남자
-         <input type=radio value="남자" name=gender>여자
+         <input type=radio value="남성" name=gender checked="checked">남자
+         <input type=radio value="여성" name=gender>여자
        </td>
       </tr>
       <tr>
@@ -177,24 +171,16 @@ $(function(){
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>상세주소 *</td>
+       <td class="text-right" width=15%>상세주소</td>
        <td width=85%>
          <input type=text name=address2 id=address2 size=50 class="input-sm">
-       </td>
-      </tr>
-      <tr>
-       <td class="text-right" width=15%>전화번호*</td>
-       <td width=85% class="inline">
-         <input type=text name=tel1 id=tel1 size=7 class="input-sm" value="">
-         <input type=text name=tel2 id=tel2 size=20 class="input-sm">
        </td>
       </tr>
       <tr>
       <tr>
        <td class="text-right" width=15%>휴대폰번호 *</td>
        <td width=85% class="inline">
-         <input type=text name=tel3 id=tel4 size=7 class="input-sm" value="010">
-         <input type=text name=tel3 id=tel4 size=20 class="input-sm">
+         <input type=text name=tel id=tel size=20 class="input-sm">
        </td>
       </tr>
       <tr>

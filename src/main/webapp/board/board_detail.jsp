@@ -13,56 +13,61 @@ th{
   color:black;
 }
 .board_wrap{
-  margin: 0px auto;
-  width:800px;
+  margin: 50px auto;
+  width:850px;
 }
 .board{
 	width:1080px;
 	height:800px;
 	margin: 0px auto;
-	overflow:hidden;
+	overflow:auto;
+	
+}
+
+td {
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  
 }
 </style>
 </head>
 <body>
-  <div class="board row3">
+
    <div class="board_wrap">
-    <h3>자유 게시판 상세보기</h3>
-    <c:forEach var="vo" items="${board_list }">
-	    <table class="table">
+	    <table class="table" style = "width:100%; table-layout: fixed">
 	      <tr>
-	       <th width=20% class="text-center danger">번호</th>
-	       <td width=30% class="text-center">${vo.no }</td>
-	       <th width=20% class="text-center danger">작성일</th>
-	       <td width=30% class="text-center">
+	       <td width="20%" class="text-center danger">번호</td>
+	       <td width="30%" class="text-center">${vo.no }</td>
+	       <td width="20%" class="text-center danger">작성일</td>
+	       <td width="30%" class="text-center">
 	       <fmt:formatDate value="${vo.created_at }" pattern="yyyy-MM-dd"/></td>
 	      </tr>
 	      <tr>
-	       <th width=20% class="text-center danger">이름</th>
-	       <td width=30% class="text-center">${vo.user_id }</td>
-	       <th width=20% class="text-center danger">조회수</th>
-	       <td width=30% class="text-center">${vo.hit }</td>
+	       <td width="20%" class="text-center danger">이름</td>
+	       <td width="30%" class="text-center">${vo.user_id }</td>
+	       <td width="20%" class="text-center danger">조회수</td>
+	       <td width="30%" class="text-center">${vo.hit }</td>
 	      </tr>
 	      <tr>
-	       <th width=20% class="text-center danger">제목</th>
-	       <td width=80%>${vo.title }</td>
+	       <td width="20%" class="text-center danger">제목</td>
+	       <td colspan="3" class="text-cetner">${vo.title }</td>
 	      </tr>
 		  <tr>
- 			<td width="20%" class="text-center">첨부파일</td>
+ 			<td width="20%" class="text-center danger">첨부파일</td>
 		  	<td width="80%">
 		  	<a href="../board/download.do?fn=${vo.bfile }"> ${vo.bfile}</a>
 		  	</td>
 	      </tr>
 	      <tr>
-	        <td colspan="4" height="200" class="text-left" valign="top">
-	         <pre style="white-space: pre-wrap;background-color: white;border:none">${vo.content }</pre>
+	        <td colspan="4" height="500px" class="text-left" valign="top">
+	         <pre style="white-space: pre-wrap; background-color: white; border:none ">${vo.content }</pre>
 	        </td>
 	      </tr>
 	      <tr>
 	       <td class="text-right" colspan="4">
 	         <a href="board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
 	         <a href="board_delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
-	         <a href="list.do" class="btn btn-xs btn-info">목록</a>
+	         <a href="list.do" class="btn btn-xs btn-success">목록</a>
 	       </td>
 	      </tr>
 	      <tr style="display:none" id="tr">
@@ -72,42 +77,36 @@ th{
 	                      size=15 id="data-pwd">
 	           <input type=button id="del" class="btn btn-sm btn-danger"
 	             value="삭제">
-	          
 	        </td>
 	      </tr>
 	     </table>
-     </c:forEach>
-     
-    </div><!-- 
-    <div id="comments">
+
         <h2 class="sectiontitle">댓글</h2>
         <ul>
-         <c:forEach var="rvo" items="${rList }">
+         <c:forEach var="rvo" items="${replyList }">
 	          <li>
 	            <article>
 	              <header>
 	                <figure class="avatar">
-	                 <c:if test="${sessionScope.id==rvo.id}">
+	                 <c:if test="${sessionScope.user_id==rvo.user_id}">
 	                   <span class="btn btn-xs btn-success updates" data-no="${rvo.no }" style="color:black">수정</span>
-	                   <a href="../reply/reply_delete.do?no=${rvo.no }&rno=${rvo.rno}&tp=5" class="btn btn-xs btn-warning" style="color:black">삭제</a>
+	                   <a href="../reply/reply_delete.do?no=${rvo.no }" class="btn btn-xs btn-warning" style="color:black">삭제</a>
 	                 </c:if>
 	                </figure>
 	                <address>
-	                By <a href="#">${rvo.name}(${rvo.dbday })</a>
+	                By <a href="#">${rvo.user_id}</a>
 	                </address>
 	              </header>
 	              <div class="comcont">
-	                <p><pre style="white-space:pre-wrap;background-color:white;border:none">${rvo.msg }</pre></p>
+	                <p><pre style="white-space:pre-wrap;background-color:white;border:none">${rvo.content}</pre></p>
 	              </div>
 	            </article>
-	            <table class="table ups" id="m${rvo.no }" style="display:none">
+	            <table class="table ups" id="${rvo.no }" style="display:none">
 	             <tr>
 	               <td>
 	                 <form method=post action="../reply/reply_update.do">
-	                     <input type="hidden" name=rno value="${vo.no }">
 	                     <input type=hidden name=no value="${rvo.no}">
-	                     <input type=hidden name=tp value="5">
-		                 <textarea rows="5" name="msg" cols="48" style="float:left">${rvo.msg }</textarea>
+		                 <textarea rows="5" name="content" cols="48" style="float:left">${rvo.content }</textarea>
 		                  <input type=submit value="댓글수정" class="btn btn-primary"
 		                  style="height: 30px">
 	                 </form>
@@ -119,7 +118,7 @@ th{
           </c:forEach>
           </ul>
         </div>
-        <c:if test="${sessionScope.id!=null }"><%--로그인이 된 상태 --%>
+        <c:if test="${sessionScope.user_id!=null }"><%--로그인이 된 상태 --%>
 	        <table class="table">
 	             <tr>
 	               <td>
@@ -133,7 +132,7 @@ th{
 	               </td>
 	             </tr>
 	           </table>
-        </c:if>-->
-   </div>
+        </c:if>
+
 </body>
 </html>

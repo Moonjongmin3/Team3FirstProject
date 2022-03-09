@@ -4,19 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.User;
-
-
 import controller.RequestMapping;
-import dao.BookDAO;
 import dao.LoginDAO;
-import dao.UserDAO;
 import vo.UserVO;
-import dao.LoginDAO;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.StringTokenizer;
 
 public class LoginModel {
 	
@@ -83,39 +74,42 @@ public class LoginModel {
 		   try
 		   {
 			   request.setCharacterEncoding("UTF-8");
-		   }catch(Exception ex){}
-		   // 입력값 받기 
-		   String id=request.getParameter("id");
-		   String password=request.getParameter("password");
-		   String name=request.getParameter("name");
-		   String gender=request.getParameter("gender");
-		   String birth=request.getParameter("birth");
-		   String email=request.getParameter("email");
-		   String post=request.getParameter("post");
-		   String address1=request.getParameter("address1");
-		   String address2=request.getParameter("address2");
-		   String tel=request.getParameter("tel");
-		   String content=request.getParameter("content");
-		   String admin=request.getParameter("admin");
-		   String msg=request.getParameter("msg");
-		   // MemberDAO로 전송 ==> 오라클 Insert
-		   UserVO vo=new UserVO();
-		   vo.setId(id);
-		   vo.setPassword(password);
-		   vo.setName(name);
-		   vo.setGender(gender);
-		   vo.setBirth(null);
-		   vo.setEmail(email);
-		   vo.setPost(0);
-		   vo.setAddress1(address1);
-		   vo.setAddress2(address2);
-		   vo.setTel(0);
-		   vo.setContent(content);
-		   vo.setAdmin(admin);
-		   vo.setMsg(msg);
-		   LoginDAO dao=new LoginDAO();
-		   //메소드 (INSERT)
-		   dao.memberJoin(vo);
+			   // 입력값 받기 
+			   String id=request.getParameter("id");
+			   String password=request.getParameter("pwd");
+			   String name=request.getParameter("name");
+			   String gender=request.getParameter("gender");
+			   String birth=request.getParameter("birth");
+			   String email=request.getParameter("email");
+			   String post=request.getParameter("post");
+			   String address1=request.getParameter("address1");
+			   String address2=request.getParameter("address2");
+			   String tel=request.getParameter("tel");
+			   String content=request.getParameter("content");
+	
+			   // MemberDAO로 전송 ==> 오라클 Insert
+			   UserVO vo=new UserVO();
+			   vo.setId(id);
+			   vo.setPassword(password);
+			   vo.setName(name);
+			   vo.setGender(gender);
+			   vo.setBirth(birth);
+			   vo.setEmail(email);
+			   vo.setPost(Integer.parseInt(post));
+			   vo.setAddress1(address1);
+			   if(address2==null)
+				   address2="";
+			   vo.setAddress2(address2);
+			   tel = tel.replace("-", "");
+			   vo.setTel(Integer.parseInt(tel));
+			   vo.setContent(content);
+	
+			   LoginDAO dao=new LoginDAO();
+			   //메소드 (INSERT)
+			   dao.memberJoin(vo);
+		   }catch(Exception ex){
+			   	ex.printStackTrace();
+		   }
 		   return "redirect:../main/main.do";
 	   }
 	@RequestMapping("user/idcheck.do")

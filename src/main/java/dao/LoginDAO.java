@@ -71,36 +71,27 @@ public class LoginDAO {
  	   try
  	   {
  		   conn=cm.getConnection();
- 		   String sql="INSERT INTO USER_3 VALUES(?,?,?,?,?,?,"
- 				     +"?,?,?,?,?,?,'n')";
+ 		   String sql="INSERT INTO user_3 "
+ 		   		+ "(ID, PASSWORD, NAME, BIRTH, GENDER, TEL,EMAIL, ADDRESS1, ADDRESS2, POST, REGISTERED_AT, POINT, LOGIN_CHECK, ADMIN_CHECK, CONTENT) "
+ 		   		+ "VALUES (?,?,?,TO_DATE(?,'YYYY-MM-DD'),?,?,?,?,?,?,sysdate,0,'N','N',?)";
  		   ps=conn.prepareStatement(sql);
  		   ps.setString(1, vo.getId());
  		   ps.setString(2, vo.getPassword());
  		   ps.setString(3, vo.getName());
- 		   ps.setDate(4, vo.getBirth());
+ 		   ps.setString(4, vo.getBirth());
  		   ps.setString(5, vo.getGender());
  		   ps.setInt(6, vo.getTel());
  		   ps.setString(7, vo.getEmail());
  		   ps.setString(8, vo.getAddress1());
  		   ps.setString(9, vo.getAddress2());
  		   ps.setInt(10, vo.getPost());
- 		   ps.setString(11, vo.getRegistered_at());
- 		   ps.setString(12, vo.getUpdate_at());
- 		   ps.setString(13, vo.getPoint());
- 		   ps.setString(14, vo.getLogin_check());
- 		   ps.setString(15, vo.getAdmin_check());
- 		   ps.setString(16, vo.getContent());
- 		   ps.setString(17, vo.getAdmin());
- 		   ps.setString(18, vo.getMsg());
- 		   
+ 		   ps.setString(11, vo.getContent());
  		   
  		   ps.executeUpdate();
- 	   }catch(Exception ex)
- 	   {
+ 	   }catch(Exception ex){
  		   ex.printStackTrace();
  	   }
- 	   finally
- 	   {
+ 	   finally{
  		   cm.disConnection(conn, ps);
  	   }
     }

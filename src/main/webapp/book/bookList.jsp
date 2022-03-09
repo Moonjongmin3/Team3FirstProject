@@ -63,9 +63,7 @@ $(function(){
 	
 	$('.search_buy_input').click(function(){
 		let id = $(this).attr("value")
-		console.log(id)
 		let qty = $('#input_cnt_'+id).val()
-		console.log(qty)
 		
 		var pform = $('<form></form>');
 		pform.attr("method","GET")

@@ -8,12 +8,13 @@
 <meta charset="UTF-8">
 <title>자유게시판</title>
 <style type="text/css">
+
 th{
   color:black;
 }
 .board_wrap{
   margin: 0px auto;
-  width:800px;
+  width:1000px;
 }
 .board{
 	width:1080px;
@@ -21,19 +22,38 @@ th{
 	margin: 0px auto;
 	overflow:hidden;
 }
+nav{
+	width:100%;
+	text-align:center;
+}
+nav>ul>li{
+	display:inline-block;
+	font-size:15px;
+}
+form{
+	float:right;
+}
 </style>
 </head>
 <body>
   <div class="board row3">
    <div class="board_wrap">
     <h3>자유 게시판</h3>
-    <table class="table">
-	     <tr>
-	      <td>
-	       <a href="../board/board_insert.do" class="btn btn-sm btn-danger">새글</a>
-	      </td>
-	     </tr>
-	    </table>
+    
+    <ul>
+     <li>
+       <a href="../board/board_insert.do" class="btn btn-sm btn-danger">새글</a>
+	 	<form method="get" action="../board/list.do">
+				 <select name="type">
+					<option ${(type=="title")?"selected":""} value="title">제목</option>
+					<option ${(type=="content")?"selected":""} value="content">내용</option>
+					<option ${(type=="user_id")?"selected":""} value="user_id">작성자</option>
+				</select>
+				<input type="text" placeholder="검색어를 입력해 주세요" value="${board_keyword }" size=23 name="board_keyword">
+				<button type="submit" class="board_search_btn">검색</button>
+			</form>
+     </li>
+    </ul>
     <table class="table">
 	     <tr class="success">
 	      <th class="text-center" width=10%>번호</th>
@@ -59,7 +79,7 @@ th{
     <nav class="pagination">
         <ul>
           <c:if test="${startpage>1 }">
-            <li><a href="../list/list.do?page=${startpage-1 }">&laquo;</a></li>
+            <li><a href="../list/list.do?page=${startpage-1 }&type=${type}&keyword=${keyword}">&laquo;</a></li>
           </c:if>
           <c:set var="style" value=""/>
           <c:forEach var="i" begin="${startpage }" end="${endpage }">
@@ -69,10 +89,10 @@ th{
             <c:if test="${i!=curpage }">
               <c:set var="style" value=""/>
             </c:if>
-            <li ${style }><a href="../board/list.do?page=${i }">${i }</a></li>
+            <li><a href="../board/list.do?page=${i }&type=${type}&keyword=${keyword}">${i }</a></li>
           </c:forEach>
           <c:if test="${endpage<totalpage }">
-            <li><a href="../board/list.do?page=${endpage+1 }">&raquo;</a></li>
+            <li><a href="../board/list.do?page=${endpage+1 }&type=${type}&keyword=${keyword}">&raquo;</a></li>
           </c:if>
         </ul>
       </nav>
