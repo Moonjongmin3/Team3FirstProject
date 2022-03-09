@@ -1,13 +1,13 @@
 package vo;
 
-import java.sql.Date;
+
 
 public class UserVO {
 	// 멤버 변수 선언
 	private String id;
 	private String password;
 	private String name;
-	private Date birth;
+	private String birth;
 	private String gender;
 	private int tel;
 	private String email;
@@ -40,10 +40,11 @@ public class UserVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getBirth() {
+	
+	public String getBirth() {
 		return birth;
 	}
-	public void setBirth(Date birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 	public String getGender() {
