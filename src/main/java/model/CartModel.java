@@ -63,7 +63,7 @@ public class CartModel {
 		
 		BookDAO bookDAO = new BookDAO();
 		List<BookVO> historyBooks = 
-				(ArrayList<BookVO>)bookDAO.selectListById(bookHistory, cookieValue);
+				(ArrayList<BookVO>)bookDAO.selectListById(bookHistory);
 		Collections.reverse(historyBooks);
  
 		request.setAttribute("historyBooks", historyBooks);

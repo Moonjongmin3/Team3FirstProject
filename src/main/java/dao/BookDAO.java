@@ -131,7 +131,7 @@ public class BookDAO {
         return books;
     }
     
-    public List<BookVO> selectListById(String[] bookHistory, String cookieValue) {
+    public List<BookVO> selectListById(String[] bookHistory) {
         List<BookVO> books = new ArrayList<BookVO>();
 
         String query =    "SELECT b.*, mc.NAME main_category, sc.NAME sub_category FROM BOOKS_3 b "
