@@ -25,7 +25,12 @@
 						<input type="checkbox" id="check-all" checked>
 						<label for="all-checked">전체선택</label>&nbsp;&nbsp;&nbsp;
 						<div class="btn-group" role="group" aria-label="...">
-						  <button type="button" class="btn btn-default checkout-selected">주문하기</button>
+						  <c:if test="${not empty userId}">
+						  	<button type="button" class="btn btn-default checkout-selected">주문하기</button>
+						  </c:if>
+						  <c:if test="${empty userId}">
+						  	<button type="button" class="btn btn-default" onclick="location.href ='../user/login.do'">주문하기</button>
+						  </c:if>
 						  <button type="button" class="btn btn-default">찜목록 넣기</button>
 						  <button type="button" class="btn btn-default" id="delete-selected">삭제</button>
 						</div>
@@ -116,8 +121,7 @@
 							<button type="button" class="btn btn-primary btn-lg" id="user-btn">주문하기</button>
 						</c:if>
 						<c:if test="${empty userId}">
-							<button type="button" class="btn btn-primary btn-lg" id="user-btn" onclick="location.href ='../user/login.do'">회원 주문</button>			
-							<button type="button" class="btn btn-default btn-lg checkout-selected" id="guest-btn">비회원 주문</button>
+							<button type="button" class="btn btn-primary btn-lg" id="user-btn" onclick="location.href ='../user/login.do'">회원 주문</button>
 						</c:if>
 					</div>
 				</div>
@@ -288,6 +292,10 @@
     	    let book = {};
     	    book['id'] = $(this).val();
   		    book['quantity'] = $('#quantity-' + $(this).val()).val();
+	  		book['name'] = $('#name-' + $(this).val()).text();
+			book['poster'] = $('#img-' + $(this).val()).attr('src');
+			book['price'] = parseInt($('#price-' + $(this).val() + '>del').text().replace('원', ''));
+  		    
   		    books.push(book);
   		    
       		let url = "../pay/order.do";
@@ -303,6 +311,10 @@
     		  let book = {};
     		  book['id'] = $(this).val();
     		  book['quantity'] = $('#quantity-' + $(this).val()).val();
+    		  book['name'] = $('#name-' + $(this).val()).text();
+    		  book['poster'] = $('#img-' + $(this).val()).attr('src');
+    		  book['price'] = parseInt($('#price-' + $(this).val() + '>del').text().replace('원', ''));
+    		  
     		  books.push(book);
       	  });
     	  
@@ -373,8 +385,8 @@
 	    	$.each(data, function(key, value) {
 	    		book_data += '<tr>';
 	    		book_data += '<td><input type="checkbox" class="book-check" value="' + value.id + '" checked></td>';
-	    		book_data += '<td><img src="' + value.poster + '" alt="' + value.name + '"></td>';
-	    		book_data += '<td>[' + value.mainCategory + '] ' + value.name + '<br><h5><span class="text-muted"><del>' + value.price + '원</del>';
+	    		book_data += '<td><img id="img-' + value.id + '" src="' + value.poster + '" alt="' + value.name + '"></td>';
+	    		book_data += '<td><span id="name-' + value.id + '">[' + value.mainCategory + '] ' + value.name + '</span><br><h5><span class="text-muted" id="price-' + value.id + '"><del>' + value.price + '원</del>';
 	    		book_data += '</span> ' + value.price * 0.9 + '원 (10% 할인)</h5></td>';
 	    		book_data += '<td style="text-align:center">';
 	    		book_data += '<input type="number" id="quantity-' + value.id + '" min="1" max="100" value="' + value.quantity +'" style="text-align:center">';
