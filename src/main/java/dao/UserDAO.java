@@ -24,7 +24,8 @@ public class UserDAO extends DBConnPool {
                 user.setId(rs.getString("id"));
                 user.setPassword(rs.getString("password"));
                 user.setName(rs.getString("name"));
-                user.setBirth(rs.getDate("birth"));
+                // UserVO birth String으로 변경함 (2022/03/09)
+                user.setBirth(rs.getString("birth"));
                 user.setGender(rs.getString("gender"));
                 user.setTel(rs.getInt("tel"));
                 user.setEmail(rs.getString("email"));
