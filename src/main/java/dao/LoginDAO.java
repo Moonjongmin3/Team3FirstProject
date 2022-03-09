@@ -71,8 +71,8 @@ public class LoginDAO {
  	   try
  	   {
  		   conn=cm.getConnection();
- 		   String sql="INSERT INTO project_member VALUES(?,?,?,?,?,?,"
- 				     +"?,?,?,?,?,?,'n')";
+ 		   String sql="INSERT INTO USER_3 VALUES(?,?,?,?,?,?,"
+ 				     +"?,?,?,?,sysdate,?,?,'n','n',?,?,'n')";
  		   ps=conn.prepareStatement(sql);
  		   ps.setString(1, vo.getId());
  		   ps.setString(2, vo.getPassword());
@@ -80,13 +80,18 @@ public class LoginDAO {
  		   ps.setDate(4, vo.getBirth());
  		   ps.setString(5, vo.getGender());
  		   ps.setInt(6, vo.getTel());
- 		   ps.setString(7, vo.getAddress1());
- 		   ps.setString(8, vo.getAddress2());
- 		   ps.setInt(9, vo.getPost());
- 		   ps.setString(10, vo.getContent());
- 		   ps.setString(11, vo.getAdmin());
- 		   ps.setString(12, vo.getMsg());
- 		   ps.setString(13, vo.getEmail());
+ 		   ps.setString(7, vo.getEmail());
+ 		   ps.setString(8, vo.getAddress1());
+ 		   ps.setString(9, vo.getAddress2());
+ 		   ps.setInt(10, vo.getPost());
+ 		   ps.setString(11, vo.getRegistered_at());
+ 		   ps.setString(12, vo.getUpdate_at());
+ 		   ps.setString(13, vo.getPoint());
+ 		   ps.setString(14, vo.getLogin_check());
+ 		   ps.setString(15, vo.getAdmin_check());
+ 		   ps.setString(16, vo.getContent());
+ 		   ps.setString(17, vo.getAdmin());
+ 		   ps.setString(18, vo.getMsg());
  		   
  		   
  		   ps.executeUpdate();

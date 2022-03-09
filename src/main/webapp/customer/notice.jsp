@@ -8,6 +8,19 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+function oneInsertnav(){
+	let userId = '${sessionScope.userId}'
+	if(userId==null){
+		alter('로그인 후 이용가능합니다.')
+		return;
+	}else{
+		location.href="../customer/one_insert.do"
+	}
+}
+
+</script>
 </head>
 <body>
 	<section>
@@ -47,7 +60,7 @@
 						<dd>
 							<ul>
 								<!-- 로그인 하지 않은 경우 이동하지 못하도록 수정 예정 -->
-								<li><a href="javascript:void()">1:1 문의하기</a></li>
+								<li><a href="javascript:oneInsertnav()">1:1 문의하기</a></li>
 								<li><a href="../customer/one_inquiry.do">1:1 문의내역</a></li>
 							</ul>
 						</dd>

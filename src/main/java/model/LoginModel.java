@@ -96,8 +96,7 @@ public class LoginModel {
 		   String address2=request.getParameter("address2");
 		   String tel=request.getParameter("tel");
 		   String content=request.getParameter("content");
-		   String admin=request.getParameter("admin");
-		   String msg=request.getParameter("msg");
+
 		   // MemberDAO로 전송 ==> 오라클 Insert
 		   UserVO vo=new UserVO();
 		   vo.setId(id);
@@ -111,8 +110,7 @@ public class LoginModel {
 		   vo.setAddress2(address2);
 		   vo.setTel(0);
 		   vo.setContent(content);
-		   vo.setAdmin(admin);
-		   vo.setMsg(msg);
+
 		   LoginDAO dao=new LoginDAO();
 		   //메소드 (INSERT)
 		   dao.memberJoin(vo);

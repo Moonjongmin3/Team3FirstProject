@@ -3,21 +3,25 @@ package vo;
 import java.sql.Date;
 
 public class UserVO {
-    // 멤버 변수 선언
-    private String id;
-    private String password;
-    private String name;
-    private Date birth;
-    private String gender;
-    private int tel;
-    private String email;
-    private String address1;
-    private String address2;
-    private int post;
-    private String content;
-    private String admin;
-    private String msg;
-    
+	// 멤버 변수 선언
+	private String id;
+	private String password;
+	private String name;
+	private Date birth;
+	private String gender;
+	private int tel;
+	private String email;
+	private String address1;
+	private String address2;
+	private int post;
+	private String registered_at;
+	private String update_at;
+	private String point;
+	private String login_check;
+	private String admin_check;
+	private String content;
+	private String admin;
+	private String msg;
 	public String getId() {
 		return id;
 	}
@@ -78,6 +82,36 @@ public class UserVO {
 	public void setPost(int post) {
 		this.post = post;
 	}
+	public String getRegistered_at() {
+		return registered_at;
+	}
+	public void setRegistered_at(String registered_at) {
+		this.registered_at = registered_at;
+	}
+	public String getUpdate_at() {
+		return update_at;
+	}
+	public void setUpdate_at(String update_at) {
+		this.update_at = update_at;
+	}
+	public String getPoint() {
+		return point;
+	}
+	public void setPoint(String point) {
+		this.point = point;
+	}
+	public String getLogin_check() {
+		return login_check;
+	}
+	public void setLogin_check(String login_check) {
+		this.login_check = login_check;
+	}
+	public String getAdmin_check() {
+		return admin_check;
+	}
+	public void setAdmin_check(String admin_check) {
+		this.admin_check = admin_check;
+	}
 	public String getContent() {
 		return content;
 	}
@@ -96,5 +130,6 @@ public class UserVO {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-    
+	
+	
 }

@@ -80,16 +80,10 @@ $(function(){
 			alert("우편번호를 검색하세요")
 			return;
 		}
-		let tel2=$('#tel2').val()
+		let tel2=$('#tel').val()
 		if(tel2.trim()=="")
 		{
-			$('#tel2').focus()
-			return;
-		}
-		let tel4=$('#tel4').val()
-		if(tel4.trim()=="")
-		{
-			$('#tel4').focus()
+			$('#tel').focus()
 			return;
 		}
 		let cont=$('#content').val()
@@ -183,18 +177,10 @@ $(function(){
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>전화번호*</td>
-       <td width=85% class="inline">
-         <input type=text name=tel1 id=tel1 size=7 class="input-sm" value="">
-         <input type=text name=tel2 id=tel2 size=20 class="input-sm">
-       </td>
-      </tr>
-      <tr>
       <tr>
        <td class="text-right" width=15%>휴대폰번호 *</td>
        <td width=85% class="inline">
-         <input type=text name=tel3 id=tel4 size=7 class="input-sm" value="010">
-         <input type=text name=tel3 id=tel4 size=20 class="input-sm">
+         <input type=text name=tel id=tel size=20 class="input-sm">
        </td>
       </tr>
       <tr>

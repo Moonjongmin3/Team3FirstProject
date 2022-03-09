@@ -9,18 +9,35 @@ public class OneInquiryDAO {
 	private PreparedStatement ps;
 	private ConnectionManager cm = new ConnectionManager();
 	
-	public List<OneInquiryVO> oneInquiryListData(int page){
+	public List<OneInquiryVO> oneInquiryListData(int page, String keyword,int cate,String userId){
 		List<OneInquiryVO> list = new ArrayList<OneInquiryVO>();
+		StringBuffer sbSql= new StringBuffer();
+		String searchCate="";
+		if(cate==1) 
+			searchCate= "AND title LIKE '%'||'"+keyword+"'||'%' ";
+		if(cate==2) 
+			searchCate="AND content LIKE '%'||'"+keyword+"'||'%' ";
+		if(cate==3) 
+			searchCate="AND title LIKE '%'||'"+keyword+"'||'%' OR content LIKE '%'||'"+keyword+"'||'%' ";
+		
+		String user="";
+		if(userId!=null) {
+			user="AND user_id='"+userId+"' ";
+			System.out.println("user");
+		}
+		
 		try {
-			conn=cm.getConnection();
-			String sql="SELECT no,user_id,title,create_at,secret_check,group_id,username,reply_check, num "
+			
+			sbSql = new StringBuffer("SELECT no,user_id,title,create_at,secret_check,group_id,username,reply_check, num "
 					+ "FROM (SELECT no,user_id,title,create_at,secret_check,group_id,username,reply_check,rownum as num "
 					+ "FROM (SELECT no,user_id,title,create_at,secret_check,group_id,u.NAME as username,reply_check "
 					+ "FROM user_question_3 q,USER_3 u "
-					+ "WHERE q.USER_ID=u.id AND group_step=0 "
-					+ "ORDER BY group_id DESC)) "
-					+ "WHERE num BETWEEN ? AND ? ";
-			ps=conn.prepareStatement(sql);
+					+ "WHERE q.USER_ID=u.id AND group_step=0 "+searchCate+user);
+			
+			sbSql.append("ORDER BY group_id DESC)) ");
+			sbSql.append("WHERE num BETWEEN ? AND ? ");
+			conn=cm.getConnection();
+			ps=conn.prepareStatement(sbSql.toString());
 			
 			int rowSize=10;
 			int start=(rowSize*page)-(rowSize-1);
@@ -40,7 +57,9 @@ public class OneInquiryDAO {
 				vo.setGroupId(rs.getInt(6));
 				vo.setUsername(rs.getString(7));
 				vo.setReplyCheck(rs.getString(8));
-				
+				if(userId!=null) {
+					vo.setMylist("Y");
+				}
 				
 				list.add(vo);
 			}
@@ -53,12 +72,30 @@ public class OneInquiryDAO {
 		return list;
 	}
 	
-	public int oneTotalPage() {
+	public int oneTotalPage(String keyword,int cate,String userId ) {
 		int total=0;
 		try {
+		String searchCate="";
+			if(cate==1) 
+				searchCate= " AND title LIKE '%'||'"+keyword+"'||'%'";
+			if(cate==2) 
+				searchCate=" AND content LIKE '%'||'"+keyword+"'||'%'";
+			if(cate==3) 
+				searchCate=" AND title LIKE '%'||'"+keyword+"'||'%' OR content LIKE '%'||'"+keyword+"'||'%'";
+		
+			String user="";
+			if(userId!=null) {
+				user=" AND user_id='"+userId+"'";
+			}
+			
 			conn=cm.getConnection();
-			String sql="SELECT CEIL(COUNT(*)/10.0) FROM user_question_3";
+			String sql="SELECT CEIL(COUNT(*)/10.0) FROM user_question_3 WHERE group_step=0";
+			if(cate==4) {
+				sql+=searchCate;
+			}
+			sql+=user;
 			ps=conn.prepareStatement(sql);
+			
 			ResultSet rs=ps.executeQuery();
 			rs.next();
 			total=rs.getInt(1);
@@ -73,12 +110,29 @@ public class OneInquiryDAO {
 		return total;
 	}
 	
-	public int oneTotalCount() {
+	public int oneTotalCount(String keyword,int cate,String userId) {
 		int total=0;
 		try {
+			String searchCate="";
+			if(cate==1) 
+				searchCate= " AND title LIKE '%'||'"+keyword+"'||'%'";
+			if(cate==2) 
+				searchCate=" AND content LIKE '%'||'"+keyword+"'||'%'";
+			if(cate==3) 
+				searchCate=" AND title LIKE '%'||'"+keyword+"'||'%' OR content LIKE '%'||'"+keyword+"'||'%'";
+			
+			String user="";
+			if(userId!=null) {
+				user=" AND user_id='"+userId+"'";
+			}
+			
 			conn=cm.getConnection();
 			String sql="SELECT COUNT(*) FROM user_question_3 "
 					+ "WHERE group_step=0";
+			if(cate==4) {
+				sql+=searchCate;
+			}
+			sql+=user;
 			ps=conn.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
@@ -143,10 +197,8 @@ public class OneInquiryDAO {
 					+ "WHERE q.USER_ID=u.id AND group_step=1 AND group_id=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, groupId);
-			System.out.println("groupId "+groupId);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
-			System.out.println(rs.getInt(1));
 			vo.setNo(rs.getInt(1));
 			vo.setUserId(rs.getString(2));
 			vo.setTitle(rs.getString(3));
@@ -303,7 +355,7 @@ public class OneInquiryDAO {
 		OneInquiryVO vo = new OneInquiryVO();
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT no, user_id, title, contents, filename, CREATE_AT,group_id "
+			String sql="SELECT no, user_id, title, contents, filename,TO_CHAR(create_at,'YYYY-MM-DD HH24:MI:SS'),group_id "
 					+ "FROM user_question_3 "
 					+ "WHERE group_step=1 AND group_id=?";
 			ps=conn.prepareStatement(sql);
@@ -317,7 +369,7 @@ public class OneInquiryDAO {
 			if(rs.getString(5)!=null) {
 				vo.setFilename(rs.getString(5));
 			}
-			vo.setCreatedAt(rs.getDate(6));
+			vo.setUpdateAt(rs.getString(6));
 			vo.setGroupId(rs.getInt(7));
 			
 			rs.close();
@@ -351,4 +403,62 @@ public class OneInquiryDAO {
 			cm.disConnection(conn, ps);
 		}
 	}
+	
+	
+	public OneInquiryVO oneDetailQuestionUpdateData(int groupId) {
+		OneInquiryVO vo = new OneInquiryVO();
+		try {
+			conn=cm.getConnection();
+			String sql="SELECT no, user_id, title, contents, filename, TO_CHAR(create_at,'YYYY-MM-DD HH24:MI:SS'),group_id,secret_check,password "
+					+ "FROM user_question_3 "
+					+ "WHERE group_step=0 AND group_id=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, groupId);
+			ResultSet rs=ps.executeQuery();
+			rs.next();
+			vo.setNo(rs.getInt(1));
+			vo.setUserId(rs.getString(2));
+			vo.setTitle(rs.getString(3));
+			vo.setContent(rs.getString(4));
+			if(rs.getString(5)!=null) {
+				vo.setFilename(rs.getString(5));
+			}
+			vo.setUpdateAt(rs.getString(6));
+			vo.setGroupId(rs.getInt(7));
+			vo.setSecretCk(rs.getString(8));
+			vo.setPassword(rs.getString(9));
+			
+			rs.close();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			cm.disConnection(conn, ps);
+		}
+		return vo;
+	}
+	
+	public void oneDetailQuestionUpdate(OneInquiryVO vo) {
+		try {
+			conn=cm.getConnection();
+			String sql="UPDATE user_question_3 "
+					+ "SET title=?, contents=?, create_at=sysdate, filename=?, filesize=? "
+					+ "WHERE group_id=? AND group_step=0";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getTitle());
+			ps.setString(2, vo.getContent());
+			ps.setString(3, vo.getFilename());
+			ps.setInt(4, vo.getFilesize());
+			ps.setInt(5, vo.getGroupId());
+			ps.executeUpdate();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			cm.disConnection(conn, ps);
+		}
+	}
+	
 }

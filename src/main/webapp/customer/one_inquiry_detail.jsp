@@ -10,25 +10,33 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 $(function(){
-	$(window).scrollTop(200)
+	$(window).scrollTop(150)
 	var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
     console.log(position)
 	$('#admin_insert_btn').click(function(){
-			$('.one_detail_answer_insert').show()
+			$('.one_detail_table').attr('state','2')
+			$('.one_detail_answer_update').show()
+			$('.one_detail_answer_update>a:last-child').text('답변제출')
 			$('#admin_insert_wrap').show()
 			$('#admin_insert_btn_span').hide()
 			$('.one_detail_answer_insert>textarea').focus()
 	})
 	
 	$('#one_answer_update').click(function(){
+		$('.one_detail_table').attr('state','4')
 		$('.one_detail_answer_update').show()
+		$('.one_detail_answer_update>a:last-child').attr('href','javascript:answerUpdate()')
 		$('.one_detail_ques_delete').hide()
 		$('.one_detail_ques_update').hide()
 		let groupId = $(this).attr('groupid')
+		let page= $(this).attr('page')
+		
+		console.log(page)
 		$.ajax({
 			type: 'POST',
 	      	url : 'one_answer_update.do',
-	      	data:{"groupId":groupId},
+	      	data:{"groupId":groupId,
+	      			"page":page},
 	      	 success:function(res){
 	      		 console.log(res)
 	      		$('#one_detail_answer_wrap').hide()
@@ -37,23 +45,100 @@ $(function(){
 	      	 }
 		})
 	})
+	
+	$('#one_detail_que_update_btn').click(function(){
+		$('.one_detail_answer_update').show()
+		$('.one_detail_answer_update>a:last-child').attr('href','javascript:questionUpdate()')
+		$('.one_detail_ques_delete').hide()
+		$('.one_detail_ques_update').hide()
+		$('.one_detail_table').attr('state','3')
+		let groupId = $(this).attr('groupid')
+		let page= $(this).attr('page')
+		$.ajax({
+			type: 'POST',
+	      	url : 'one_question_update.do',
+	      	data:{"groupId":groupId,
+	      			"page":page},
+	      	 success:function(res){
+	      		 $('.one_detail_wrap').before(res);
+	      	 }
+		})
+		$('.one_detail_table').hide();
+		
+		
+	})
 })
+
 function oneInsertBack(){
+	if($('#one_ques_update_win').attr('state')=='3'){
+		$('#one_ques_update_win').remove();
+		$('.one_detail_table').show();
+		$('.one_detail_answer_update').hide()
+		$('.one_detail_ques_delete').show()
+		$('.one_detail_ques_update').show()
+		$(window).scrollTop(150)
+	}else if($('.one_detail_table').attr('state')=='4') {
 		$('.admin_update').remove()
 		$('.one_detail_answer_update').hide()
 		$('#one_detail_answer_wrap').show()
 		$('.one_detail_ques_delete').show()
 		$('.one_detail_ques_update').show()
 		$(window).scrollTop(200)
+	}else{
+		$('#admin_insert_wrap').hide()
+		$('#admin_insert_btn_span').show()
+		$('.one_detail_answer_update').hide()
+		$(window).scrollTop(200)
 	}
+}
 function answerInsert(){
 	let fm = $('#answerFrm');
+	
+	let text=$('.one_detail_table textarea').val()
+	if($.trim(text)==""){
+		alert('내용을 입력하시오!')
+		return;
+	}
+	
 	fm.submit()
 }	
+
 function answerUpdate(){
 	let ufm = $('#answerUpdateFrm');
+	
+	let text=$('.one_detail_answer_insert textarea').val()
+	if($.trim(text)==""){
+		alert('내용을 입력하시오!')
+		return;
+	}
+	
 	ufm.submit()
 }
+
+function questionUpdate(){
+	let ofm = $('#ofm');
+	
+	let title=$('.one_insert_top>input').val()
+	if($.trim(title)==""){
+		alert('제목을 입력하시오!')
+		return;
+	}
+	
+	if($('.one_insert_secret input[type="checkbox"]').prop('checked')){
+		let pwd=$('.one_insert_secret input[type="password"]').val()
+		if($.trim(pwd)==""){
+			alert('비밀번호를 입력하시오!')
+			return;
+		}
+	}
+	let text=$('.one_detail_table textarea').val()
+	if($.trim(text)==""){
+		alert('내용을 입력하시오!')
+		return;
+	}
+	ofm.submit()
+}
+
 
 
 </script>
@@ -63,7 +148,7 @@ function answerUpdate(){
 		<h3>1:1 문의 게시판</h3>
 	</div>
 	<div class="one_detail_wrap">
-		<table class="one_detail_table">
+		<table class="one_detail_table" state="1">
 			<tbody>
 				<tr id="one_detail_question_wrap">
 					<td class="one_detail_top">
@@ -121,7 +206,7 @@ function answerUpdate(){
 				<c:if test="${avo==null && sessionScope.admin==1 }">
 				<tr id="admin_insert_wrap">
 					<td class="one_insert_answer">
-						<form  action="../customer/one_insert_ok.do?groupId=${qvo.groupId }" method="post" enctype="multipart/form-data" id="answerFrm">
+						<form  action="../customer/one_insert_ok.do?groupId=${qvo.groupId }&page=${page}" method="post" enctype="multipart/form-data" id="answerFrm">
 							<div class="one_insert_answer_top">
 								<h3>답변하기</h3>
 								<span>파일첨부&nbsp;
@@ -145,29 +230,27 @@ function answerUpdate(){
 				<a class="btn btn-sm" id="admin_insert_btn">답변작성</a>
 			</span>
 		</c:if>	
-			<span class="one_detail_answer_insert" style="display:none">
-				<a href="javascript:oneInsertBack()" class="btn btn-sm" style="background-color:#008B8B;margin-right: 5px;">취소</a>
-				<a href="javascript:answerInsert()" class="btn btn-sm"  style="background-color:#4169E1;">답변제출</a>
-			</span>
 			<span class="one_detail_answer_update" style="display:none">
 				<a href="javascript:oneInsertBack()" class="btn btn-sm" style="background-color:#008B8B;margin-right: 7px;">취소</a>
-				<a href="javascript:answerUpdate()" class="btn btn-sm"  style="background-color:#4169E1;">수정</a>
+				<a href="javascript:answerInsert()" class="btn btn-sm"  style="background-color:#4169E1;">수정</a>
 			</span>
 		<c:if test="${avo!=null && sessionScope.admin==1 }">
 				<span class="one_detail_ques_delete" id="">
-					<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${avo.groupId }" style="background-color:#008B8B;">답변삭제</a>
+					<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${avo.groupId }&page=${page}" style="background-color:#4169E1;">답변삭제</a>
 				</span>
 				<span class="one_detail_ques_update" id="">
-					<a class="btn btn-sm" id="one_answer_update" groupid="${avo.groupId }" style="background-color:#4169E1;">답변수정</a>
+					<a class="btn btn-sm" id="one_answer_update" groupid="${avo.groupId }" page="${page }" style="background-color:#008B8B;">답변수정</a>
 				</span>
 		</c:if>
 		<c:if test="${qvo.userId==sessionScope.userId }">
 			<span class="one_detail_ques_delete" id="">
-				<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${qvo.groupId }" style="background-color:#008B8B;">문의삭제</a>
+				<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${qvo.groupId }&page=${page}" style="background-color:#4169E1;" >문의삭제</a>
 			</span>
+			<c:if test="${avo==null }">
 			<span class="one_detail_ques_update" id="">
-				<a class="btn btn-sm" id="" style="background-color:#4169E1;">문의수정</a>
+				<a class="btn btn-sm" id="one_detail_que_update_btn" groupid="${qvo.groupId }" page="${page }" style="background-color:#008B8B;">문의수정</a>
 			</span>
+			</c:if>
 		</c:if>
 	</div>
 
