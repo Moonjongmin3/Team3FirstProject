@@ -304,7 +304,7 @@ $(function(){
               <td class="title_oi" style="padding-top:20px"><a href="#">[ ${ bvo.subCategory} ] ${bvo.name }</a><br>${bvo.author }</td>
               <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price}"/><br>
                 (10%<img src="../img/arrow.PNG" style="height: 15px;width: 15px;">)<br>
-                <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${bvo.Price*0.05}"/>
+                <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${bvo.price*0.05}"/>
               </td>
               <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
               <td id="qty">${bvo.quantity}</td>

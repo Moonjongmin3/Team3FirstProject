@@ -67,7 +67,7 @@ public class PayModel {
       return "../main/main.jsp";
    }
    
-   @RequestMapping("pay/order.do")//cart 페이지 연결
+   @RequestMapping("pay/orderlist.do")//cart 페이지 연결
    public String orderlist_info(HttpServletRequest request,
          HttpServletResponse response) {	   
 	   
@@ -83,7 +83,7 @@ public class PayModel {
       //상품정보
       UserVO uvo=pdao.orderer_info(id);//배송정보
       request.setAttribute("orderBookList",orderBookList );
-      request.setAttribute("diliveryDate",new Date().getTime() + 60*60*24*1000*2);
+      //request.setAttribute("diliveryDate",new Date().getTime() + 60*60*24*1000*2);
       //배송정보
       request.setAttribute("userName", uvo.getName());
       request.setAttribute("userPhone", uvo.getTel());

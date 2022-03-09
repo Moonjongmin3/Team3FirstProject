@@ -118,7 +118,7 @@
 				<div class="row">
 					<div class="col-xs-12 col-md-10 col-md-offset-1 btn-lg-area">
 						<c:if test="${not empty userId}">					
-							<button type="button" class="btn btn-primary btn-lg" id="user-btn">주문하기</button>
+							<button type="button" class="btn btn-primary btn-lg checkout-selected" id="user-btn">주문하기</button>
 						</c:if>
 						<c:if test="${empty userId}">
 							<button type="button" class="btn btn-primary btn-lg" id="user-btn" onclick="location.href ='../user/login.do'">회원 주문</button>
@@ -298,14 +298,14 @@
   		    
   		    books.push(book);
   		    
-      		let url = "../pay/order.do";
+      		let url = "../pay/orderlist.do";
     		
       		postToUrl(books, url)
       });
    	  // 주문하기 - 선택 상품
       $('.checkout-selected').click(function(){
     	  let books = [];
-    	  let url = "../pay/order.do";
+    	  let url = "../pay/orderlist.do";
     	  
     	  $.each($("input.book-check:checked"), function(){
     		  let book = {};
@@ -393,7 +393,8 @@
 	    		book_data += '<br><button type="button" class="quantity" name="bookId" value="' + value.id +'" style="width:70px">변경</button></td>';
 	    		book_data += '<td id="cart-table-info"><strong>' + value.price * 0.9 + '원</strong></td>';
 	    		book_data += '<td id="cart-table-info"><strong>내일</strong><br>(${deliveryDate})</td>';
-	    		book_data += '<td id="cart-table-info"><button type="button" class="btn btn-primary" id="checkout-btn" value="' + value.id + '" style="width:85px">주문하기</button>';
+	    		book_data += '<td id="cart-table-info"><c:if test="${not empty userId}"><button type="button" class="btn btn-primary" id="checkout-btn" value="' + value.id + '" style="width:85px">주문하기</button></c:if>';
+	    		book_data += '<c:if test="${empty userId}"><button type="button" class="btn btn-primary" onclick="location.href =\'../user/login.do\'" value="' + value.id + '" style="width:85px">주문하기</button></c:if>';
 	    		book_data += '<button type="button" class="btn btn-info" style="width:85px">찜하기</button>';
 	    		book_data += '<button type="button" class="btn btn-default" id="del-button" value="' + value.id + '" style="width:85px">삭제하기</button></td>';
 	    		book_data += '</tr>';
