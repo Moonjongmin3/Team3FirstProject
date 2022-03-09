@@ -9,5 +9,6 @@
 	<bean class="model.OrderHistoryModel"/>
 	<bean class="model.PayModel"/>
 	<bean class="model.BoardModel"/>
+	<bean class="model.BoardReplyModel"/>
 	<bean class="model.OneInquiryModel"/>
 </beans>

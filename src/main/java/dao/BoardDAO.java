@@ -10,22 +10,32 @@ public class BoardDAO {
 	private PreparedStatement ps;
 	private ConnectionManager cm = new ConnectionManager();
 	
-	public List<BoardVO> boardList(int page){
+	public List<BoardVO> boardList(int page,String cate,String Keyword){
 		List<BoardVO> list=new ArrayList<BoardVO>();
 		try {
+			String type="";
+			if(cate.equals("content")) {
+				 type= "content LIKE '%'||?||'%'";
+			}else if(cate.equals("title")){
+				type="title LIKE '%'||?||'%'";
+			}else {
+				type="user_id LIKE '%'||?||'%'";
+			}
 			conn=cm.getConnection();
 			String sql="SELECT no,user_id,title,created_at,hit,num "
 						+"FROM (SELECT no,user_id,title,created_at,hit,rownum as num "
 						+"FROM (SELECT no,user_id,title,created_at,hit "
-						+"FROM board_3 ORDER BY no DESC)) "
+						+"FROM board_3 WHERE "+type
+						+" ORDER BY no DESC)) "
 						+"WHERE num BETWEEN ? AND ?";
 			int rowSize=10;
 			int start=(rowSize*page)-(rowSize-1);
 			int end=rowSize*page;
 			
 			ps=conn.prepareStatement(sql);
-			ps.setInt(1, start);
-			ps.setInt(2, end);
+			ps.setString(1,Keyword);
+			ps.setInt(2, start);
+			ps.setInt(3, end);
 			
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
@@ -49,12 +59,22 @@ public class BoardDAO {
 	}
 	
 	// 총페이지
-	public int boardTotalPage() {
+	public int boardTotalPage(String cate,String keyword) {
 		int total=0;
 		try {
+			String type="";
+			if(cate.equals("content")) {
+				 type= "content LIKE '%'||?||'%'";
+			}else if(cate.equals("title")){
+				type="title LIKE '%'||?||'%'";
+			}else {
+				type="user_id LIKE '%'||?||'%'";
+			}
 			conn=cm.getConnection();
-			String sql="SELECT CEIL(COUNT(*)/10.0) FROM board_3";
+			String sql="SELECT CEIL(COUNT(*)/10.0) FROM board_3 "
+					 +"WHERE "+type;
 			ps=conn.prepareStatement(sql);
+			ps.setString(1, keyword);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
 			total=rs.getInt(1);
@@ -134,16 +154,17 @@ public class BoardDAO {
 		BoardVO vo=new BoardVO();
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT no,title,content "
+			String sql="SELECT user_id,title,content,bfile "
 					+"FROM board_3 "
 					+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, no);
 			ResultSet rs=ps.executeQuery();
 			rs.next();
-			vo.setNo(rs.getInt(1));
+			vo.setUser_id(rs.getString(1));
 			vo.setTitle(rs.getString(2));
 			vo.setContent(rs.getString(3));
+			vo.setBfile(rs.getString(4));
 			rs.close();
 		}
 		catch(Exception ex) {
@@ -169,18 +190,16 @@ public class BoardDAO {
 			rs.close();
 			
 			if(db_pwd.equals(vo.getPwd())) {
+				bCheck=true;
 				sql="UPDATE board_3 " 
-						+"SET title=?,content=?,created_at=sysdate,bfile=?,pwd=? "
-						+"WHERE no=?";
+					+"SET title=?,content=?,user_id=?,created_at=sysdate,bfile=? "
+					+"WHERE no=?";
 				ps.setString(1, vo.getTitle());
 				ps.setString(2, vo.getContent());
-				ps.setString(3, vo.getBfile());
-				ps.setString(4, vo.getPwd());
+				ps.setString(3, vo.getUser_id());
+				ps.setString(4, vo.getBfile());
 				ps.setInt(5, vo.getNo());
 				ps.executeUpdate();				
-			}
-			else {
-				bCheck=false;
 			}
 			
 		}
@@ -216,11 +235,20 @@ public class BoardDAO {
 			else {
 				bCheck=false;
 			}
+			conn.commit();
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
+			try
+    		{
+    			conn.rollback();// SQL문장 전체를 취소 (수행이 못함)
+    		}catch(Exception e){}
 		}
 		finally {
+			try
+    		{
+    			conn.setAutoCommit(true);
+    		}catch(Exception e){}
 			cm.disConnection(conn, ps);
 		}
 		
@@ -231,13 +259,20 @@ public class BoardDAO {
 		List<BoardVO> list=new ArrayList<>();
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT no,user_id,title,created_at,hit "
-					+"FROM board_3 "
-					+"WHERE ? LIKE '%'||?||'%'";
+			String sql="SELECT no,user_id,title,created_at,hit,num "
+					+"FROM (SELECT no,user_id,title,created_at,hit,rownum as num "
+					+"FROM (SELECT no,user_id,title,created_at,hit FROM board_3 "
+					+"WHERE ? LIKE '%'||?||'%' "
+					+"ORDER BY no DESC)) "
+					+"WHERE num BETWEEN ? AND ?";
+			int rowSize=10;
+			int start=(rowSize*page)-(rowSize-1);
+			int end=rowSize*page;
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, fs);
 			ps.setString(2, ss);
-			
+			ps.setInt(3, start);
+			ps.setInt(4, end);
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
 				BoardVO vo=new BoardVO();

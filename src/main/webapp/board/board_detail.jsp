@@ -20,21 +20,21 @@ th{
 	width:1080px;
 	height:800px;
 	margin: 0px auto;
-	overflow:hidden;
+	overflow:auto;
+	
 }
 
 td {
-  padding: 8px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ddd;
+  
 }
 </style>
 </head>
 <body>
-  <div class="board row3">
+
    <div class="board_wrap">
-    <h4></h4>
-	    <table class="table" style = "width:100%; table-layout: fixed;">
+	    <table class="table" style = "width:100%; table-layout: fixed">
 	      <tr>
 	       <td width="20%" class="text-center danger">번호</td>
 	       <td width="30%" class="text-center">${vo.no }</td>
@@ -59,8 +59,8 @@ td {
 		  	</td>
 	      </tr>
 	      <tr>
-	        <td colspan="4" height="200" class="text-left" valign="top">
-	         <pre style="white-space: pre-wrap;background-color: white;border:none">${vo.content }</pre>
+	        <td colspan="4" height="500px" class="text-left" valign="top">
+	         <pre style="white-space: pre-wrap; background-color: white; border:none ">${vo.content }</pre>
 	        </td>
 	      </tr>
 	      <tr>
@@ -81,37 +81,32 @@ td {
 	      </tr>
 	     </table>
 
-     
-    </div><!-- 
-    <div id="comments">
         <h2 class="sectiontitle">댓글</h2>
         <ul>
-         <c:forEach var="rvo" items="${rList }">
+         <c:forEach var="rvo" items="${replyList }">
 	          <li>
 	            <article>
 	              <header>
 	                <figure class="avatar">
-	                 <c:if test="${sessionScope.id==rvo.id}">
+	                 <c:if test="${sessionScope.user_id==rvo.user_id}">
 	                   <span class="btn btn-xs btn-success updates" data-no="${rvo.no }" style="color:black">수정</span>
-	                   <a href="../reply/reply_delete.do?no=${rvo.no }&rno=${rvo.rno}&tp=5" class="btn btn-xs btn-warning" style="color:black">삭제</a>
+	                   <a href="../reply/reply_delete.do?no=${rvo.no }" class="btn btn-xs btn-warning" style="color:black">삭제</a>
 	                 </c:if>
 	                </figure>
 	                <address>
-	                By <a href="#">${rvo.name}(${rvo.dbday })</a>
+	                By <a href="#">${rvo.user_id}</a>
 	                </address>
 	              </header>
 	              <div class="comcont">
-	                <p><pre style="white-space:pre-wrap;background-color:white;border:none">${rvo.msg }</pre></p>
+	                <p><pre style="white-space:pre-wrap;background-color:white;border:none">${rvo.content}</pre></p>
 	              </div>
 	            </article>
-	            <table class="table ups" id="m${rvo.no }" style="display:none">
+	            <table class="table ups" id="${rvo.no }" style="display:none">
 	             <tr>
 	               <td>
 	                 <form method=post action="../reply/reply_update.do">
-	                     <input type="hidden" name=rno value="${vo.no }">
 	                     <input type=hidden name=no value="${rvo.no}">
-	                     <input type=hidden name=tp value="5">
-		                 <textarea rows="5" name="msg" cols="48" style="float:left">${rvo.msg }</textarea>
+		                 <textarea rows="5" name="content" cols="48" style="float:left">${rvo.content }</textarea>
 		                  <input type=submit value="댓글수정" class="btn btn-primary"
 		                  style="height: 30px">
 	                 </form>
@@ -123,7 +118,7 @@ td {
           </c:forEach>
           </ul>
         </div>
-        <c:if test="${sessionScope.id!=null }"><%--로그인이 된 상태 --%>
+        <c:if test="${sessionScope.user_id!=null }"><%--로그인이 된 상태 --%>
 	        <table class="table">
 	             <tr>
 	               <td>
@@ -137,7 +132,7 @@ td {
 	               </td>
 	             </tr>
 	           </table>
-        </c:if>-->
-   </div>
+        </c:if>
+
 </body>
 </html>

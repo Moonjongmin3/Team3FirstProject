@@ -7,54 +7,70 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-th{
-  color:black;
+.board row3{
+   margin-top: 100px;
 }
 .board_wrap{
   margin: 0px auto;
-  width:1000px;
+  width:800px;
+}
+.board{
+	width:1080px;
+	height:800px;
+	margin: 0px auto;
+	overflow:hidden;
+}
+th{
+	background-color:DeepSkyBlue;
+	text-align:center;
+}
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
 </style>
 </head>
 <body>
   <div class="board row3">
     <h3>글쓰기</h3>
    <div class="board_wrap">
-     <form method=post action="../board/board_insert_ok.do">
+     <form method=post action="../board/board_insert_ok.do" enctype="multipart/form-data">
       <table class="table">
        <tr>
-        <th width=15% class="text-right success">이름</th> <!-- userID로바꾸기 -->
+        <th width=15%>이름</th> <!-- userID로바꾸기 -->
         <td width=85%>
-         <input type=text name=uer_id size=15 class="input-sm">
+         <input type=text name=user_id size=15 class="input-sm">
         </td>
        </tr>
        <tr>
-        <th width=15% class="text-right success">제목</th>
+        <th width=15%>제목</th>
         <td width=85%>
          <input type=text name=title size=50 class="input-sm">
         </td>
        </tr>
        <tr>
-        <th width=15% class="text-right success">내용</th>
+        <th width=15%>내용</th>
         <td width=85%>
-         <textarea rows="8" cols="55" name=content></textarea>
+         <textarea rows="10" cols="70" name=content></textarea>
         </td>
        </tr>
        <tr>
-        <th width=15% class="text-right success">첨부파일</th>
+        <th width=15%>첨부파일</th>
         <td width=85%>
          <input type=file name=bfile size=20 class="input-sm">
         </td>
        </tr>
        <tr>
-        <th width=15% class="text-right success">비밀번호</th>
+        <th width=15%>비밀번호</th>
         <td width=85%>
          <input type=password name=pwd size=10 class="input-sm">
         </td>
        </tr>
        <tr>
          <td colspan=2 class="text-center">
-           <input type=submit value="글쓰기" class="btn btn-sm btn-primary">
-           <input type=button value="취소" class="btn btn-sm btn-danger"
+           <button class="btn btn-sm btn-danger">글쓰기</button>
+           <input type=button value="취소" class="btn btn-sm btn-light"
             onclick="javascript:history.back()">
          </td>
        </tr>
