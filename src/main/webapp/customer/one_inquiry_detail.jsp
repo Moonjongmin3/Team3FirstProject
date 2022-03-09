@@ -10,16 +10,20 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 $(function(){
+	$(window).scrollTop(200)
 	var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
     console.log(position)
 	$('#admin_insert_btn').click(function(){
-			$('.one_detia_answer_insert').show()
+			$('.one_detail_answer_insert').show()
 			$('#admin_insert_wrap').show()
 			$('#admin_insert_btn_span').hide()
 			$('.one_detail_answer_insert>textarea').focus()
 	})
 	
 	$('#one_answer_update').click(function(){
+		$('.one_detail_answer_update').show()
+		$('.one_detail_ques_delete').hide()
+		$('.one_detail_ques_update').hide()
 		let groupId = $(this).attr('groupid')
 		$.ajax({
 			type: 'POST',
@@ -28,21 +32,28 @@ $(function(){
 	      	 success:function(res){
 	      		 console.log(res)
 	      		$('#one_detail_answer_wrap').hide()
-	      		 $('#one_detail_question_wrap').after(res);
+	      		 $('#one_detail_answer_wrap').before(res);
+	      		 $('.admin_update').show()
 	      	 }
 		})
 	})
 })
 function oneInsertBack(){
-		$('.one_detia_answer_insert').hide()
-		$('#admin_insert_wrap').hide()
-		$('#admin_insert_btn_span').show()
-		$(window).scrollTop(0)
+		$('.admin_update').remove()
+		$('.one_detail_answer_update').hide()
+		$('#one_detail_answer_wrap').show()
+		$('.one_detail_ques_delete').show()
+		$('.one_detail_ques_update').show()
+		$(window).scrollTop(200)
 	}
 function answerInsert(){
 	let fm = $('#answerFrm');
 	fm.submit()
 }	
+function answerUpdate(){
+	let ufm = $('#answerUpdateFrm');
+	ufm.submit()
+}
 
 
 </script>
@@ -130,27 +141,31 @@ function answerInsert(){
 	<div class="one_detail_btnbox">
 		<a href="../customer/one_inquiry.do?page=${page }" class="one_detail_cancel">목록보기</a>
 		<c:if test="${avo==null && sessionScope.admin==1 }">
-			<span class="one_detia_answer_insert" id="admin_insert_btn_span">
+			<span class="one_detail_answer_insert" id="admin_insert_btn_span" >
 				<a class="btn btn-sm" id="admin_insert_btn">답변작성</a>
 			</span>
-			<span class="one_detia_answer_insert" style="display:none">
-				<a href="javascript:oneInsertBack()" class="btn btn-sm">취소</a>
-				<a href="javascript:answerInsert()" class="btn btn-sm" id="admin_insert_ok_btn" >답변제출</a>
+		</c:if>	
+			<span class="one_detail_answer_insert" style="display:none">
+				<a href="javascript:oneInsertBack()" class="btn btn-sm" style="background-color:#008B8B;margin-right: 5px;">취소</a>
+				<a href="javascript:answerInsert()" class="btn btn-sm"  style="background-color:#4169E1;">답변제출</a>
 			</span>
-		</c:if>
+			<span class="one_detail_answer_update" style="display:none">
+				<a href="javascript:oneInsertBack()" class="btn btn-sm" style="background-color:#008B8B;margin-right: 7px;">취소</a>
+				<a href="javascript:answerUpdate()" class="btn btn-sm"  style="background-color:#4169E1;">수정</a>
+			</span>
 		<c:if test="${avo!=null && sessionScope.admin==1 }">
-			<span class="one_detia_ques_delete" id="">
-				<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${avo.groupId }" style="background-color:#008B8B;">답변삭제</a>
-			</span>
-			<span class="one_detia_ques_update" id="">
-				<a class="btn btn-sm" id="one_answer_update" groupid="${avo.groupId }" style="background-color:#4169E1;">답변수정</a>
-			</span>
+				<span class="one_detail_ques_delete" id="">
+					<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${avo.groupId }" style="background-color:#008B8B;">답변삭제</a>
+				</span>
+				<span class="one_detail_ques_update" id="">
+					<a class="btn btn-sm" id="one_answer_update" groupid="${avo.groupId }" style="background-color:#4169E1;">답변수정</a>
+				</span>
 		</c:if>
 		<c:if test="${qvo.userId==sessionScope.userId }">
-			<span class="one_detia_ques_delete" id="">
+			<span class="one_detail_ques_delete" id="">
 				<a class="btn btn-sm" href="../customer/one_delete.do?groupid=${qvo.groupId }" style="background-color:#008B8B;">문의삭제</a>
 			</span>
-			<span class="one_detia_ques_update" id="">
+			<span class="one_detail_ques_update" id="">
 				<a class="btn btn-sm" id="" style="background-color:#4169E1;">문의수정</a>
 			</span>
 		</c:if>

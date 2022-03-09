@@ -38,13 +38,14 @@ public class LoginModel {
 			String check = request.getParameter("check");
 			LoginDAO dao = new LoginDAO();
 			// UserVO로 결과값을 받을지 고민
-			String result = dao.isLogin(id, pwd);
-			request.setAttribute("result",result);
-			if(!(result.equals("NOID")||result.equals("NOPWD"))){
-				StringTokenizer st = new StringTokenizer(result, "|");
+			UserVO vo = dao.isLogin(id, pwd);
+			request.setAttribute("result",vo);
 
-				session.setAttribute("userName",st.nextToken());
-				String admin_check=st.nextToken();
+			String result = vo.getMsg();
+			if(!(result.equals("NOID")||result.equals("NOPWD"))){
+
+				session.setAttribute("userName",vo.getName());
+				String admin_check=vo.getAdmin();
 				if(admin_check.equals("N")){
 					session.setAttribute("admin",0);
 				}else {

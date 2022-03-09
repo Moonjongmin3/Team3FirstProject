@@ -89,6 +89,7 @@ public class OneInquiryModel {
 	public String one_Insert_ok(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		String userId = (String)session.getAttribute("userId");
+		String groupId= request.getParameter("groupId");
 		try {
 			int maxSize=1024*1024*200; //200mb
 	        String path="/Users/kimheejun/Desktop";
@@ -102,7 +103,6 @@ public class OneInquiryModel {
 	 		String content=mr.getParameter("content");
 	 		String password = mr.getParameter("password");
 	 		String secretCk = mr.getParameter("secretCk");
-	 		String groupId=mr.getParameter("groupId");
 	 		String filename=mr.getOriginalFileName("file");
 	 		
 	 		OneInquiryVO vo = new OneInquiryVO();
@@ -129,14 +129,14 @@ public class OneInquiryModel {
 	         // 업로드가 안된 상태 
 	         if(filename==null){
 	 			vo.setFilename("");
-	 			vo.setFileSize(0);
+	 			vo.setFilesize(0);
 	 		}
 	 		else
 	 		{
 	 			File file=new File(path+"/"+filename);
 //	 			File file=new File(path+"\\"+filename);  window는 이거 사용
 	 			vo.setFilename(file.getName());// 파일명만 저장 
-	 			vo.setFileSize((int)file.length());
+	 			vo.setFilesize((int)file.length());
 	 		}
 	         OneInquiryDAO dao = new OneInquiryDAO();
 	         if(groupId!=null) { 
@@ -147,7 +147,12 @@ public class OneInquiryModel {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return"redirect:../customer/one_inquiry.do";
+		if(groupId!=null) {
+			return"redirect:../customer/one_inquiry_detail.do?groupId=?"+groupId;
+		}else {
+			return"redirect:../customer/one_inquiry.do";
+		}
+		
 	}
 	
 	@RequestMapping("customer/one_inquery/download.do")
@@ -222,5 +227,50 @@ public class OneInquiryModel {
 		
 		request.setAttribute("vo", vo);
 		return "../customer/one_inquiry_update.jsp";
+	}
+	
+	
+	@RequestMapping("customer/one_answer_update_ok.do")
+    public String oneUpdateAnswer_ok(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String userId = (String)session.getAttribute("userId");
+		String groupId = request.getParameter("groupId");
+		try {
+			int maxSize=1024*1024*200; //200mb
+	        String path="/Users/kimheejun/Desktop";
+//	        String path="c:\\download";  window는 이거 사용
+				String enctype="UTF-8";
+				MultipartRequest mr=
+	 				new MultipartRequest(request, 
+	 						path,maxSize,enctype,
+	 						new DefaultFileRenamePolicy());
+			String title=mr.getParameter("title");
+	 		String content=mr.getParameter("content");
+	 		String filename=mr.getOriginalFileName("file");
+	 		
+	 		OneInquiryVO vo = new OneInquiryVO();
+	 		
+	 		 vo.setTitle(title);
+	 		 vo.setContent(content);
+		     vo.setUserId(userId);
+		     vo.setGroupId(Integer.parseInt(groupId));
+		     
+	         if(filename==null){
+	 			vo.setFilename("");
+	 			vo.setFilesize(0);
+	 		}
+	 		else
+	 		{
+	 			File file=new File(path+"/"+filename);
+//	 			File file=new File(path+"\\"+filename);  window는 이거 사용
+	 			vo.setFilename(file.getName());
+	 			vo.setFilesize((int)file.length());
+	 		}
+	         OneInquiryDAO dao = new OneInquiryDAO();
+	         dao.oneDetailAnswerUpdate(vo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:../customer/one_inquiry_detail.do?groupId="+groupId;
 	}
 }

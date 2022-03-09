@@ -117,7 +117,7 @@ public class OneInquiryDAO {
 			vo.setContent(rs.getString(4));
 			if(rs.getString(5)!=null) {
 				vo.setFilename(rs.getString(5));
-				vo.setFileSize(rs.getInt(6));
+				vo.setFilesize(rs.getInt(6));
 			}
 			vo.setCreatedAt(rs.getDate(7));
 			vo.setHit(rs.getInt(8));
@@ -153,7 +153,7 @@ public class OneInquiryDAO {
 			vo.setContent(rs.getString(4));
 			if(rs.getString(5)!=null) {
 				vo.setFilename(rs.getString(5));
-				vo.setFileSize(rs.getInt(6));
+				vo.setFilesize(rs.getInt(6));
 			}
 			vo.setCreatedAt(rs.getDate(7));
 			vo.setHit(rs.getInt(8));
@@ -329,5 +329,26 @@ public class OneInquiryDAO {
 			cm.disConnection(conn, ps);
 		}
 		return vo;
+	}
+	
+	public void oneDetailAnswerUpdate(OneInquiryVO vo) {
+		try {
+			conn=cm.getConnection();
+			String sql="UPDATE user_question_3 "
+					+ "SET contents=?, create_at=sysdate, filename=?, filesize=?"
+					+ "WHERE group_id=? AND group_step=1";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getContent());
+			ps.setString(2, vo.getFilename());
+			ps.setInt(3, vo.getFilesize());
+			ps.setInt(4, vo.getGroupId());
+			ps.executeUpdate();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			cm.disConnection(conn, ps);
+		}
 	}
 }

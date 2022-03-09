@@ -12,8 +12,8 @@ public class LoginDAO {
     private ConnectionManager cm = new ConnectionManager();
 
     // 추후 String => UserVO로 바꾸기
-    public String isLogin(String id,String pwd){
-        String result="";
+    public UserVO isLogin(String id,String pwd){
+        UserVO vo=new UserVO();
         try{
             conn=cm.getConnection();
             String sql="SELECT COUNT(*) FROM user_3 " +
@@ -25,7 +25,7 @@ public class LoginDAO {
             int count = rs.getInt(1);
             rs.close();
             if(count==0){
-                result="NOID";
+                vo.setMsg("NOID");;
             }else{
                 sql="SELECT password,name,admin_check FROM user_3 WHERE id=?";
                 ps= conn.prepareStatement(sql);
@@ -37,13 +37,12 @@ public class LoginDAO {
                 String aCheck=rs.getString(3);
                 rs.close();
                 if(db_pwd.equals(pwd)){
-                    result=name+"|"+aCheck;
-                    sql="UPDATE user_3 SET login_check='Y' WHERE id=?";
-                    ps=conn.prepareStatement(sql);
-                    ps.setString(1,id);
-                    ps.executeUpdate();
+                    vo.setMsg("OK");
+                    vo.setName(name);
+                    vo.setAdmin(aCheck);
+
                 }else{
-                    result="NOPWD";
+                    vo.setMsg("NOPWD");
                 }
             }
 
@@ -52,7 +51,7 @@ public class LoginDAO {
         }finally {
             cm.disConnection(conn,ps);
         }
-        return result;
+        return vo;
     }
     public void logout(String id){
         try{

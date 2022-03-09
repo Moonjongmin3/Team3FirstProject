@@ -3,7 +3,7 @@ package vo;
 import java.sql.Date;
 
 public class OneInquiryVO {
-	private int no,fileSize,hit,groupId,groupStep,filesize;
+	private int no,hit,groupId,groupStep,filesize;
 	private String userId, title,content,filename,secretCk,password,username,replyCheck;
 	private Date createdAt;
 	public int getNo() {
@@ -12,12 +12,7 @@ public class OneInquiryVO {
 	public void setNo(int no) {
 		this.no = no;
 	}
-	public int getFileSize() {
-		return fileSize;
-	}
-	public void setFileSize(int fileSize) {
-		this.fileSize = fileSize;
-	}
+	
 	public int getHit() {
 		return hit;
 	}
