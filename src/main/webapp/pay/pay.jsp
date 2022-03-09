@@ -217,6 +217,9 @@ $(document).ready(function () {
           $(".Rrow").stop().animate({"top": Rrow_position }, 500);
  
      }).scroll();
+     
+     
+     $('[data-toggle="popover"]').popover();
 });
 
 //수정 필요
@@ -248,6 +251,8 @@ $(function(){
       })
       
       //
+      
+     
    
 })
 
@@ -271,6 +276,7 @@ $(function(){
 </script>
 </head>
 <body>
+<form method="post" action="pay/order_insert.do">
   <div class="container">
     <h2>주문상품</h2>
     <hr>
@@ -289,19 +295,24 @@ $(function(){
             </tr>
           </thead>
           <tbody>
+           <c:forEach var="bvo" items="${orderBookList }">
             <tr>
-             <td class="img_oi"><img alt="poster" src="${poster }" width="120px" height="150px"></td>
-              <td class="title_oi" style="padding-top:20px"><a href="#">[ ${ mainCategory} ] ${title }</a><br>${author }</td>
-              <td><fmt:formatNumber pattern="#,##0 원" value="${price}"/><br>
-                (${saleRate }%<img src="../img/arrow.PNG" style="height: 15px;width: 15px;">)<br>
-                <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${point}"/>
-              </td>
-              <td><fmt:formatNumber pattern="#,##0 원"  value="${sellingPrice}"/></td>
-              <td id="qty">${qty}</td>
-              <td><fmt:formatNumber pattern="#,##0 원" value="${sellingPrice*qty }"/></td><!--책 개별 합계 -->
-              <td><fmt:formatDate value ="${diliveryDate}" pattern ="MM/dd" var="now"/><br>도착예정</td>
+              <td type="hidden" name="book_id" value="${bvo.id }"></td>
             </tr>
-            <!-- <tr> ....위치 고민중.....
+            <tr>
+             <td class="img_oi"><img alt="poster" src="${bvo.poster }" width="120px" height="150px"></td>
+              <td class="title_oi" style="padding-top:20px"><a href="#">[ ${ bvo.subCategory} ] ${bvo.name }</a><br>${bvo.author }</td>
+              <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price}"/><br>
+                (10%<img src="../img/arrow.PNG" style="height: 15px;width: 15px;">)<br>
+                <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${bvo.Price*0.05}"/>
+              </td>
+              <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
+              <td id="qty">${bvo.quantity}</td>
+              <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
+              <td>내일<br>도착예정</td>
+            </tr>
+           </c:forEach> 
+            <!-- <tr> ....위치 고민중.....<fmt:formatDate value ="${diliveryDate}" pattern ="MM/dd" var="now"/>
             <td colspan="7"><img alt="" src="../img/caution.PNG" style="height: 20px;width: 20px;"> 
               날씨나 택배사 사정에 따라 배송이 지연될 수 있습니다.</td>
             </tr>  -->
@@ -337,14 +348,14 @@ $(function(){
             </tr>
             <tr>
               <th width=15%><strong>이름</strong></th>
-              <td width=85%><input type="text" name="name_addr" value="${userName }" size="10"> </td><!-- user.name -->
+              <td width=85%><input type="text" name="receiver_name" value="${userName }" size="10"> </td><!-- user.name -->
             </tr>
             <tr>
               <th width=15%><strong>배송주소</strong></th>
               <td width=85%>
-                <input type="text" id="post_pay" value="${userAddr1 }" readonly="readonly" size="10"style="margin-bottom:8px;">&nbsp;&nbsp;<input type="button" id="postBtn_pay" value="주소찾기"><br>
-                도로명 주소<input type="text" id="addr1_pay" value="${userAddr2 }" readonly="readonly" size="35"style=";margin-bottom:8px;"><br>
-                상세 주소<input type="text" id="addr2_pay" size="35" style="margin-left:14px;margin-bottom:8px;"><br>                
+                <input type="text" name="zipcode" id="post_pay" value="${userAddr1 }" readonly="readonly" size="10"style="margin-bottom:8px;">&nbsp;&nbsp;<input type="button" id="postBtn_pay" value="주소찾기"><br>
+                도로명 주소<input type="text" name="ship_address1" id="addr1_pay" value="${userAddr2 }" readonly="readonly" size="35"style=";margin-bottom:8px;"><br>
+                상세 주소<input type="text" name="ship_address2" id="addr2_pay" size="35" style="margin-left:14px;margin-bottom:8px;"><br>                
                 <ul class="caution_ul">
                   <li style="font-size: 10px">
                     <img alt="!!" src="../img/caution_sm.PNG" style="height: 13px;width: 5px;margin-top:0px;"> 
@@ -357,7 +368,7 @@ $(function(){
             <tr>
               <th width=15%><strong>휴대폰</strong></th>
               <td width=85%>
-                <select name="phone1" value="${fn:substring(userPhone,0,3) }" id="phone1_pay">
+                <select name="receiver_phone1" value="${fn:substring(userPhone,0,3) }" id="phone1_pay">
                <option value="010" selected="selected">010</option>
                    <option value="011">011</option>
                    <option value="016">016</option>
@@ -365,8 +376,8 @@ $(function(){
                    <option value="018">018</option>
                    <option value="019">019</option>
             </select>&nbsp;-&nbsp;
-                 <input type='tel' name='phone2' value="${fn:substring(userPhone,3,7) }" size="2" id="phone2_pay"/>&nbsp;-&nbsp;
-                <input type='tel' name='phone3' value="${fn:substring(userPhone,7,11) }" size="2" id="phone3_pay"/><br>
+                 <input type='tel' name='receiver_phone2' value="${fn:substring(userPhone,3,7) }" size="2" id="phone2_pay"/>&nbsp;-&nbsp;
+                <input type='tel' name='receiver_phone3' value="${fn:substring(userPhone,7,11) }" size="2" id="phone3_pay"/><br>
                 <div class="caution">
                   연락처는 하나만 입력하셔도 결제가 가능합니다.
                 </div>
@@ -388,6 +399,7 @@ $(function(){
             </tr>
           </table>
         </div>
+       
 <!-- 주문고객정보------------------------------------------------------------------ -->
         <div class="wrap_white_div">
           <div class="wrap_white">
@@ -542,15 +554,15 @@ $(function(){
                 <tr>
                   <th width=25%><strong>택배사<br>직원에게</strong></th>
                   <td>
-                    <input type="text" class="input_gray" size="25"/><br>
-                    <div class="caution">택배회사 송장에 출력되는 메시지
+                    <input type="text" name="ship_request" class="input_gray" size="25"/><br>
+                    <div class="caution">택배회사 송장에 출력되는 메시지</div>
                   </td>
                 </tr>
                 <tr>
                   <th width=25%><strong>받는분께<br>메세지</strong></th>
                   <td>
                     <input type="text" size="25" style="background-color:#f6f6f6"/><br>
-                    <div class="caution">영수증 상단에 출력<br>(공백포함 36자 제한)
+                    <div class="caution">영수증 상단에 출력<br>(공백포함 36자 제한)</div>
                   </td>
                 </tr>
               </table>
@@ -572,9 +584,7 @@ $(function(){
               </p>
               <br>
               <p>
-                <button type="button" class="button_pay payBtn" >
-                  <span>결제하기</span>
-                </button>
+                <button type="submit" class="button_pay payBtn" >결제하기</button>
               </p>
             </div>
           </div><!-- 결제방법R 끝 --------------------------------------------- -->         
@@ -606,9 +616,9 @@ $(function(){
           </tr>
           <tr><br></tr>         
       </table>
-      <button type="button" class="payBtn" style="background-color:white;align:center;font-size:20px;border-radius:15px;border:none; width:100%;height:50px"><span style="color:#fda4ba;font-weight: bold;">결제하기</span></button>
+      <input type="submit" class=" buton payBtn" style="background-color:white;align:center;font-size:20px;border-radius:15px;border:none; width:100%;height:50px"><span style="color:#fda4ba;font-weight: bold;">결제하기</span></button>
     </div><!-- Rrow ------------------------------------------------------------>
   </div> <!-- container -->
-
+</form>
 </body>
 </html>
