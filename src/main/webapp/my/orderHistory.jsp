@@ -152,7 +152,13 @@ hr{
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>             	 
-
+<script type="text/javascript">
+$(function(){	
+	$(".detail_oh").on("click", function() {//detail페이지 hide/show..
+		
+  	$(".detail_hide").toggle();
+});
+</script>
 </head>
 <body>
 
@@ -209,24 +215,43 @@ hr{
 	      <tr class="bg_color_Lgray">
 	        <th><input type="checkbox"></th>
 	        <th width=10% class="text-center color_Mgray">주문번호</th>
-	        <th width=45% class="text-center color_Mgray">상품명</th>
+	        <th width=40% class="text-center color_Mgray">상품명</th>
 	        <th width=15% class="text-center color_Mgray">결제금액</th>
 	        <th width=20% class="text-center color_Mgray">주문일</th>
 	        <th width=10% class="text-center color_Mgray">주문상태</th>
+	        <th width=5% class=""></th>
 	      </tr>
 	    <c:forEach var="vo" items="${list }">	      
 	      <tr>
-	        <td width=10% class="text-center">${vo.order_id }</td>
-	        <%-- .do =>Model --%>
-	        <td width=45%><a href="../.do?no=${vo.no }">${vo.name }</a></td>
-	        <td width=15% class="text-center">${vo.total_price }</td>
 	        <td width=20% class="text-center">
+	          <a href="..my/orderHistory.do?order_id=${vo.order_id}" id="detail_oh">${vo.order_id }</a>
+	        </td>
+	        <%-- .do =>Model --%>
+	        <td width=40%>${name }</td>
+	        <td width=10% class="text-center">${vo.total_price }</td>
+	        <td width=15% class="text-center">
 	          <fmt:formatDate value="${vo.order_date }" pattern="yyyy-MM-dd"/>
 	        </td>
-	        <td width=10% class="text-center">${vo.state }</td>
+	        <td width=10% class="text-center">${vo.state }<td>
+	        <td width=5% class="text-center">
+	          <a href="..my/orderHistory_delete.do?order_id=${vo.order_id} }">삭제</a>
+	        </td>  
 	      </tr>
+	      <!-- hide() 목록 name클릭-> show() -->
+	    <tr id="${vo.order_id }" class="detail_hide">
+	        <td rowspan="7">
+	          <img src="${poster }" width="120px" height="150px">
+	        </td>
+	        <td>
+	          <a href="..book/book/productdetail.do?order_id=${vo.book_id }">${name }</a><br>
+	          ${author }<br>
+	          ${vo.zipcode}<br>
+	          ${vo.ship_address1 }<br>
+	          ${vo.ship_address2 }<br>
+	          ${vo.receiver_phone }
+	        </td>
+	      </tr>  
 	    </c:forEach>
-	    
 	    </table>
 	    <table class="table">
 	      <tr>
