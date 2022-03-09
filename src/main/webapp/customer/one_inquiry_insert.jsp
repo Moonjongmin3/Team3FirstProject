@@ -8,6 +8,25 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
 function submit(){
+	let title=$('.one_insert_top>input').val()
+	if($.trim(title)==""){
+		alert('제목을 입력하시오!!')
+		return;
+	}
+	
+	if($('.one_insert_secret input[type="checkbox"]').prop('checked')){
+		let pwd= $('.one_insert_secret input[type="password"]').val()
+		if($.trim(pwd)==""){
+			alert('비밀번호를 입력하시오!!')
+			return;
+		}
+	}
+	let text=$('.one_detail_table textarea').val()
+	console.log(text)
+	if($.trim(text)==""){
+		alert('내용을 입력하시오!!')
+		return;
+	}
 	let f =$('#ofm')
 	f.submit();
 }

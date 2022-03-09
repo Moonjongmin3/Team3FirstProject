@@ -4,8 +4,17 @@ import java.sql.Date;
 
 public class OneInquiryVO {
 	private int no,hit,groupId,groupStep,filesize;
-	private String userId, title,content,filename,secretCk,password,username,replyCheck;
+	private String userId, title,content,filename,secretCk,password,username,replyCheck,updateAt;
+	private String mylist="N";
 	private Date createdAt;
+
+	
+	public String getMylist() {
+		return mylist;
+	}
+	public void setMylist(String mylist) {
+		this.mylist = mylist;
+	}
 	public int getNo() {
 		return no;
 	}
@@ -91,6 +100,11 @@ public class OneInquiryVO {
 	public void setFilesize(int filesize) {
 		this.filesize = filesize;
 	}
-	
+	public String getUpdateAt() {
+		return updateAt;
+	}
+	public void setUpdateAt(String updateAt) {
+		this.updateAt = updateAt;
+	}
 	
 }

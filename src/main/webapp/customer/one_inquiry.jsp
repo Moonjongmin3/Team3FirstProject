@@ -26,10 +26,11 @@ $(function(){
 	
 	$('.one_pwd_submit').click(function(){
 		let groupId = $(this).attr('groupId')
+		let page =$(this).attr('page')
 		let pwdin="pwdin_"+String(groupId)
 		let pwd = $('.'+pwdin).val()
 		if(pwd==""){
-			$('.one_pwd_span_'+groupId).text("비밀번호를 입력하시오!!")
+			$('.one_pwd_span_'+groupId).text("비밀번호를 입력하시오!")
 			return;
 		}
 		$.ajax({
@@ -42,54 +43,91 @@ $(function(){
 	      		 let result=word[0]
 	      		 let groupId= word[1]
 	      		 if(result=='N'){
-	      			$('.one_pwd_span_'+groupId).text("비밀번호가 틀렸습니다!!")
+	      			$('.one_pwd_span_'+groupId).text("비밀번호가 틀렸습니다!")
 	      			return;
 	      		 }
-	      		 location.replace('../customer/one_inquiry_detail.do?groupId='+groupId)
+	      		 location.replace('../customer/one_inquiry_detail.do?groupId='+groupId+'&page='+page)
 	      	 }
 		})
 	})
 })
+function oneSearch(){
+	let keyword=$('#one_search_text').val()
+	if($.trim(keyword)==""){
+		alert('검색어를 입력하시오!')
+		return;
+	}
+	let sfm = $('#oneserchfm')
+	sfm.submit()
+}
+function resetSearch(){
+	$('.one_select option:first-child').prop('selected',true)
+	$('#one_search_text').val('')
+	let sfm = $('#oneserchfm')
+	sfm.submit()
+}
 
+function mylistsearch(){
+	let userId = '${sessionScope.userId}'
+	
+	$('.one_search_box').append($('<input/>',{type:'hidden',name:'userid',value:userId}))
+	// ajax로 해야할듯 나중에
+	/* $('#mylist_search').text('모든글 보기') */
+	let sfm = $('#oneserchfm')
+	sfm.submit()
+}
 </script>
 </head>
 <body>
 	<div class="one_title">
 		<h3>1:1 문의 게시판</h3>
 	</div>
-	<form method="post" action="">
+	<form method="post" action="../customer/one_inquiry.do" id="oneserchfm">
 		<div class="one_search_bar">
-			<a href="#">
-				내 글만 보기
-			</a>
+			<c:if test="${sessionScope.userId!=null&& sessionScope.admin==0 }">
+				<c:if test="${list[0].mylist=='N'}">
+				<a href="javascript:mylistsearch()" id="mylist_search">
+					내 글만 보기
+				</a>
+				</c:if>
+			 </c:if>
+			 <c:if test="${list[0].mylist=='Y'}">
+				 <a href="javascript:resetSearch()" id="mylist_search">
+					모든글 보기
+				</a>
+			</c:if>
 			<div class="one_search_box">
 				<strong class="one_total_num">
 				총
 				<em>${totalCount }</em>
 				건
 				</strong>
-				<select class="one_select">
-					<option value="1">제목
+				<select class="one_select" name="oneSearchCate">
+					<option value="1" ${cate=='1'?'selected':'' }>제목
 					</option>
-					<option value="2">내용
+					<option value="2" ${cate=='2'?'selected':'' }>내용
 					</option>
-					<option value="3">제목+내용
+					<option value="3" ${cate=='3'?'selected':'' }>제목+내용
 					</option>
 				</select>
 				<label for="one_text">
-					<input type="text" name="one_text" id="one_search_text" value="">
+					<input type="text" name="one_keyword" id="one_search_text" value="${keyword }">
 				</label>
-				<a href="#" class="one_search_btn">검색</a>
+				<a href="javascript:oneSearch()" class="one_search_btn">검색</a>
+				<c:if test="${keyword!='' }">
+					<a href="javascript:resetSearch()" class="one_reset_btn">초기화</a>
+				</c:if>
 			</div>
 		</div>
 	</form>
 	<table class="one_list">
 		<tbody>
-		<c:set var="i" value="${totalCount }"/>
+		<c:set var="i" value="${totalCount+1 }" />
+		<fmt:parseNumber value="${i }" var="is"/> 
 			<c:forEach var="vo" items="${list }" >
 			<tr class="one_list_tr one_list_${vo.groupId }">
-				<td class="one_num" width="10%">${vo.groupId}</td>
-				<td width="5%">
+				<td class="one_num" width="8%">${is=(is-1) }</td>
+				<td width="3%">
 					<c:if test="${vo.secretCk=='N' }">
 					<i class="unlock_icon lock" secret="${vo.secretCk }">
 						<img src="../img/unlock.png">
@@ -101,7 +139,7 @@ $(function(){
 					</i>
 					</c:if>
 				</td>
-				<td class="one_list_title" width="50%">
+				<td class="one_list_title" width="55%">
 					<c:if test="${vo.secretCk=='N'|| sessionScope.admin==1 }">
 						<a href="../customer/one_inquiry_detail.do?page=${curpage }&groupId=${vo.groupId }" >${vo.title }</a>
 					</c:if>
@@ -125,7 +163,7 @@ $(function(){
 					<c:if test="${sessionScope.admin==1 }">
 						<c:if test="${vo.replyCheck=='N' }">
 							<span>
-								<a href="../customer/one_inquiry_detail.do?groupId=${vo.groupId }&page=${curpage}" class="one_list_answer_admin" >
+								<a href="../customer/one_inquiry_detail.do?groupId=${vo.groupId }&page=${curpage}" class="one_list_answer_admin" qid=${vo.groupId } >
 								답변하기</a>
 							</span>
 						</c:if>
@@ -150,7 +188,8 @@ $(function(){
 					<td colspan="4" class="one_password_td">
 							<input type="hidden" value="${vo.groupId }" class="one_pwd_groupid">
 							<input type="password" name="password" size=20 class="one_password pwdin_${vo.groupId }">
-							<input type="button" value="입력" class="one_pwd_submit pwd_submit_${vo.groupId }" groupid=${vo.groupId } size=15> 
+							<input type="button" value="입력" class="one_pwd_submit pwd_submit_${vo.groupId }" 
+							groupid=${vo.groupId } page=${curpage } size=15> 
 							<span class="one_pwd_span_${vo.groupId } " style='color:red; margin-left:10px'></span>
 					</td>
 				</tr>

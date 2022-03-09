@@ -23,6 +23,14 @@ public class OneInquiryModel {
 	@RequestMapping("customer/one_inquiry.do")
 	public String one_list(HttpServletRequest request, HttpServletResponse response) {
 		String page=request.getParameter("page");
+		String keyword=request.getParameter("one_keyword");
+		String cate = request.getParameter("oneSearchCate");
+		String userId=request.getParameter("userid");
+		
+		if(keyword==null)
+			keyword="";
+		if(cate==null)
+			cate="4";
 		if(page==null)
 			page="1";
 		List<OneInquiryVO> list = new ArrayList<OneInquiryVO>();
@@ -34,10 +42,12 @@ public class OneInquiryModel {
 		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
 		int endPage=startPage-1 +BLOCK;
 		
-		list=dao.oneInquiryListData(curpage);
-		int totalPage= dao.oneTotalPage();
-		int totalCount=dao.oneTotalCount();
+		list=dao.oneInquiryListData(curpage,keyword,Integer.parseInt(cate),userId);
+		int totalPage= dao.oneTotalPage(keyword,Integer.parseInt(cate),userId);
+		int totalCount=dao.oneTotalCount(keyword,Integer.parseInt(cate),userId);
 		
+		request.setAttribute("cate", cate);
+		request.setAttribute("keyword", keyword);
 		request.setAttribute("path", "1:1문의 게시판");
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("startPage", startPage);
@@ -90,6 +100,8 @@ public class OneInquiryModel {
 		HttpSession session = request.getSession();
 		String userId = (String)session.getAttribute("userId");
 		String groupId= request.getParameter("groupId");
+		String page =request.getParameter("page");
+		System.out.println("insert Page " + page);
 		try {
 			int maxSize=1024*1024*200; //200mb
 	        String path="/Users/kimheejun/Desktop";
@@ -148,7 +160,7 @@ public class OneInquiryModel {
 			e.printStackTrace();
 		}
 		if(groupId!=null) {
-			return"redirect:../customer/one_inquiry_detail.do?groupId=?"+groupId;
+			return"redirect:../customer/one_inquiry_detail.do?groupId="+groupId+"&page="+page;
 		}else {
 			return"redirect:../customer/one_inquiry.do";
 		}
@@ -207,6 +219,8 @@ public class OneInquiryModel {
 		HttpSession session = request.getSession();
 		String groupid = request.getParameter("groupid");
 		int admin= (int) session.getAttribute("admin");
+		String page = request.getParameter("page");
+		System.out.println(page);
 		
 		OneInquiryDAO dao = new OneInquiryDAO();
 		if(admin==0) {
@@ -215,16 +229,18 @@ public class OneInquiryModel {
 			dao.oneAnswerDelete(Integer.parseInt(groupid));
 		}
 		
-		return "redirect:../customer/one_inquiry.do";
+		return "redirect:../customer/one_inquiry_detail.do?groupId="+groupid+"&page="+page;
 	}
 	
 	@RequestMapping("customer/one_answer_update.do")
     public String oneUpdateAnswer(HttpServletRequest request, HttpServletResponse response) {
 		String groupId = request.getParameter("groupId");
+		String page = request.getParameter("page");
 		
 		OneInquiryDAO dao = new OneInquiryDAO();
 		OneInquiryVO vo = dao.oneDetailAnswerUpdateData(Integer.parseInt(groupId));
 		
+		request.setAttribute("page", page);
 		request.setAttribute("vo", vo);
 		return "../customer/one_inquiry_update.jsp";
 	}
@@ -235,6 +251,8 @@ public class OneInquiryModel {
 		HttpSession session = request.getSession();
 		String userId = (String)session.getAttribute("userId");
 		String groupId = request.getParameter("groupId");
+		String page = request.getParameter("page");
+		System.out.println(page);
 		try {
 			int maxSize=1024*1024*200; //200mb
 	        String path="/Users/kimheejun/Desktop";
@@ -271,6 +289,78 @@ public class OneInquiryModel {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:../customer/one_inquiry_detail.do?groupId="+groupId;
+		return "redirect:../customer/one_inquiry_detail.do?groupId="+groupId+"&page="+page;
+	}
+	
+	
+	@RequestMapping("customer/one_question_update.do")
+    public String oneUpdateQuestion(HttpServletRequest request, HttpServletResponse response) {
+		String groupId = request.getParameter("groupId");
+		String page = request.getParameter("page");
+		System.out.println(page);
+		OneInquiryDAO dao = new OneInquiryDAO();
+		OneInquiryVO vo = dao.oneDetailQuestionUpdateData(Integer.parseInt(groupId));
+		
+		request.setAttribute("page", page);
+		request.setAttribute("vo", vo);
+		return "../customer/one_inquiry_update_question.jsp";
+	}
+	
+	@RequestMapping("customer/one_question_update_ok.do")
+    public String oneUpdateQuestion_ok(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String userId = (String)session.getAttribute("userId");
+		String groupId = request.getParameter("groupId");
+		String page = request.getParameter("page");
+		try {
+			int maxSize=1024*1024*200; //200mb
+	        String path="/Users/kimheejun/Desktop";
+//	        String path="c:\\download";  window는 이거 사용
+				String enctype="UTF-8";
+				MultipartRequest mr=
+	 				new MultipartRequest(request, 
+	 						path,maxSize,enctype,
+	 						new DefaultFileRenamePolicy());
+			String title=mr.getParameter("title");
+	 		String content=mr.getParameter("content");
+	 		String filename=mr.getOriginalFileName("file");
+	 		
+	 		OneInquiryVO vo = new OneInquiryVO();
+	 		System.out.println(content);
+	 		
+	 		 vo.setTitle(title);
+	 		 vo.setContent(content);
+		     vo.setGroupId(Integer.parseInt(groupId));
+		     
+	         if(filename==null){
+	 			vo.setFilename("");
+	 			vo.setFilesize(0);
+	 		}
+	 		else
+	 		{
+	 			File file=new File(path+"/"+filename);
+//	 			File file=new File(path+"\\"+filename);  window는 이거 사용
+	 			vo.setFilename(file.getName());
+	 			vo.setFilesize((int)file.length());
+	 		}
+	         OneInquiryDAO dao = new OneInquiryDAO();
+	         dao.oneDetailQuestionUpdate(vo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:../customer/one_inquiry_detail.do?groupId="+groupId+"&page="+page;
+	}	
+	
+	
+	@RequestMapping("customer/one_serch.do")
+    public String oneSearch(HttpServletRequest request, HttpServletResponse response) {
+		String keyword = request.getParameter("keyword");
+		String oneSearchCate = request.getParameter("oneSearchCate");
+		
+		OneInquiryDAO dao = new OneInquiryDAO();
+		List<OneInquiryVO> list = new ArrayList<OneInquiryVO>();
+		// 그냥 리스트 불러오는거랑합치면 될듯
+		
+		return "";
 	}
 }

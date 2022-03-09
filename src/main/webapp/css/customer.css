@@ -397,6 +397,11 @@ section{
     padding: 19px 24px;
     margin: 30px 0 0 0;
     background-color: #fafafa;
+    position: relative;
+}
+.one_search_bar .one_search_box{
+	position: absolute;
+    left: 100;
 }
 .one_search_bar>a{
 	float: left;
@@ -466,6 +471,21 @@ section{
     border: 1px solid #ccc;
     background-color: #ffffff;
 }
+.one_reset_btn{
+	display: inline-block;
+	vertical-align: middle;
+    width: 60px;
+    height: 21px;
+    font-size: 16px;
+    line-height: 21px;
+    color: #32a690;
+    font-weight: 550;
+    text-align: center;
+}
+.one_reset_btn:hover{
+	text-decoration: none;
+	color:#32a690;
+}
 .one_search_btn:hover{
 	text-decoration: none;
 	color:inherit;
@@ -491,6 +511,7 @@ section{
 	width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
+    table-layout: fixed;
 }
 .one_list tr:hover{
 	background-color: #efefef;
@@ -777,24 +798,23 @@ section{
 .one_detail_btnbox .one_detail_answer_insert{
 	position:absolute;
 	top: 10;
-    right: 15;
-}
-
-.one_detail_btnbox .one_detail_ques_delete{
-	position:absolute;
-	top: 10;
-    right: 100;
+    right: 10;
 }
 .one_detail_btnbox .one_detail_answer_update{
 	position:absolute;
 	top: 10;
-    right: 20;
+    right: 10;
+}
+.one_detail_btnbox .one_detail_ques_delete{
+	position:absolute;
+	top: 10;
+    right: 10;
 }
 
 .one_detail_btnbox .one_detail_ques_update{
 	position:absolute;
 	top: 10;
-    right: 15;
+    right: 95;
 }
 .one_detail_btnbox span>a{
 	background-color :#0052D4;
@@ -888,6 +908,7 @@ section{
 	height:35px;
 }
 .one_detail_table textarea{
+	width:100%;
 	padding:5px 10px;
 	border: 1px solid #e5e5e5;
 	border-top: none;
@@ -897,6 +918,7 @@ section{
 	float: right;
 }
 .one_insert_btnbox>.btn:first-child{
+	margin-right:5px;
 	background-color: #0052D4;
 	color:white;
 }
