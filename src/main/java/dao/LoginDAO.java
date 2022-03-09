@@ -72,7 +72,7 @@ public class LoginDAO {
  	   {
  		   conn=cm.getConnection();
  		   String sql="INSERT INTO USER_3 VALUES(?,?,?,?,?,?,"
- 				     +"?,?,?,?,?,?,'n')";
+ 				     +"?,?,?,?,sysdate,?,?,'n','n',?,?,'n')";
  		   ps=conn.prepareStatement(sql);
  		   ps.setString(1, vo.getId());
  		   ps.setString(2, vo.getPassword());
