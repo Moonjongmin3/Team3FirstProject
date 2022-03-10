@@ -185,7 +185,7 @@ $(document).ready(function () {
 	          <dd>
 	            <ul class="menu_ul">
 	              <li class="menu_li">
-	                <a href="#">주문내역/배송조회</a>
+	                <a href="../my/orderHistory.do">주문내역/배송조회</a>
 	              </li>
 	              <li class="menu_li">
 	                <a href="#">취소 주문내역</a>

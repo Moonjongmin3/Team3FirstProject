@@ -171,7 +171,7 @@ public class UserDAO {
 				vo.setQuantity(rs.getInt(5));
 				vo.setBookName(rs.getString(6));
 				vo.setPoster(rs.getString(7));
-				vo.setBookPirce(rs.getInt(8));
+				vo.setBookPirce(rs.getString(8));
 				vo.setBook_id(rs.getInt(9));
 				
 				list.put(Integer.toString(i++), vo);

@@ -21,19 +21,23 @@ public class OrderHistoryVO {
 	   
 	   
 	   private String bookName;
-	   private int bookPirce;
+	   private String bookPirce;
 		   public String getBookName() {
 			return bookName;
 		}
 		public void setBookName(String bookName) {
 			this.bookName = bookName;
 		}
-		public int getBookPirce() {
+		
+
+
+	public String getBookPirce() {
 			return bookPirce;
 		}
-		public void setBookPirce(int bookPirce) {
+		public void setBookPirce(String bookPirce) {
 			this.bookPirce = bookPirce;
 		}
+
 
 
 	private String[] posterArr;

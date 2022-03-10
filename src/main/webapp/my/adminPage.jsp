@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script>
   $( function() {
     $("#accordion").accordion({
@@ -23,6 +24,7 @@
   	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
   	dataType:'json',
   	success:function(res){
+  		
   		let answerStay="";
   		$.each(res, function(key, value) {
   			answerStay += '<tr>';
@@ -34,9 +36,10 @@
   			answerStay += '<td><a href="../customer/one_inquiry_detail.do?groupId='
   							+value.groupId+'"class="btn btn-sm" style="background-color: 4364F7;border-radius: 20px;font-weight: 550;color: white;">답변하기</a></td>';
   			answerStay += '</tr>';
+  			
   		})
-  		$('#order_stay tr:first-child').after(answerStay);
-  	}
+  		$('#answer_stay tr:first-child').after(answerStay);
+  	} 
   })
   
   $.ajax({
@@ -46,29 +49,73 @@
   	dataType:'json',
   	success:function(res){
   		console.log(res)
-  		let orderStay="";
-  		 /* $.each(res, function(key, value) {
-  			answerStay += '<tr>';
-  			answerStay += '<td>'+value.order_id +'</td>';
-  			answerStay += '<td>'+value.userId +'</td>';
-  			answerStay += '<td class="text-left">'+value.total_price +'</td>';
-  			answerStay += '<td>'+value.username +'</td>';
-  			answerStay += '<td>'+value.createdAt +'</td>';
-  			answerStay += '<td><a href="../customer/one_inquiry_detail.do?groupId='
-  							+value.groupId+'"class="btn btn-sm" style="background-color: 4364F7;border-radius: 20px;font-weight: 550;color: white;">답변하기</a></td>';
-  			answerStay += '</tr>';
+  		let i=0;
+  		let row=1;
+  		let count=0;
+  		$.each(res, function(key, value) {
+  			let total =value.total_price.toLocaleString('ko-KR');
+  			if(i==value.order_id){
+  				count=count+1;
+  				let orderStay="";
+  				i=value.order_id
+  				let j = key-count
+  				row= row+1;
+  				$('#id_td'+j).attr("rowspan",row)
+				$('#user_td'+j).attr("rowspan",row)
+				$('#total_td'+j).attr("rowspan",row)
+				$('#btn_td'+j).attr("rowspan",row)
+  				
+  				orderStay += '<tr id="order_tr'+key+'">';
+  	  			orderStay += '<td><img src="'+value.poster +'" style="width:70px;height: 90px"/></td>';
+  	  			orderStay += '<td style="padding-left: 20px;">'
+  	  			orderStay += '<div class="text-left" style="margin-bottom:5px">'+$.trim(value.bookName)+'</div>';
+  	  			orderStay += '<div class="text-left">'+addComma(value.bookPirce)+'원</div>' 
+  	  			orderStay += '</td>'
+  	  			orderStay += '<td>'+value.quantity +'</td>';
+  	  			orderStay += '<td>'+value.order_date +'</td>';
+  	  			orderStay += '</tr>';
+  	  			let n=key-1
+  	  			$('#order_tr'+n).after(orderStay);
+  			}else{
+  				count=0;
+  				let orderStay2="";
+  				row=1;
+  				i=value.order_id
+  				orderStay2 += '<tr id="order_tr'+key+'">';
+  	  			orderStay2 += '<td id="id_td'+key+'">'+value.order_id +'</td>';
+  	  			orderStay2 += '<td id="user_td'+key+'">'+value.user_id +'</td>';
+  	  			orderStay2 += '<td id="total_td'+key+'">'+total+'원</td>';
+  	  			orderStay2 += '<td><img src="'+value.poster +'" style="width:70px;height: 90px"/></td>';
+  	  			orderStay2 += '<td style="padding-left: 20px;">'
+  	  			orderStay2 += '<div class="text-left" style="margin-bottom:5px">'+$.trim(value.bookName)+'</div>';
+  	  			orderStay2 += '<div class="text-left">'+addComma(value.bookPirce)+'원</div>' 
+  	  			orderStay2 += '</td>'
+  	  			orderStay2 += '<td>'+value.quantity +'</td>';
+  	  			orderStay2 += '<td>'+value.order_date +'</td>';
+  	  			orderStay2 += '<td id="btn_td'+key+'"><a href="../customer/one_inquiry_detail.do?groupId='
+  	  							+value.order_id+'"class="btn btn-sm" style="background-color: 4364F7;border-radius: 20px;font-weight: 550;color: white;">주문승인</a></td>';
+  	  			orderStay2 += '</tr>';
+  	  			let u=key-1;
+	  	  		if(key==0){
+		  				console.log("orderStay first")
+					$('#order_stay tr:first-child').after(orderStay2);
+				}else{
+					$('#order_tr'+u).after(orderStay2);
+				}
+  	  			
+  			}
+  			
+  			
   		})
-  		$('#order_stay tr:first-child').after(answerStay);  */
+  		
   	}
+  	
   })
- /* <tr>
-			    		<td>주문자 ID</td>
-			    		<td>수령자</td>
-			    		<td>수령 주소</td>
-			    		<td>수령자 번호</td>
-			    		<td>배송 요청 사항</td>
-			    		<td>주문 날짜</td>
-			    	</tr> */
+ 
+  function addComma(value){
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return value; 
+    }
   </script>
 </head>
 <body>
@@ -144,7 +191,7 @@
 		<div id="accordion">
 		  <h3>주문 승인 대기 목록</h3>
 		  <div class="order_stay_list">
-			    <table style="width: 100%"class="order_stay_list_table">
+			    <table style="width: 100%"class="order_stay_list_table" id="order_stay">
 			    	<tr>
 			    		<th width="10%">주문 번호</th>
 			    		<th width="10%">주문자 ID</th>
@@ -154,30 +201,11 @@
 			    		<th width="10%">주문 날짜</th>
 			    		<th width="15%">주문 상태</th>
 			    	</tr>
-			    	<tr>
-			    		<td>1</td>
-			    		<td>test1</td>
-			    		<td>94,000</td>
-			    		<td>
-			    			<img src="../img/1.jpg" style="width:70px;height: 90px">
-			    		</td>
-			    		<td>
-			    			<div class="text-left">
-			    				정보처리기사 
-			    			</div>
-			    			<div class="text-left">
-			    				34,000원 / 1개
-			    			</div>
-			    		</td>
-			    		<td>2</td>
-			    		<td>2022-03-12</td>
-			    		<td>주문승인</td>
-			    	</tr>
 			    </table>
 		  </div>
 		  <h3>1:1 답변 대기 목록</h3>
 		  <div style="height: 400px">
-			    <table style="width: 100%"class="order_stay_list_table" id="order_stay">
+			    <table style="width: 100%"class="order_stay_list_table" id="answer_stay">
 			    	<tr>
 			    		<th width="10%">문의 번호</th>
 			    		<th width="10%">문의자 ID</th>
