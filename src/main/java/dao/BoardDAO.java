@@ -180,28 +180,16 @@ public class BoardDAO {
 		boolean bCheck=false;
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT pwd FROM board_3 "
-					+"WHERE no=?";
-			ps=conn.prepareStatement(sql);
-			ps.setInt(1, vo.getNo());
-			ResultSet rs=ps.executeQuery();
-			rs.next();
-			String db_pwd=rs.getString(1);
-			rs.close();
-			
-			if(db_pwd.equals(vo.getPwd())) {
-				bCheck=true;
-				sql="UPDATE board_3 " 
+			String sql="UPDATE board_3 " 
 					+"SET title=?,content=?,user_id=?,created_at=sysdate,bfile=? "
 					+"WHERE no=?";
-				ps.setString(1, vo.getTitle());
-				ps.setString(2, vo.getContent());
-				ps.setString(3, vo.getUser_id());
-				ps.setString(4, vo.getBfile());
-				ps.setInt(5, vo.getNo());
-				ps.executeUpdate();				
-			}
-			
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, vo.getTitle());
+			ps.setString(2, vo.getContent());
+			ps.setString(3, vo.getUser_id());
+			ps.setString(4, vo.getBfile());
+			ps.setInt(5, vo.getNo());
+			ps.executeUpdate();				
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
@@ -216,7 +204,7 @@ public class BoardDAO {
 	public void boardDelete(int no) {
 		try {
 			conn=cm.getConnection();
-			String sql="SELECT pwd FROM board_3 "
+			String sql="DELETE FROM board_3 "
 						+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, no);

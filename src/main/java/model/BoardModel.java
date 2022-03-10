@@ -211,10 +211,9 @@ public class BoardModel {
 		return "../board/board_detail.do?no="+no+"&page="+page;
 	}
 	
-	@RequestMapping("board/delete.do")
+	@RequestMapping("board/board_delete.do")
 	public String boardDelete(HttpServletRequest request, HttpServletResponse response) {
 		String no=request.getParameter("no");
-		String page=request.getParameter("page");
 		
 		BoardDAO dao=new BoardDAO();
 		dao.boardDelete(Integer.parseInt(no));
@@ -222,6 +221,6 @@ public class BoardModel {
 		// board_delete 페이지를 띄울건지?
 		// 그럴꺼면 request.setAttribute("main_jsp","../board/board_delete.jsp")
 		//return "../main/main.jsp"
-		return "redirect:../board/list.do?page="+page;
+		return "redirect:../board/list.do";
 	}
 }

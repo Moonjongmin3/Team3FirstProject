@@ -139,7 +139,7 @@ let recommendSwiper = new Swiper(".recommendSwiper", {
   		    
   		    books.push(book);
   		    
-      		let url = "../Jjim.do";
+      		let url = "../my/Jjim.do";
     		
       		postToUrl(books, url)
       });
@@ -147,7 +147,7 @@ let recommendSwiper = new Swiper(".recommendSwiper", {
       $('.addMyList-selected').click(function(){
 		  alert("찜하기 완료! 찜목록으로 이동");
     	  let books = [];
-    	  let url = "../Jjim.do";
+    	  let url = "../my/Jjim.do";
     	  
     	  $.each($("input.book-check:checked"), function(){
     		  let book = {};

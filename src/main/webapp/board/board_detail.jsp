@@ -59,7 +59,7 @@ td {
 		  	</td>
 	      </tr>
 	      <tr>
-	        <td colspan="4" height="500px" class="text-left" valign="top">
+	        <td colspan="4" height="300px" class="text-left" valign="top">
 	         <pre style="white-space: pre-wrap; background-color: white; border:none ">${vo.content }</pre>
 	        </td>
 	      </tr>
@@ -67,7 +67,7 @@ td {
 	       <td class="text-right" colspan="4">
 	        <c:if test="${sessionScope.userId==vo.user_id }">
 	         <a href="board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
-	         <a href="board_delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
+	         <a href="board_delete.do?" class="btn btn-xs btn-danger">삭제</a>
 			</c:if>
 	         <a href="list.do" class="btn btn-xs btn-success">목록</a>
 	       </td>
@@ -75,9 +75,9 @@ td {
 	      
 	     </table>
 
-        <h2 class="sectiontitle">댓글</h2>
+        <h3 class="sectiontitle">댓글</h3>
         <ul>
-         <c:forEach var="rvo" items="${replyList }">
+         <c:forEach var="rvo" items="${rList }">
 	          <li>
 	            <article>
 	              <header>

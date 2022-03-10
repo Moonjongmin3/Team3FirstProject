@@ -30,7 +30,7 @@ th{
   <div class="board row3">
    <div class="board_wrap">
     <h3>수정</h3>
-     <form method=post action="board_update_ok.do" enctype="multipart/form-data">
+     <form method=post action="../board/board_update_ok.do" enctype="multipart/form-data">
       <table class="table">
        <tr>
         <th width=15%>이름</th>

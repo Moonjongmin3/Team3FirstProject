@@ -19,31 +19,37 @@ public class BoardReplyModel {
 		  {
 			  request.setCharacterEncoding("UTF-8");
 		  }catch(Exception ex) {}
-		  String boardNo=request.getParameter("board_no");
+		  String page=request.getParameter("page");
+		  String no=request.getParameter("no");
+		  String board_no=request.getParameter("board_no");
 		  String content=request.getParameter("content");// 댓글 
 		  // DAO로 전송 => 오라클 추가 
 		  HttpSession session=request.getSession();
 		  String userId=(String)session.getAttribute("user_id");
 		  
 		  BoardReplyVO vo=new BoardReplyVO();
+		  vo.setNo(Integer.parseInt(no));
 		  vo.setUser_id(userId);
 		  vo.setContent(content);
-		  vo.setBoard_no(Integer.parseInt(boardNo));
+		  vo.setBoard_no(Integer.parseInt(board_no));
 		  BoardReplyDAO dao=new BoardReplyDAO();
 		  dao.replyInsert(vo);
+		  request.setAttribute("page",page);
+		  request.setAttribute("board_no", board_no);
 		  
-		  return "redirect:../board/board_detail.do?no="+boardNo;
+		  return "redirect:../board/board_detail.do?pag="+page+"no="+board_no;
 	  }
 	
 	@RequestMapping("board/reply_delete.do")
 	public String reply_delete(HttpServletRequest request, HttpServletResponse response)
 	  {
 		   String no=request.getParameter("no"); // 댓글 번호
-		   String boardNo=request.getParameter("board_no");
+		   String board_no=request.getParameter("board_no");
 		   BoardReplyDAO dao=new BoardReplyDAO();
 
 		   dao.replyDelete(Integer.parseInt(no));
-		   return "redirect:../board/board_detail.do?no="+boardNo;
+		   
+		   return "redirect:../board/board_detail.do?no="+board_no;
 	  }
 	  
 	  @RequestMapping("board/reply_update.do")
@@ -57,6 +63,11 @@ public class BoardReplyModel {
 		  String no=request.getParameter("no"); // 댓글 번호
 		  String boardNo=request.getParameter("board_no");
 		  String content=request.getParameter("content");
+		  
+		  BoardReplyVO vo=new BoardReplyVO();
+		  vo.setNo(Integer.parseInt(no));
+		  vo.setContent(content);
+		  
 		  BoardReplyDAO dao=new BoardReplyDAO();
 		  // 수정 메소드 호출 
 		  dao.replyUpdate(Integer.parseInt(no), content);
