@@ -46,7 +46,7 @@ $(function(){
 		let id=$('#join_id').val();
 		if(id.trim()=="")
 		{
-			alert("중복체크 버튼을 클릭하세요")
+			alert("아이디중복체크 버튼을 클릭하세요")
 			return;
 		}
 		

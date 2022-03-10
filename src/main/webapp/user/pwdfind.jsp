@@ -93,9 +93,9 @@
 	  }
  function pw_search1(){
 
-	  var frm=document.pwfindscreentel;
+	  var frm=document.pwfindscreenemail;
 
-	  if(frm.member_pwd_id1.value.length<1){
+	  if(frm.member_pwd_id1.value.length <2){
 	   alert("아이디를 올바르게 입력해주세요");
 	   return;
 	  }
@@ -175,7 +175,7 @@
 							</section>
 							<div class="btnSearch">
 								<input type="button" name="enter" value="찾기"
-									class="btn btn-sm btn-primary" onClick="pw_search()"> <input
+									class="btn btn-sm btn-primary" onClick="pw_search1()"> <input
 									type="button" name="cancle" value="취소"
 									class="btn btn-sm btn-danger" onClick="history.back()">
 							</div>
