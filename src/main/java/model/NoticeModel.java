@@ -262,7 +262,7 @@ public class NoticeModel {
        * 
        */
         
-        request.setAttribute("cscenter_jsp", "../customer/demoFaq.jsp");
+        request.setAttribute("cscenter_jsp", "../customer/Faq.jsp");
         request.setAttribute("main_jsp", "../customer/notice.jsp");
      
         
