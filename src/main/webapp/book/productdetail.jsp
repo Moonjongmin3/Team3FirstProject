@@ -145,7 +145,7 @@ span.value_p {
 #order_delivery_area table.bottom td {
 	font-size: 14px;
 }
-/*  모달 창 css */
+/*  모달 창 css */  
     #cart-modal{ 
 	display: none;
 	position: absolute;

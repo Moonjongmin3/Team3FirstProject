@@ -248,25 +248,24 @@ public class NoticeModel {
     		
     	}catch(Exception e){
     		e.printStackTrace();
-    	}
+    	} 
     	return"redirect:../notice/detail.do";
-    }
+    }  
     
-    @RequestMapping("customer/demoFaq.do")
-    public String demoFaq(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping("customer/Faq.do")
+    public String Faq(HttpServletRequest request, HttpServletResponse response){
 
        
-      /*
+      /* 
        * request.setAttribute("cscenter_jsp", "../customer/notice_detail.jsp");
-       * request.setAttribute("main_jsp","../customer/notice.jsp");
-       * 
-       */
+       *  request.setAttribute("main_jsp","../customer/notice.jsp");
+       *  
+       */ 
         
         request.setAttribute("cscenter_jsp", "../customer/Faq.jsp");
         request.setAttribute("main_jsp", "../customer/notice.jsp");
      
-        
-        
+       
         return "../main/main.jsp";
     }  
     
