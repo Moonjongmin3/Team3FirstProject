@@ -64,6 +64,5 @@ public class BoardReplyModel {
 			   
 		  return "redirect:../board/board_detail.do?no="+boardNo;
 	  }
-	}
 }
 

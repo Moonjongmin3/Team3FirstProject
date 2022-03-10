@@ -254,10 +254,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<!-- Compiled and minified JavaScript -->
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-	<script src="../js/index.js"></script>
-	
+	<script src="../js/index.js"></script>	
 	<jsp:include page="${main_jsp }"/>
-	
 	  <!-- footer 시작 -->
     <footer id="footer">
         <div class="footer_wrap">

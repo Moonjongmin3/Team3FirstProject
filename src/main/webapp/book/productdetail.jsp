@@ -141,9 +141,82 @@ span.value_p {
 #order_delivery_area table.bottom td {
 	font-size: 14px;
 }
+/*  모달 창 css */
+    #cart-modal{
+	display: none;
+	position: absolute;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 30;
+	background-color: rgba(0,0,0,0.5);
+}
+.modal-content{
+	width: 30vw;
+	height: 20vw;
+	background-color: white;
+	top: 50%;
+	left: 50%;
+	margin: -20vh 0 0 -15vw;
+	padding: 10px 0 0 10px;
+	text-align: center;
+	line-height: 20px;
+}
+.modal-content>h3{
+	margin: 5px 0 -20px 0;
+}
+.glyphicon-shopping-cart{
+	color: #0052D4;
+	font-size: 50px;
+	margin: 0 0 30px 0;
+}
+.cart-ok-btn{
+	margin-top: 20px;
+}
+.cart-ok-btn.btn-primary{
+	background-color: #0052D4;
+}
+@media screen and (max-width: 1200px) {
+	.modal-content{
+		width: 40vw;
+		height: 26.6vw;
+		top: 50%;
+		left: 50%;
+		margin: -20vh 0 0 -20vw;
+	}
+}
+@media screen and (max-width: 992px) {
+	.modal-content{
+		width: 50vw;
+		height: 33.3vw;
+		top: 50%;
+		left: 50%;
+		margin: -20vh 0 0 -25vw;
+	}
+}
+@media screen and (max-width: 768px) {
+	.modal-content>h3{
+		margin: 0 0 -30px 0;
+	}
+	.glyphicon-shopping-cart{
+		font-size: 25px;
+		margin: 0 0 10px 0;
+	}
+}
 </style>
 </head>
 <body>
+<!-- 장바구니 모달 창 시작 --> 
+<div id="cart-modal">
+	<div class="modal-content">
+		<h3 class="xs-hidden"><strong>Cart</strong></h3><br>
+		<hr class="xs-hidden">
+		<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><br>카트에 성공적으로 담았습니다!<br>
+		<button class="btn cart-ok-btn btn-primary" id="cart-ok-btn">확인</button>
+		<button class="btn cart-ok-btn btn-default" onclick="location.href='../cart/Cart.do'">카트로 가기</button>
+	</div>
+</div>
+		<!-- 장바구니 모달 창 끝 -->
 <c:set var="vo" value="${book }"/>
 	<div class="container_1">
 		<h2 style="margin-left:31px"> ${vo.name}</h2>
@@ -246,7 +319,7 @@ span.value_p {
 				</div>
 				<div class="t">
 					<ul>
-						<li><input type="button" value="장바구니 담기"
+						<li><input type="button" class="search_cart_input" value="장바구니 담기"
 							style="background-color: #ef3b96; color: white; width: 130px; height: 50px; border: none;"></li>
 						<li><input type="button" value="바로구매"
 							style="background-color: #ef3b96; color: white; width: 130px; height: 50px; border: none;"></li>
@@ -377,5 +450,29 @@ span.value_p {
 			</div>
 		</div>
 	</div>
+	<script
+	  src="https://code.jquery.com/jquery-3.6.0.min.js"
+	  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+	  crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		/* 장바구니 모달 창 시작 */
+		$('.search_cart_input').click(function(){
+			let bookId = window.location.search.replace('?no=','');
+			$.ajax({
+				url:'http://localhost:8080/FirstProject/cart/addCart',
+				type:'POST',
+				data:{"bookId": bookId},
+				success:function(){
+					$('#cart-modal').css('display','block');
+					$('#cart-modal').css('overflow','hidden');
+					$('#cart-modal').css('position','fixed');
+				}
+			});
+		})
+		$('#cart-ok-btn').click(function(){
+			$('#cart-modal').css('display','none');
+		})
+		/* 장바구니 모달 창 끝 */
+	</script>
 </body>
 </html>
