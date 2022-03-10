@@ -148,7 +148,8 @@ public class LoginModel {
 		}
 	    String name = request.getParameter("member_name1");
 	    String email= request.getParameter("member_email");
-	     
+	     System.out.println(name);
+	     System.out.println(email);
 	     LoginDAO dao = new LoginDAO();
 	     String id = dao.findId_email(name, email);	
 	     

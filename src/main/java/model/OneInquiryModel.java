@@ -66,6 +66,8 @@ public class OneInquiryModel {
 	public String one_detail(HttpServletRequest request, HttpServletResponse response) {
 		String groupId = request.getParameter("groupId");
 		String page = request.getParameter("page");
+		if(page==null)
+			page="1";
 		OneInquiryDAO dao= new OneInquiryDAO();
 		
 		OneInquiryVO qvo = new OneInquiryVO();

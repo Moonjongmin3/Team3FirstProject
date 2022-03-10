@@ -19,8 +19,42 @@ public class OrderHistoryVO {
 	   private int total_price;//결제금액
 	   private int quantity;
 	   
-	   private String poster;
-	   private String cate_name;
+	   
+	   private String bookName;
+	   private int bookPirce;
+		   public String getBookName() {
+			return bookName;
+		}
+		public void setBookName(String bookName) {
+			this.bookName = bookName;
+		}
+		public int getBookPirce() {
+			return bookPirce;
+		}
+		public void setBookPirce(int bookPirce) {
+			this.bookPirce = bookPirce;
+		}
+
+
+	private String[] posterArr;
+	   private String[] bookTitle;
+	   public String[] getPosterArr() {
+		return posterArr;
+	}
+	public void setPosterArr(String[] posterArr) {
+		this.posterArr = posterArr;
+	}
+	public String[] getBookTitle() {
+		return bookTitle;
+	}
+	public void setBookTitle(String[] bookTitle) {
+		this.bookTitle = bookTitle;
+	}
+	
+	
+	
+	private String poster;
+	private String cate_name;
 	   //
 	public int getOrder_id() {
 		return order_id;
