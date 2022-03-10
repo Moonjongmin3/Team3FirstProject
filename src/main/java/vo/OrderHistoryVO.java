@@ -18,10 +18,34 @@ public class OrderHistoryVO {
 	   private Date order_date;//주문일
 	   private int total_price;//결제금액
 	   private int quantity;
-	   
+
+	   private String bookName;
+	   private String bookPirce;
+		   public String getBookName() {
+			return bookName;
+		}
+		public void setBookName(String bookName) {
+			this.bookName = bookName;
+		}
+		
+
+
+	public String getBookPirce() {
+			return bookPirce;
+		}
+		public void setBookPirce(String bookPirce) {
+			this.bookPirce = bookPirce;
+		}
+
+	   //출력용
 	   private String poster;
 	   private String cate_name;
-	   //
+	   private String book_name;
+
+	
+	public void setBook_name(String book_name) {
+		this.book_name = book_name;
+	}
 	public int getOrder_id() {
 		return order_id;
 	}
@@ -118,6 +142,6 @@ public class OrderHistoryVO {
 	public void setCate_name(String cate_name) {
 		this.cate_name = cate_name;
 	}
-
+	
 	   
 }

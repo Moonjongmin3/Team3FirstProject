@@ -113,7 +113,7 @@ public class LoginDAO {
 				id = rs.getString(1);
 				rs.close();
 			}
-				
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -137,7 +137,7 @@ public class LoginDAO {
 				id = rs.getString(1);
 				rs.close();
 			}
-				
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -162,7 +162,7 @@ public class LoginDAO {
 				password = rs.getString(1);
 				rs.close();
 			}
-				
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -186,7 +186,7 @@ public class LoginDAO {
 				password = rs.getString(1);
 				rs.close();
 			}
-				
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -45,7 +45,7 @@ function oneInsertnav(){
 				<div class="faq_nav" style="border: 1px solid #cdcdcd">
 					<dl>
                   		<dt>
-                     		<a href="../customer/demoFaq.do">FAQ</a>
+                     		<a href="../customer/Faq.do">FAQ</a>
                   		</dt>
               	    </dl>
 					<dl>

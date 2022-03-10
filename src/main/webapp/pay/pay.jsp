@@ -240,8 +240,7 @@ $(function(){
       }).open()
       })
       
-      //결제하기 클릭시 
-      
+      //결제하기 클릭시-> order_insert 후(오라클에 저장) -> my/orderHistory.do(주문내역)
       $('#order_btn').click(function(){
     	 $('#name_data').val($('#receiver_name').val()); 
     	 $('#addr1_data').val($('#ship_address1').val());
@@ -257,6 +256,14 @@ $(function(){
     	 $('#poster_data').val($('#order_poster').val());
     	 $('#catename_data').val($('#category_name').val());
     	 $('#qty_data').val($('#qty').val());
+    	 
+    	 })
+    	 
+    	 
+    	 
+    	 
+    	 
+    	 
     	 
       })
       
@@ -293,6 +300,7 @@ $(function(){
 </script>
 </head>
 <body>
+<form method="post" action="../pay/order_insert.do">
   <div class="container">
     <h2>주문상품</h2>
     <hr>
@@ -325,7 +333,7 @@ $(function(){
               </td>
               <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
               <td id="qty">${bvo.quantity}</td>
-              <td id="total_price"><fmt:formatNumber  pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
+              <td id="total_price"><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
               <td>내일<br>도착예정
               </td>
               <td style="display: none">
@@ -391,7 +399,7 @@ $(function(){
             <tr>
               <th width=15%><strong>휴대폰</strong></th>
               <td width=85%>
-                <select name="receiver_phone1" value="${fn:substring(uvo.tel,0,2) }" id="receiver_phone1">
+                <select name="r_phone1" value="${fn:substring(uvo.tel,0,2) }" id="receiver_phone1">
                <option value="010" selected="selected">010</option>
                    <option value="011">011</option>
                    <option value="016">016</option>
@@ -399,8 +407,8 @@ $(function(){
                    <option value="018">018</option>
                    <option value="019">019</option>
             </select>&nbsp;-&nbsp;
-                 <input type='tel' name='receiver_phone2' value="${fn:substring(uvo.tel,2,6) }" size="2" id="receiver_phone2"/>&nbsp;-&nbsp;
- <!-- 11 -->               <input type='tel' name='receiver_phone3' value="${fn:substring(uvo.tel,6,10) }" size="2" id="receiver_phone3"/><br>
+                 <input type='tel' name='r_phone2' value="${fn:substring(uvo.tel,2,6) }" size="2" id="receiver_phone2"/>&nbsp;-&nbsp;
+ <!-- 11 -->               <input type='tel' name='r_phone3' value="${fn:substring(uvo.tel,6,10) }" size="2" id="receiver_phone3"/><br>
                 <div class="caution">
                   연락처는 하나만 입력하셔도 결제가 가능합니다.
                 </div>
@@ -436,7 +444,7 @@ $(function(){
             <tr>
               <th>휴대폰</th>
               <td>
-                <input type='tel' name="u_phone1" value="${fn:substring(uvo.tel,0,2) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
+                <input type='tel' name="u_phone1" value="0${fn:substring(uvo.tel,0,2) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
                 <input type='tel' name='u_phone2' value="${fn:substring(uvo.tel,2,6) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
  <!-- 11 -->                <input type='tel' name='u_phone3' value="${fn:substring(uvo.tel,6,10) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/><br>
                 <div class="caution">
@@ -607,6 +615,7 @@ $(function(){
                 <sapn class="caution">(전자상거래법 제 8조 제2항)</sapn>
               </p>
               <br>
+              
               <p>
               <input type="submit" class="button_pay payBtn" value="결제하기" style="font-size:20px;height:50px;color:white;font-weight: bold;">
               </p>
@@ -640,26 +649,27 @@ $(function(){
           </tr>
           <tr><br></tr>         
       </table>
-      <form method="post" action="pay/order_insert.do">
-<!--       <form method=post action="../reserve/reserve_ok.do"></form> -->
+      
+
         <input type=hidden name="receiver_name" value="" id="name_data">
+        <input type=hidden name="zipcode" value="" id="zip_data">
         <input type=hidden name="ship_address1" value="" id="addr1_data">
         <input type=hidden name="ship_address2" value="" id="addr2_data">
-        <input type=hidden name="zipcode" value="" id="zip_data">
         <input type=hidden name="receiver_phone1" value="" id="rphone1_data">
         <input type=hidden name="receiver_phone2" value="" id="rphone2_data">
         <input type=hidden name="receiver_phone3" value="" id="rphone3_data">
-        <input type=hidden name="ship_request" value="" id="msg_data">
-        <input type=hidden name="total_price" value="" id="total_data">
         
+        
+        <input type=hidden name="total_price" value="" id="total_data">
+        <input type=hidden name="ship_request" value="" id="msg_data">
         <input type=hidden name="book_id" value="" id="bid_data">
         <input type=hidden name="order_poster" value="" id="poster_data">
         <input type=hidden name="category_name" value="" id="catename_data">
-        <input type=hidden name="quentity" value="" id="qty_data">
-        <input type="submit" value="결제하기" class="button_pay payBtn" style="font-size:20px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">
-      </form>
+        <input type=hidden name="quantity" value="" id="qty_data">
+        <input type="submit" data-no="" value="결제하기" class="button_pay payBtn" style="font-size:20px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">
+      
     </div><!-- Rrow ------------------------------------------------------------>    
   </div> <!-- container -->
-
+</form>
 </body>
 </html>

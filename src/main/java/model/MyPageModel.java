@@ -1,12 +1,24 @@
 package model;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import controller.RequestMapping;
 import dao.UserDAO;
+import vo.BookVO;
+import vo.OneInquiryVO;
+import vo.OrderHistoryVO;
 import vo.UserVO;
 
 public class MyPageModel {
@@ -105,8 +117,43 @@ public class MyPageModel {
 	
 	@RequestMapping("my/adminPage.do")
 	public String adminPage(HttpServletRequest request,HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		String userId=(String)session.getAttribute("userId");
+		UserDAO dao = new UserDAO();
+		UserVO vo = dao.getUserData(userId);
 		
+		request.setAttribute("admin", vo);
 		request.setAttribute("main_jsp", "../my/adminPage.jsp");
 		return "../main/main.jsp";
+	}
+	
+	// 1:1 답변 대기 목록 가져오기
+	@RequestMapping("my/adminPageGet.do")
+	public String adminPageGet(HttpServletRequest request,HttpServletResponse response) {
+		UserDAO dao = new UserDAO();
+		Map<String,OneInquiryVO> list = new HashMap<>();
+		list=dao.getStayAnswerOneData();
+		List<OneInquiryVO> oneValues = new ArrayList<>(list.values());
+		
+		Gson gson = new Gson();
+		String adminOneJson = gson.toJson(oneValues);
+
+		request.setAttribute("oJson", adminOneJson);
+		return "../my/adminPageData.jsp";
+	}
+	
+	// 주문 승인 대기목록 가져오기
+	@RequestMapping("my/adminPageOrderGet.do")
+	public String adminPageOrderGet(HttpServletRequest request,HttpServletResponse response) {
+		UserDAO dao = new UserDAO();
+		Map<String,OrderHistoryVO> list = new HashMap<>();
+		list=dao.getStayOrderData();
+		List<OrderHistoryVO> orderValues = new ArrayList<>(list.values());
+		
+		Gson gson = new Gson();
+		String adminOrderJson = gson.toJson(orderValues);
+		System.out.println(adminOrderJson);
+		request.setAttribute("oJson", adminOrderJson);
+		return "../my/adminPageOrderData.jsp";
 	}
 }

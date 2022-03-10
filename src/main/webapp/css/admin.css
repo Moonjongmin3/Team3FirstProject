@@ -42,7 +42,7 @@
     margin:0 auto;
     color: #333333;
     width: 960px;
-    margin-top: 10px;
+    margin-top: 35px;
 }
 
 .admin_section{
@@ -95,6 +95,24 @@
 	margin-bottom: 6px;
 }
 
+.order_stay_list_table th,td{
+	text-align: center
+}
+.order_stay_list_table tr{
+	border-top:1px solid #dadada;
+	border-bottom:1px solid #dadada;
+	height:37px;
+}
+.order_stay_list_table th{
+	background-color:#f7f7f7;
+	height:27px;
+}
+.order_stay_list_table th td .admin_insert_btn{
+	background-color: 4364F7;
+    border-radius: 20px;
+    font-weight: 550;
+    color: white;
+}
 
 
 

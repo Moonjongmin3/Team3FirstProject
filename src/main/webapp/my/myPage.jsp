@@ -120,6 +120,9 @@ function deleteOkBtn(){
 .myPagetable>tbody>tr:last-child>td input{
 	margin:0 7px;
 }
+.myPagetable>tbody>tr>td>span,textarea{
+	float: left;
+}
 .myPagetable textarea{
 	padding:5px 5px;
 }
