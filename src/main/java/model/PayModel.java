@@ -5,6 +5,7 @@ import vo.*;
 
 import java.io.FileReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -101,35 +102,107 @@ public class PayModel {
 		   
 	      HttpSession session=request.getSession();
 	      String id=(String)session.getAttribute("userId");//user_id
-	      String bid=request.getParameter("book_id");//book_id 'bid'로 받고
-	      String quantity=request.getParameter("qty");// bookList_qty
-	      int qty=Integer.parseInt(quantity); 
+//	      String bid=request.getParameter("book_id");//book_id 'bid'로 받고
+//	      String quantity=request.getParameter("qty");// bookList_qty
+//	      int qty=Integer.parseInt(quantity); 
 	     
 	     
-	      String[] orderobj= {
-	    		  request.getParameter("receiver_name"),//0
+//	      String[] orderobj= {
+//	    		  request.getParameter("receiver_name"),//0
+//	    	      
+//	    	      request.getParameter("ship_address1"),//1
+//	    	      request.getParameter("ship_address2"),//2
+//	    	      request.getParameter("zipcode"),//3
+//	    	      
+//	    	      request.getParameter("receiver_phone1"),//4
+//	    	      request.getParameter("receiver_phone2"),//5
+//	    	      request.getParameter("receiver_phone3"),//6
+//	    	      
+//	    	      request.getParameter("ship_request"),//7
+////	    	      request.getParameter("use_point");
+//	    	      request.getParameter("total_price")//8
+//	     };
+	      Date today = new Date();
+	      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	      String today_str = sdf.format(today);
+	      
+	      
+	      String receiver_name=request.getParameter("receiver_name");//0
 	    	      
-	    	      request.getParameter("ship_address1"),//1
-	    	      request.getParameter("ship_address2"),//2
-	    	      request.getParameter("zipcode"),//3
+	      String ship_address1=request.getParameter("ship_address1");//1
+	      String ship_address2=request.getParameter("ship_address2");//2
+	      String zipcode=request.getParameter("zipcode");//3
 	    	      
-	    	      request.getParameter("receiver_phone1"),//4
-	    	      request.getParameter("receiver_phone2"),//5
-	    	      request.getParameter("receiver_phone3"),//6
-	    	      
-	    	      request.getParameter("ship_request"),//7
-//	    	      request.getParameter("use_point");
-	    	      request.getParameter("total_price")//8
-	     };
-	       PayDAO dao=new PayDAO();
-	      int order_id=dao.order_insert(id,Integer.parseInt(bid),qty,orderobj);//배송정보 
+	      String receiver_phone1=request.getParameter("receiver_phone1");//4
+	      String receiver_phone2=request.getParameter("receiver_phone2");//5
+	      String receiver_phone3=request.getParameter("receiver_phone3");//6
+	      int receiver_phone=Integer.parseInt(receiver_phone1+receiver_phone2+receiver_phone3);
+	      
+	      String order_id= today_str+receiver_phone2+receiver_phone2;
+	      
+//	      String ship_request=request.getParameter("ship_request");//7
+	      String ship_request="";
+	      if(request.getParameter("ship_request")==null)
+	    	  ship_request="내용없음";
+//	    	      String receiver_name=request.getParameter("use_point");
+	      String total_price=request.getParameter("total_price");//8
+	      //
+	      String book_id=request.getParameter("book_id");
+	      String order_poster=request.getParameter("order_poster");
+	      String category_name=request.getParameter("category_name");
+	      String quentity=request.getParameter("quentity");
+	      
+	     OrderHistoryVO ohvo=new OrderHistoryVO();
+	     ohvo.setOrder_id(Integer.parseInt(order_id));
+	     ohvo.setBook_id(Integer.parseInt(book_id));
+	     ohvo.setUser_id(id);
+	     ohvo.setReceiver_name(receiver_name);
+	     ohvo.setShip_address1(ship_address1);
+	     ohvo.setShip_address2(ship_address2);
+	     ohvo.setZipcode(zipcode);
+	     ohvo.setReceiver_phone(receiver_phone);
+	     ohvo.setShip_request(ship_request);
+	     ohvo.setState("주문완료");
+	     ohvo.setPay_state(0);
+	     ohvo.setOrder_date(today);
+	     ohvo.setTotal_price(Integer.parseInt(total_price));
+	     ohvo.setQuantity(Integer.parseInt(quentity));
+	     ohvo.setPoster(order_poster);
+	     ohvo.setCate_name(category_name);
+	      
+	      PayDAO dao=new PayDAO();
+	      dao.order_insert(ohvo);//주문정보 오라클에 insert
 	     
 	     
-	      request.setAttribute("order_id", order_id);
-	      request.setAttribute("main_jsp","../pay/order_complete.jsp");
+//	      request.setAttribute("order_id", ohvo.getOrder_id());
+//	      request.setAttribute("main_jsp","../pay/order_complete.jsp");
 //	      request.setAttribute("main_jsp","../pay/pay.jsp");
-	      return "../main/main.jsp";
+	      return "redirect:../my/orderHistory.do";
    }
    
+   //
+   @RequestMapping("reserve/reserve_ok.do")
+   public String reserve_reserve_ok(HttpServletRequest request,
+	         HttpServletResponse response) {
+	   try {
+		   request.setCharacterEncoding("UTF-8");
+		   
+	   }catch(Exception ex) {}
+	   		String receiver_name=request.getParameter("receiver_name");//예약관련 vo로 묶어서 전송
+	   		String ship_address1=request.getParameter("ship_address1");//1
+	   		
+	   		HttpSession session=request.getSession();
+	   		String id=(String)session.getAttribute("id");
+	   		
+	   		reserve vo=new ();
+	   		vo.setfno(Integer.parseInt(fno));
+	   		vo.setId(id);
+	   		vo.setreceiver_name(receiver_name);
+	   		//dao=> insert요청
+	   		
+	   		
+	   return "redirect:../my/mainMy.do";
+	   
+   }
 
 }

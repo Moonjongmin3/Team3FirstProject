@@ -73,12 +73,9 @@ public class PayDAO {
     * quantity
     * }
     */
-   
-	public int order_insert(String userId , int bid, int qty,String[] orderobj){
-		Date today=new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String Today=sdf.format(new Date()).toString();
-      	int order_id = 0;
+   //public int order_insert(String userId , int bid, int qty,String[] orderobj){
+	public void order_insert(OrderHistoryVO ohvo){
+		
          try {          
         	//orders_item_3테이블에 인서트
              conn=cm.getConnection();
@@ -86,10 +83,9 @@ public class PayDAO {
                    +"VALUES (?,?,?)";
              
              ps=conn.prepareStatement(sql1);
-             order_id=Integer.parseInt(Today+orderobj[5]+orderobj[6]);
-             ps.setInt(1,order_id);//order_id
-             ps.setInt(2, bid);
-             ps.setInt(3, qty);
+             ps.setInt(1,ohvo.getOrder_id());//order_id
+             ps.setInt(2, ohvo.getBook_id());
+             ps.setInt(3, ohvo.getQuantity());
              
              ps.executeUpdate();
              
@@ -98,22 +94,22 @@ public class PayDAO {
                      +"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
              ps=conn.prepareStatement(sql2);
            
-             ps.setInt(1,Integer.parseInt(Today+orderobj[5]+orderobj[6]));//order_id
-             ps.setString(2,userId);
-             ps.setString(3,orderobj[0]);//receiver_name
-             ps.setString(4,orderobj[1]);//ship_address1
-             ps.setString(5,orderobj[2]);//ship_address2
-             ps.setString(6,orderobj[3]);//zipcode
-             int receiver_phone=Integer.parseInt(orderobj[4]+orderobj[5]+orderobj[6]);
-             ps.setInt(7,receiver_phone);//receiver_phone
-             ps.setString(8,orderobj[7]);//ship_request
-             String state="order";//admin승인->pay로 전환 /주문취소-> cancle로 전환
-             ps.setString(9,"주문완료");//주문완료 / cancle / 결제완료
-             ps.setInt(10,0);//관리자 승인여부_default:0
-             ps.setDate(11,(java.sql.Date)today);//default:sysdate
+             ps.setInt(1,ohvo.getOrder_id());//order_id
+             ps.setString(2,ohvo.getUser_id());
+             ps.setString(3,ohvo.getReceiver_name());//receiver_name
+             ps.setString(4,ohvo.getShip_address1());//ship_address1
+             ps.setString(5,ohvo.getShip_address2());//ship_address2
+             ps.setString(6,ohvo.getZipcode());//zipcode
+             
+             ps.setInt(7,ohvo.getReceiver_phone());//receiver_phone
+             ps.setString(8,ohvo.getShip_request());//ship_request
+//             String state="order";//admin승인->pay로 전환 /주문취소-> cancle로 전환
+             ps.setString(9,ohvo.getState());//주문완료 / cancle / 결제완료
+             ps.setInt(10,ohvo.getPay_state());//관리자 승인여부_default:0
+             ps.setDate(11,(java.sql.Date)ohvo.getOrder_date());//default:sysdate
              int use_point=0;// 사용 point 미구현 -> 일단 0으로
              ps.setInt(12,use_point);//use_point
-             ps.setInt(13,Integer.parseInt(orderobj[8]));//total_price
+             ps.setInt(13,ohvo.getTotal_price());//total_price
             
              ps.executeUpdate();
              
@@ -122,7 +118,7 @@ public class PayDAO {
          }finally {
             cm.disConnection(conn, ps);
          }      
-         return order_id;
+//         return order_id;
       }
 	
    

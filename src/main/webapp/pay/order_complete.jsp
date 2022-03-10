@@ -63,7 +63,7 @@ td{
            <td style="font-size:25px;text-align:center;font-weight:bold"><strong>주문완료!<br></strong></td>
          </tr>
          <tr>
-           <td style="color:#72a4d9;"><strong>주문번호:</strong>${oder_id } </td>
+           <td style="color:#72a4d9;"><strong>주문번호:</strong><span id="orderID">${oder_id }</span> </td>
          </tr>
          <tr>
            <td class="font-center" style="color:gray;font-size:18px;text-align:center;">"예쁘게 포장해서 보내드릴게요 !<br>조금만 기다려요 <strong>:)</strong></td>

@@ -23,7 +23,7 @@ public class OrderHistoryDAO {
 	         String sql="SELECT o.*,num "
 	                   +"FROM (SELECT o.*,rownum as num "
 	                         +"FROM (SELECT * "
-	                               +"FROM orders_3 ORDER BY order_date) o"
+	                               +"FROM orders_3 ORDER BY order_date) o"//최신순 정렬
 	                         +") o "
 	                   +"WHERE num BETWEEN ? AND ?";//1~10 , 11~20
 	         
@@ -42,7 +42,7 @@ public class OrderHistoryDAO {
 	            vo.setOrder_id(rs.getInt("order_id"));
 	            vo.setBook_id(rs.getInt("book_id"));
 	            vo.setUser_id(rs.getString("user_id"));
-	            vo.setReceiver_name(rs.getString("receiver_name"));
+//	            vo.setReceiver_name(rs.getString("receiver_name"));
 	            vo.setShip_address1(rs.getString("ship_address1"));
 	            vo.setShip_address2(rs.getString("ship_address2"));
 	            vo.setZipcode(rs.getString("zipcode"));

@@ -224,26 +224,32 @@ $(function(){
 	    <c:forEach var="vo" items="${list }">	      
 	      <tr>
 	        <td width=20% class="text-center">
-	          <a href="..my/orderHistory.do?order_id=${vo.order_id}" id="detail_oh">${vo.order_id }</a>
+	          <a href="..my/orderHistory.do?order_id=${vo.order_id}" id="detail_oh">${vo.order_id }</a><!--클릭시 디테일show -->
 	        </td>
-	        <%-- .do =>Model --%>
 	        <td width=40%>${name }</td>
 	        <td width=10% class="text-center">${vo.total_price }</td>
 	        <td width=15% class="text-center">
 	          <fmt:formatDate value="${vo.order_date }" pattern="yyyy-MM-dd"/>
 	        </td>
-	        <td width=10% class="text-center">${vo.state }<td>
+	        <td width=10% class="text-center">
+	          <c:if test="${vo.state==0 }">
+	            <span class="text-center">주문완료</span>
+	          </c:if>
+	          <c:if test="${vo.state==1 }">
+	            <span href="javascript:alrert('메일에서 결제내역을 확인하실 수 있습니다 :)')" class="text-center">결제완료</span>
+	          </c:if>
+	        <td>
 	        <td width=5% class="text-center">
 	          <a href="..my/orderHistory_delete.do?order_id=${vo.order_id} }">삭제</a>
 	        </td>  
 	      </tr>
 	      <!-- hide() 목록 name클릭-> show() -->
-	    <tr id="${vo.order_id }" class="detail_hide">
+	      <tr id="${vo.order_id }" class="detail_hide">
 	        <td rowspan="7">
 	          <img src="${poster }" width="120px" height="150px">
 	        </td>
 	        <td>
-	          <a href="..book/book/productdetail.do?order_id=${vo.book_id }">${name }</a><br>
+	          <a href="..book/book/productdetail.do?no=${vo.book_id }">${name }</a><br>
 	          ${author }<br>
 	          ${vo.zipcode}<br>
 	          ${vo.ship_address1 }<br>

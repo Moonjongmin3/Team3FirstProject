@@ -35,7 +35,7 @@ public class OrderHistoryModel {
 		//list용
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("totalpage", totalpage);
-		request.setAttribute("list", list);
+		request.setAttribute("list", list);//
 		
 		//detail용
 		//detail_주문/결제 정보 VO
@@ -47,7 +47,7 @@ public class OrderHistoryModel {
 		
 		
 		
-		request.setAttribute("mainMy_jsp", "../my/orderHistory.jsp");//??
+		request.setAttribute("mainMy_jsp", "../my/orderHistory.jsp");
 		request.setAttribute("pageName", "My 주문내역");
 		request.setAttribute("main_jsp", "../my/mainMy.jsp");
 		return "../main/main.jsp";

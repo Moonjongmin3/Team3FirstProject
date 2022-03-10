@@ -182,14 +182,14 @@ label{
    font-weight:bold;
    border:1px;
 }
-.Rrow:not(button){
+.Rrow:not(input[type="submit"]){
     padding:10px;
-    border-radius: 15px;
+    border-radius: 8px;
     position: absolute;
     margin: 0px auto;
-    width:18%;
-    background-color: #fda4ba;
-    color:white;
+    width:13%;//18
+    background-color:black;
+    color:#579fd3;
     margin-left:2px;
     right: 50px;
     box-shadow: 5px 5px 5px 5px #dfdfdf;
@@ -207,9 +207,6 @@ label{
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script> 
 <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-/* Shadowbox.init({   
-}) */
-
 $(document).ready(function () {
    let tmp = parseInt($(".Rrow").css('top'));
  
@@ -228,7 +225,8 @@ $(document).ready(function () {
 //수정 필요
 /* 
 }) */
-
+/* Shadowbox.init({   
+}) */
 $(function(){   
    <%-- 주소찾기 --%>
       $('#postBtn_pay').click(function(){
@@ -242,10 +240,27 @@ $(function(){
       }).open()
       })
       
-      //
+      //결제하기 클릭시 
       
-     
-
+      $('#order_btn').click(function(){
+    	 $('#name_data').val($('#receiver_name').val()); 
+    	 $('#addr1_data').val($('#ship_address1').val());
+    	 $('#addr2_data').val($('#ship_address2').val());
+    	 $('#zip_data').val($('#zipcode').val());
+    	 $('#rphone1_data').val($('#receiver_phone1').val());
+    	 $('#rphone2_data').val($('#receiver_phone2').val());
+    	 $('#rphone3_data').val($('#receiver_phone3').val());
+    	 $('#msg_data').val($('#ship_request').val());
+    	 $('#total_data').val($('#total_price').val());
+    	 
+    	 $('#bid_data').val($('#book_id').val());
+    	 $('#poster_data').val($('#order_poster').val());
+    	 $('#catename_data').val($('#category_name').val());
+    	 $('#qty_data').val($('#qty').val());
+    	 
+      })
+      
+/* 주문완료 안내 없이 결제하기 클릭시인서트 후 (../pay/order_insert_ok.do-}) 바로 주문내역 이동
 	$('.payBtn').click(function(){      
   	  Shadowbox.open({
        content:'order_complete.jsp',
@@ -254,7 +269,7 @@ $(function(){
        width:600,
        height:540
    	 	})
-	})
+	}) */
    
 })
 
@@ -278,7 +293,6 @@ $(function(){
 </script>
 </head>
 <body>
-<form method="post" action="pay/order_insert.do">
   <div class="container">
     <h2>주문상품</h2>
     <hr>
@@ -300,18 +314,18 @@ $(function(){
            <fmt:parseNumber value="0" var="total"/>
            <c:forEach var="bvo" items="${orderBookList }">
             <tr>
-              <td type="hidden" name="book_id" value="${bvo.id }"></td>
+              <td type="hidden" name="book_id" id="book_id" value="${bvo.id }"></td>
             </tr>
             <tr>
-             <td class="img_oi"><img alt="poster" src="${bvo.poster }" width="120px" height="150px"></td>
-              <td class="title_oi" style="padding-top:20px"><a href="#">[ ${ bvo.subCategory} ] ${bvo.name }</a><br>${bvo.author }</td>
+             <td class="img_oi"><img alt="poster" id="order_poster" src="${bvo.poster }" width="120px" height="150px"></td>
+              <td class="title_oi" style="padding-top:20px" ><a href="#" id="category_name">[ ${ bvo.subCategory} ] ${bvo.name }</a><br>${bvo.author }</td>
               <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price}"/><br>
                 (10%<img src="../img/arrow.PNG" style="height: 15px;width: 15px;">)<br>
                 <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${bvo.price*0.05}"/>
               </td>
               <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
               <td id="qty">${bvo.quantity}</td>
-              <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
+              <td id="total_price"><fmt:formatNumber  pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
               <td>내일<br>도착예정
               </td>
               <td style="display: none">
@@ -357,14 +371,14 @@ $(function(){
             
             <tr>
               <th width=15%><strong>이름</strong></th>
-              <td width=85%><input type="text" name="receiver_name" value="${uvo.name }" size="10"> </td><!-- user.name -->
+              <td width=85%><input type="text" id="receiver_name" name="receiver_name" value="${uvo.name }" size="10"> </td><!-- user.name -->
             </tr>
             <tr>
               <th width=15%><strong>배송주소</strong></th>
               <td width=85%>
-                <input type="text" name="zipcode" id="post_pay" value="${uvo.post }" readonly="readonly" size="10"style="margin-bottom:8px;">&nbsp;&nbsp;<input type="button" id="postBtn_pay" value="주소찾기"><br>
-                도로명 주소<input type="text" name="ship_address1" id="addr1_pay" value="${uvo.address1 }" readonly="readonly" size="35"style=";margin-bottom:8px;"><br>
-                상세 주소<input type="text" name="ship_address2" id="addr2_pay" value="${uvo.address2 }"size="35" style="margin-left:14px;margin-bottom:8px;"><br>                
+                <input type="text" name="zipcode" id="zipcode" value="${uvo.post }" readonly="readonly" size="10"style="margin-bottom:8px;">&nbsp;&nbsp;<input type="button" id="postBtn_pay" value="주소찾기"><br>
+                도로명 주소<input type="text" name="ship_address1" id="ship_address1" value="${uvo.address1 }" readonly="readonly" size="35"style=";margin-bottom:8px;"><br>
+                상세 주소<input type="text" name="ship_address2" id="ship_address2" value="${uvo.address2 }"size="35" style="margin-left:14px;margin-bottom:8px;"><br>                
                 <ul class="caution_ul">
                   <li style="font-size: 10px">
                     <img alt="!!" src="../img/caution_sm.PNG" style="height: 13px;width: 5px;margin-top:0px;"> 
@@ -377,7 +391,7 @@ $(function(){
             <tr>
               <th width=15%><strong>휴대폰</strong></th>
               <td width=85%>
-                <select name="receiver_phone1" value="${fn:substring(uvo.tel,0,2) }" id="phone1_pay">
+                <select name="receiver_phone1" value="${fn:substring(uvo.tel,0,2) }" id="receiver_phone1">
                <option value="010" selected="selected">010</option>
                    <option value="011">011</option>
                    <option value="016">016</option>
@@ -385,8 +399,8 @@ $(function(){
                    <option value="018">018</option>
                    <option value="019">019</option>
             </select>&nbsp;-&nbsp;
-                 <input type='tel' name='receiver_phone2' value="${fn:substring(uvo.tel,2,6) }" size="2" id="phone2_pay"/>&nbsp;-&nbsp;
- <!-- 11 -->               <input type='tel' name='receiver_phone3' value="${fn:substring(uvo.tel,6,10) }" size="2" id="phone3_pay"/><br>
+                 <input type='tel' name='receiver_phone2' value="${fn:substring(uvo.tel,2,6) }" size="2" id="receiver_phone2"/>&nbsp;-&nbsp;
+ <!-- 11 -->               <input type='tel' name='receiver_phone3' value="${fn:substring(uvo.tel,6,10) }" size="2" id="receiver_phone3"/><br>
                 <div class="caution">
                   연락처는 하나만 입력하셔도 결제가 가능합니다.
                 </div>
@@ -470,7 +484,7 @@ $(function(){
               <tr>
                 <td colspan="2">
                   <label class="box-radio-input"><input type="radio" id="without_BK" name="payment_mtd" value="bkX" 
-                     class="rdbtn"><span class="mtd" checked="checked">무통장입금</span>
+                     class="rdbtn" checked="checked"><span class="mtd" >무통장입금</span>
                   </label>
                   <label class="box-radio-input">
                     <input type="radio" id="cc" name="payment_mtd" value="cc" 
@@ -564,7 +578,7 @@ $(function(){
                 <tr>
                   <th width=25%><strong>택배사<br>직원에게</strong></th>
                   <td>
-                    <input type="text" name="ship_request" class="input_gray" size="25"/><br>
+                    <input type="text" name="ship_request" id="ship_request" class="input_gray" size="25"/><br>
                     <div class="caution">택배회사 송장에 출력되는 메시지</div>
                   </td>
                 </tr>
@@ -594,7 +608,7 @@ $(function(){
               </p>
               <br>
               <p>
-                <button type="submit" class="button_pay payBtn" >결제하기</button>
+              <input type="submit" class="button_pay payBtn" value="결제하기" style="font-size:20px;height:50px;color:white;font-weight: bold;">
               </p>
             </div>
           </div><!-- 결제방법R 끝 --------------------------------------------- -->         
@@ -602,33 +616,50 @@ $(function(){
       </div><!--결제방법 끝---------------------------------------------------- -->      
   </div> <!-- Lrow 끝-->
 <!--결제 플로팅 ------------------------------------------------------------------- -->
-    <div class="Rrow" >
-      <h3 class="text-center tr_sol" style="padding-bottom:15px;font-weight: bold; border-color:white;">
+    <div class="Rrow" style="padding:1%; background-color: #f6f6f6;">
+      <h3 class="text-center tr_sol" style="padding-bottom:15px;font-weight: bold; border-color:#dedede;">
         결제예정금액
       </h3>
-      <table class="table_f">        
+      <table class="table_f" >        
           <tr >
-            <th width=40%><strong>상품가격</strong></th>
-            <td><fmt:formatNumber pattern="#,##0 원" value="${total}"/></td>
+            <th width=40%><strong style="color:#ABABAB;">상품가격</strong></th>
+            <td style="color:#ABABAB;"><fmt:formatNumber pattern="#,##0 원" value="${total}"/></td>
           </tr>
-          <tr class="tr_dot">
+          <tr class="tr_dot" style="color:#ABABAB;">
             <th><strong>할인금액</strong></th>
             <td><fmt:formatNumber pattern="#,##0 원" value="${total/10}"/></td><!--(${Price}*${saleRate })+${usePoint} .. UserVO에 point가 없어서 일단  -->
           </tr>
           <tr>
-            <th colspan="2" style="padding-top:10px;" ><strong>총 결제 금액</strong></th> 
+            <th colspan="2" style="padding-top:10px; border-bottom: none;" id=""><strong>총 결제 금액</strong></th> 
           </tr>
           <tr>
-            <td colspan="2" style="text-align:right; font-size:30px;"><fmt:formatNumber pattern="#,##0 원" value="${total-(total/10)}"/></td>
+            <td colspan="2" style="text-align:right; font-size:30px;" data-no><fmt:formatNumber pattern="#,##0 원" value="${total-(total/10)}"/></td>
           </tr>         
           <tr>
             <td colspan="2" style="font-size:18px"><label><input type="checkbox"/><strong>&nbsp;구매 및 이용약관 모두 동의</strong></label></td>
           </tr>
           <tr><br></tr>         
       </table>
-      <input type="submit" class=" buton payBtn" style="background-color:white;align:center;font-size:20px;border-radius:15px;border:none; width:100%;height:50px"><span style="color:#fda4ba;font-weight: bold;">결제하기</span></button>
-    </div><!-- Rrow ------------------------------------------------------------>
+      <form method="post" action="pay/order_insert.do">
+<!--       <form method=post action="../reserve/reserve_ok.do"></form> -->
+        <input type=hidden name="receiver_name" value="" id="name_data">
+        <input type=hidden name="ship_address1" value="" id="addr1_data">
+        <input type=hidden name="ship_address2" value="" id="addr2_data">
+        <input type=hidden name="zipcode" value="" id="zip_data">
+        <input type=hidden name="receiver_phone1" value="" id="rphone1_data">
+        <input type=hidden name="receiver_phone2" value="" id="rphone2_data">
+        <input type=hidden name="receiver_phone3" value="" id="rphone3_data">
+        <input type=hidden name="ship_request" value="" id="msg_data">
+        <input type=hidden name="total_price" value="" id="total_data">
+        
+        <input type=hidden name="book_id" value="" id="bid_data">
+        <input type=hidden name="order_poster" value="" id="poster_data">
+        <input type=hidden name="category_name" value="" id="catename_data">
+        <input type=hidden name="quentity" value="" id="qty_data">
+        <input type="submit" value="결제하기" class="button_pay payBtn" style="font-size:20px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">
+      </form>
+    </div><!-- Rrow ------------------------------------------------------------>    
   </div> <!-- container -->
-</form>
+
 </body>
 </html>
