@@ -17,17 +17,99 @@
 </head>
 <body>
 	<div class="admin_wrap">
+		<div class="admin_top">
+			<h3>관리자 페이지</h3>
+		</div>
+		<div class="admin_info_wrap">
+			<div class="admin_section">
+				<div class="admin_name">
+					김장군 (운영자)
+				</div>
+				<div class="admin_info_btn_group">
+					<a class="admin_info_btn">관리자 삭제</a>
+					<a class="admin_info_btn">관리자 계정 수정</a>
+				</div>
+			</div>
+			<table class="admin_info_list">
+				<tbody>
+					<tr>
+						<td class="admin_info_first" width="12%">
+							<div class="admin_tit">
+								아이디
+							</div>
+							<div class="admin_info">
+								admin
+							</div>
+						</td>
+						<td class="admin_info_first" width="12%">
+							<div class="admin_tit">
+								생년월일
+							</div>
+							<div class="admin_info">
+								2022-02-03
+							</div>
+						</td>
+						<td class="admin_info_first" width="5%">
+							<div class="admin_tit">
+								성별
+							</div>
+							<div class="admin_info">
+								남성
+							</div>
+						</td>
+						<td class="admin_info_first" width="10%">
+							<div class="admin_tit">
+								전화번호
+							</div>
+							<div class="admin_info">
+								01055555555
+							</div>
+						</td>
+						<td class="admin_info_first" width="20%">
+							<div class="admin_tit">
+								e-mail
+							</div>
+							<div class="admin_info">
+								jim424ds@naver.com
+							</div>
+						</td>
+						<td class="admin_info_first" width="12%">
+							<div class="admin_tit">
+								가입일
+							</div>
+							<div class="admin_info">
+								2013-03-12
+							</div>
+						</td>
+					</tr>
+				</tbody>	
+			</table>
+			</div>
 		<div id="accordion">
-		  <h3>Section 1</h3>
-		  <div>
-			    <p>
-			    Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-			    ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-			    amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-			    odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
-			    </p>
+		  <h3>주문 승인 대기 목록</h3>
+		  <div class="order_stay_list">
+			    <table>
+			    	<tr>
+			    		<th width="10%">주문자 ID</th>
+			    		<th>수령자</th>
+			    		<th>수령 주소</th>
+			    		<th>수령자 번호</th>
+			    		<th>배송 요청 사항</th>
+			    		<th>주문 날짜</th>
+			    		<th>총 가격</th>
+			    	</tr>
+			    	<tr>
+			    		<td>주문자 ID</td>
+			    		<td>수령자</td>
+			    		<td>수령 주소</td>
+			    		<td>수령자 번호</td>
+			    		<td>배송 요청 사항</td>
+			    		<td>주문 날짜</td>
+			    		<td>총 가격</td>
+			    	</tr>
+			    </table>
 		  </div>
-		  <h3>Section 2</h3>
+		  <h3>1:1 답변 대기 목록</h3>
 		  <div>
 			    <p>
 			    Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
@@ -50,20 +132,6 @@
 			      <li>List item three</li>
 			    </ul>
 		  </div>
-		  <h3>Section 4</h3>
-		  <div>
-			    <p>
-			    Cras dictum. Pellentesque habitant morbi tristique senectus et netus
-			    et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
-			    faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
-			    mauris vel est.
-			    </p>
-			    <p>
-			    Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
-			    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-			    inceptos himenaeos.
-			    </p>
-		   </div>
 		</div>
 	</div>
 </body>

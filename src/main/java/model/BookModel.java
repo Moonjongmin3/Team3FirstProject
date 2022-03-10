@@ -10,7 +10,6 @@ import dao.BookListDAO;
 import vo.BookCountVO;
 import vo.BookVO;
 import vo.SearchVO;
-
 public class BookModel {
 
 	@RequestMapping("book/bookList.do")

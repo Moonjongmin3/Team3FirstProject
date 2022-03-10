@@ -138,6 +138,7 @@ public class LoginModel {
 	     
     	return"../main/main.jsp";
     }
+	@RequestMapping("user/idfind.do")
     public String memberIdEFind_Result(HttpServletRequest request, HttpServletResponse respose) {
 		try {
 			request.setCharacterEncoding("UTF-8");

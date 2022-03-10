@@ -2,9 +2,12 @@
 .admin_wrap{
 	width:1080px;
 	margin: 0 auto;
+	min-height: 700px;
 }
 .admin_wrap>div h3{
 	height: 50px;
+	margin-left: 15px;
+	margin-bottom: 0px;
 }
 .admin_wrap>div h3:before{
   content:'';
@@ -12,3 +15,92 @@
   vertical-align: middle;
   height: 100%;
 }
+.admin_top{
+	position: relative;
+	
+}
+
+.admin_top::after{
+	content: "";
+    display: block;
+    border-bottom: 2px solid black;
+    position: absolute;
+    width: 100%;
+    bottom: 5;
+}
+
+#accordion{
+	margin-top: 50px;
+}
+
+.admin_info_wrap{
+	border: 1px solid #899bdb;
+    border-left: 0;
+    border-right: 0;
+    overflow: hidden;
+    margin-bottom: 30px;
+    margin:0 auto;
+    color: #333333;
+    width: 960px;
+    margin-top: 10px;
+}
+
+.admin_section{
+	background: #dde5ff;
+    float: left;
+    width: 201px;
+    padding-left: 20px;
+    border-right: 1px solid #c1cfff;
+    height: 64px;
+    
+}
+.admin_name{
+	font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 3px
+}
+.admin_info_btn{
+	display: inline-block;
+    border: 1px solid #d0d0d0;
+    height: 13px;
+    font-size: 12px !important;
+    font-family: 'dotum',sans-serif;
+    color: #666 !important;
+    background-color: #fff;
+    text-align: center;
+    padding: 3px 4px 2px;
+    height: 24;
+    cursor: pointer;
+}
+
+.admin_info_list{
+	float: left;
+    border-spacing: 0;
+    width: 759px;
+}
+.admin_info_list td{
+	text-align: center;
+	height:66px;
+	font-size: 15px;
+}
+.admin_info_list tr td div:first-child{
+	font-size: 12px;
+	color:#666;
+}
+.admin_info_list tr td div:last-child{
+	font-weight: 550;
+}
+
+.admin_info_list td .admin_tit{
+	margin-bottom: 6px;
+}
+
+
+
+
+
+
+
+
+
+

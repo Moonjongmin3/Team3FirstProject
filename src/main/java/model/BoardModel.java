@@ -16,6 +16,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import controller.RequestMapping;
 
 
+
+
 public class BoardModel {
 	@RequestMapping("board/list.do")
 	public String boardList(HttpServletRequest request, HttpServletResponse response) {
