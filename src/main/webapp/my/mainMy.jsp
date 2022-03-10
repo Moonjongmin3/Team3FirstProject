@@ -169,6 +169,17 @@ $(document).ready(function () {
           </div>
           <br>
           <div class="menu radiaus">
+          <dl class="menu_block">
+	          <dt>내정보</dt>
+	          <dd>
+	            <ul class="menu_ul">
+	              <li class="menu_li">
+	                <a href="../my/myPage.do">개인 정보 관리</a>
+	              </li>
+	            </ul>
+	          </dd>
+	       </dl>
+	       <hr>
 	       <dl class="menu_block">
 	          <dt>주문내역</dt>
 	          <dd>
@@ -229,23 +240,6 @@ $(document).ready(function () {
 	              </li>
 	              <li class="menu_li">
 	                <a href="#">test</a>
-	              </li>
-	              <li class="menu_li">
-	                <a href="#">test</a>
-	              </li>
-	            </ul>
-	          </dd>
-	       </dl>
-	       <hr>
-	       <dl class="menu_block">
-	          <dt>회원정보 관리</dt>
-	          <dd>
-	            <ul class="menu_ul">
-	              <li class="menu_li">
-	                <a href="#">회원정보 수정</a>
-	              </li>
-	              <li class="menu_li">
-	                <a href="#">회원탈퇴</a>
 	              </li>
 	              <li class="menu_li">
 	                <a href="#">test</a>

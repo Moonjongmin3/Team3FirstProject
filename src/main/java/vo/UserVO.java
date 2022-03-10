@@ -16,7 +16,7 @@ public class UserVO {
 	private int post;
 	private String registered_at;
 	private String update_at;
-	private String point;
+	private int point;
 	private String login_check;
 	private String admin_check;
 	private String content;
@@ -95,10 +95,11 @@ public class UserVO {
 	public void setUpdate_at(String update_at) {
 		this.update_at = update_at;
 	}
-	public String getPoint() {
+	
+	public int getPoint() {
 		return point;
 	}
-	public void setPoint(String point) {
+	public void setPoint(int point) {
 		this.point = point;
 	}
 	public String getLogin_check() {

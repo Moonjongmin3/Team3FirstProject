@@ -30,6 +30,7 @@ $(function(){
 	})
 
 	$('#postBtn').click(function(){
+		console.log('post')
 		// 우편번호 검색
 		new daum.Postcode({
 			oncomplete:function(data)
