@@ -44,17 +44,10 @@ function oneInsertnav(){
 				</div>
 				<div class="faq_nav" style="border: 1px solid #cdcdcd">
 					<dl>
-						<dt>FAQ</dt>
-						<dd>
-							<ul>
-								<li>상품</li>
-								<li>주문/결제</li>
-								<li>배송</li>
-								<li>환불</li>
-							</ul>
-						</dd>
-
-					</dl>
+                  		<dt>
+                     		<a href="../customer/demoFaq.do">FAQ</a>
+                  		</dt>
+              	    </dl>
 					<dl>
 						<dt>1:1 문의</dt>
 						<dd>

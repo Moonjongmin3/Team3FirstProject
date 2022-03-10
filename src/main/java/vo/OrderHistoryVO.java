@@ -118,11 +118,6 @@ public class OrderHistoryVO {
 	public void setCate_name(String cate_name) {
 		this.cate_name = cate_name;
 	}
-	public int getQty() {
-		return qty;
-	}
-	public void setQty(int qty) {
-		this.qty = qty;
-	}
+
 	   
 }

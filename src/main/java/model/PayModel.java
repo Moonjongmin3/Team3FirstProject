@@ -194,10 +194,6 @@ public class PayModel {
 	   		HttpSession session=request.getSession();
 	   		String id=(String)session.getAttribute("id");
 	   		
-	   		reserve vo=new ();
-	   		vo.setfno(Integer.parseInt(fno));
-	   		vo.setId(id);
-	   		vo.setreceiver_name(receiver_name);
 	   		//dao=> insert요청
 	   		
 	   		
