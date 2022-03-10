@@ -2,13 +2,13 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:choose>
-    <c:when test="${result=='NOID' }">
+    <c:when test="${id==null }">
         <script>
             alert("아이디가 존재하지 않습니다!!");
             history.back();
         </script>
     </c:when>
-    <c:when test="${result=='NOPWD' }">
+    <c:when test="${pwd=='NOPWD' }">
         <script>
             alert("비밀번호가 틀립니다!!");
             history.back();

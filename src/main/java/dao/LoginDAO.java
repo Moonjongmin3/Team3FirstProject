@@ -111,6 +111,7 @@ public class LoginDAO {
 			
 			if(rs.next()) {
 				id = rs.getString(1);
+				rs.close();
 			}
 				
 		} catch (Exception e) {
@@ -134,11 +135,13 @@ public class LoginDAO {
 			
 			if(rs.next()) {
 				id = rs.getString(1);
+				rs.close();
 			}
 				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return id;
 	}
     public String findPwd_tel(String id, String tel) {
@@ -157,6 +160,7 @@ public class LoginDAO {
 			
 			if(rs.next()) {
 				password = rs.getString(1);
+				rs.close();
 			}
 				
 		} catch (Exception e) {
@@ -180,6 +184,7 @@ public class LoginDAO {
 			
 			if(rs.next()) {
 				password = rs.getString(1);
+				rs.close();
 			}
 				
 		} catch (Exception e) {
