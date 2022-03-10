@@ -20,7 +20,7 @@
 	      <h4>  입니다 </h4>
 	     </div>
 	     <div class = "found-login">
- 		    <input type="button" id="btnLogin" value="로그인" onClick = 'login()'/>
+ 		    <input type="button" id="btnLogin" value="로그인" onclick="location=window.open('login.do')"/>
        	</div>
        </div>
        </c:if>

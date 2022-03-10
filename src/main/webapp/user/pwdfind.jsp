@@ -72,6 +72,44 @@
     })
  });
   </script>
+ <script type="text/javascript">
+ function pw_search(){
+
+	  var frm=document.pwfindscreentel;
+
+	  if(frm.member_pwd_id.value.length<1){
+	   alert("아이디를 올바르게 입력해주세요");
+	   return;
+	  }
+
+	   if (frm.member_pwd_tel.value.length <1) {
+				  alert("핸드폰번호를 입력해주세요");
+				  return;
+			 }
+		
+	  frm.method="post";
+	  frm.action="pwdfind_result.do"; //넘어간화면
+	  frm.submit(); //등록이 될수 있는 조건이면, 정보를 보내겠다.
+	  }
+ function pw_search1(){
+
+	  var frm=document.pwfindscreentel;
+
+	  if(frm.member_pwd_id1.value.length<1){
+	   alert("아이디를 올바르게 입력해주세요");
+	   return;
+	  }
+
+	   if (frm.member_pwd_email.value.length <1) {
+				  alert("이메일 주소를 입력해주세요");
+				  return;
+			 }
+		
+	  frm.method="post";
+	  frm.action="pwdfind_result.do"; //넘어간화면
+	  frm.submit(); //등록이 될수 있는 조건이면, 정보를 보내겠다.
+	  }
+ </script>
 </head>
 <body>
   <div class="wrapper row3">
@@ -93,21 +131,56 @@
 		    <li><a href="#tabs-2">이메일</a></li>
 		  </ul>
 		  <div id="tabs-1">
-		    <p class="inline">
-		      <input type=text id="tel" size=20 class="input-sm">
-		      <input type=button value="검색" class="btn btn-sm btn-danger"
-		       id="telBtn">
-		    </p>
-		    <p id="tel_find" style="font-size: 15pt;color:red"></p>
+						<form name="pwfindscreentel" method="POST">
+							<div class="search-title">
+								<h3>등록한 정보로 인증</h3>
+							</div>
+							<section class="form-search">
+								<div class="find-id">
+									<label>아이디:</label> <input type="text" name="member_pwd_id"
+										class="btn-name" placeholder="ID를 입력하세요."> <br>
+								</div>
+
+								<div class="find-tel">
+									<label>번   호 :</label> <input type="text" onKeyup="addHypen(this);"
+										name="member_pwd_tel" class="btn-phone"
+										placeholder="휴대폰번호를 '-'없이 입력">
+								</div>
+								<br>
+							</section>
+							<div class="btnSearch">
+								<input type="button" name="enter" value="찾기" class="btn btn-sm btn-primary" onClick="pw_search()"> 
+								<input type="button" name="cancle" value="취소" class="btn btn-sm btn-danger" onClick="history.back()">
+							</div>
+						</form>
+						<p id="tel_find" style="font-size: 15pt;color:red"></p>
 		  </div>
 		  <div id="tabs-2">
-		    <p class="inline">
-		      <input type=text id="email" size=35 class="input-sm">
-		      <input type=button value="검색" class="btn btn-sm btn-danger"
-		       id="emailBtn">
-		    </p>
-		    <p id="email_find" style="font-size: 15pt;color:red"></p>
-		</div>
+						<form name="pwfindscreenemail" method="POST">
+							<div class="search-title">
+								<h3>등록한 정보로 인증</h3>
+							</div>
+							<section class="form-search">
+								<div class="find-id">
+									<label>아이디 :</label> <input type="text" name="member_pwd_id1"
+										class="btn-name" placeholder="ID를 입력하세요."> <br>
+								</div>
+
+								<div class="find-tel">
+									<label>이메일 :</label> <input type="text" onKeyup="addHypen(this);"
+										name="member_pwd_email" class="btn-phone"
+										placeholder="이메일을 입력하세요">
+								</div>
+								<br>
+							</section>
+							<div class="btnSearch">
+								<input type="button" name="enter" value="찾기"
+									class="btn btn-sm btn-primary" onClick="pw_search()"> <input
+									type="button" name="cancle" value="취소"
+									class="btn btn-sm btn-danger" onClick="history.back()">
+							</div>
+						</form>
+					</div>
 	   </main>
    </div>
   </div>

@@ -138,6 +138,24 @@ public class LoginModel {
 	     
     	return"../main/main.jsp";
     }
+    public String memberIdEFind_Result(HttpServletRequest request, HttpServletResponse respose) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    String name = request.getParameter("member_name");
+	     String email = request.getParameter("member_email");
+	     
+	     LoginDAO dao = new LoginDAO();
+	     String id = dao.findId_email(name, email); 	
+	     
+	     request.setAttribute("id", id);
+	     request.setAttribute("main_jsp", "../user/idfind_result.jsp");
+	     
+    	return"../main/main.jsp";
+    }
 	@RequestMapping("user/idfind.do")
     public String memberIdFind(HttpServletRequest request, HttpServletResponse respose) {
     	

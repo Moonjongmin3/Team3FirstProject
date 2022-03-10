@@ -141,6 +141,52 @@ public class LoginDAO {
 		}
 		return id;
 	}
+    public String findPwd_tel(String id, String tel) {
+		String pwd = null;
+		
+		try {
+			conn=cm.getConnection();
+			String sql = "SELECT pwd"
+					+ " FROM user_3 "
+					+ "where id=? and tel=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, pwd);
+			ps.setString(2, tel);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				id = rs.getString(1);
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pwd;
+	}
+    public String findPwd_email(String id, String email) {
+		String pwd = null;
+		
+		try {
+			conn=cm.getConnection();
+			String sql = "SELECT pwd "
+					+ "FROM user_3 "
+					+ "where id=? and email=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, email);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				pwd = rs.getString(1);
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pwd;
+	}    
 // // ID => 전화번호로 찾기 
 //    public String idfind_tel(String tel)
 //    {
