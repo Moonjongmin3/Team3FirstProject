@@ -114,6 +114,41 @@ let recommendSwiper = new Swiper(".recommendSwiper", {
     	  let url = "../pay/orderlist.do";
     	  
     	  $.each($("input.book-check:checked"), function(){
+    		  book['id'] = $(this).val();
+    		  book['quantity'] = $('#quantity-' + $(this).val()).val();
+    		  book['name'] = $('#name-' + $(this).val()).text();
+    		  book['poster'] = $('#img-' + $(this).val()).attr('src');
+    		  book['price'] = parseInt($('#price-' + $(this).val() + '>del').text().replace('원', ''));
+    		  
+    		  books.push(book);
+      	  });
+    	  
+    	  postToUrl(books, url)
+    	  
+      })
+      // 찜하기 - 개별 상품
+       $(document).on('click', '#addMyList-btn', function(){
+    	    let books = [];
+    	    let book = {};
+    	    book['id'] = $(this).val();
+  		    book['quantity'] = $('#quantity-' + $(this).val()).val();
+	  		book['name'] = $('#name-' + $(this).val()).text();
+			book['poster'] = $('#img-' + $(this).val()).attr('src');
+			book['price'] = parseInt($('#price-' + $(this).val() + '>del').text().replace('원', ''));
+  		    
+  		    books.push(book);
+  		    
+      		let url = "../Jjim.do";
+    		
+      		postToUrl(books, url)
+      });
+   	  // 찜하기 - 선택 상품
+      $('.addMyList-selected').click(function(){
+		  alert("찜하기 완료! 찜목록으로 이동");
+    	  let books = [];
+    	  let url = "../Jjim.do";
+    	  
+    	  $.each($("input.book-check:checked"), function(){
     		  let book = {};
     		  book['id'] = $(this).val();
     		  book['quantity'] = $('#quantity-' + $(this).val()).val();

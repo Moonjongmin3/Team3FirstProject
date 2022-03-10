@@ -31,7 +31,12 @@
 						  <c:if test="${empty userId}">
 						  	<button type="button" class="btn btn-default" onclick="location.href ='../user/login.do'">주문하기</button>
 						  </c:if>
-						  <button type="button" class="btn btn-default">찜목록 넣기</button>
+						  <c:if test="${not empty userId}">
+						  	<button type="button" class="btn btn-default addMyList-selected">찜목록 넣기</button>
+						  </c:if>
+						  <c:if test="${empty userId}">
+						  	<button type="button" class="btn btn-default" onclick="location.href ='../user/login.do'">찜목록 넣기</button>
+						  </c:if>
 						  <button type="button" class="btn btn-default" id="delete-selected">삭제</button>
 						</div>
 						<form action="#" id="cart-sort">
@@ -44,6 +49,15 @@
 						</form>
 					</div>
 				</div>
+				<c:if test="${empty userId and empty cart}">
+					<div class="row">
+						<div class="col-xs-12 col-md-10 col-md-offset-1" id="empty-cart-area">
+							<img id="empty-cart-img" alt="empty_cart" src="../img/empty_cart.png"><br>
+							<span id="empty-warning">장바구니가 비었습니다..</span>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${not empty userId or not empty cart}">
 				<div class="row">
 					<div class="col-xs-12 col-md-10 col-md-offset-1 cart-table">
 						<table class="table">
@@ -68,7 +82,9 @@
 						<div class="row">
 							<div class="col-xs-3 price-table-header-1">총 상품금액<br><span id="price-table-header-price"></span></div>
 							<div class="col-xs-2 price-table-header-2">총 추가금액<br><span id="price-table-header-price"></span></div>
-							<div class="col-xs-2 price-table-header-3">총 할인금액<br><span id="price-table-header-price">0원</span></div>
+							<div class="col-xs-2 price-table-header-3">총 할인금액<br>
+								<span id="price-table-header-price">0원</span>								
+							</div>
 							<div class="col-xs-5 price-table-header-4"><span class="final-price">최종 결제금액</span><br>
 									<span id="price-table-header-price" class="final-price"></span>
 							</div>
@@ -109,7 +125,10 @@
 						<div class="row">
 							<div class="col-xs-3" id="delivery-table-header">배송일 안내</div>
 							<div class="col-xs-9" id="delivery-table-info">
-								<div class="row">배송지 : <c:if test="${not empty userId}">${fullAddress}</c:if></div>
+								<div class="row">배송지 : 
+									<c:if test="${not empty userId}">${fullAddress}</c:if>
+									<c:if test="${empty userId}">로그인이 필요합니다.</c:if>
+								</div>
 								<div class="row">YES24배송 : <strong>내일(${deliveryDate})</strong> 도착예정</div>
 							</div>
 						</div>
@@ -125,6 +144,7 @@
 						</c:if>
 					</div>
 				</div>
+				</c:if>
 			</div>
 		</aritcle>
 		<aritcle>
@@ -134,13 +154,18 @@
 			  	<span id="recommend-emphtitle">추천 </span><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></h3>
 			  	<div class="swiper recommendSwiper">
 				    <div class="swiper-wrapper">
-				      <c:forEach items="${recommendedBooks}" var="recommendedBook">
-				    		<div class="swiper-slide" id="swiper-slide">
-				    			<a href="../book/productdetail.do?no=${recommendedBook.id}">
-									<img src="${recommendedBook.poster}" alt="${recommendedBook.name}">
-								</a>
-				      		</div>
-				    	</c:forEach>
+				    	<c:if test="${empty userId}">
+				    		<span id="sorry-for-recommend">죄송합니다.. 회원에게 만 제공되는 정보입니다</span>
+				    	</c:if>
+				    	<c:if test="${not empty userId}">
+					      	<c:forEach items="${recommendedBooks}" var="recommendedBook">
+					    		<div class="swiper-slide" id="swiper-slide">
+					    			<a href="../book/productdetail.do?no=${recommendedBook.id}">
+										<img src="${recommendedBook.poster}" alt="${recommendedBook.name}">
+									</a>
+					      		</div>
+					    	</c:forEach>
+				    	</c:if>
 				    </div>
 				    <div class="swiper-button-next" id="swiper-button"></div>
 				    <div class="swiper-button-prev" id="swiper-button"></div>
@@ -191,7 +216,8 @@
 	    		book_data += '<td id="cart-table-info"><strong>내일</strong><br>(${deliveryDate})</td>';
 	    		book_data += '<td id="cart-table-info"><c:if test="${not empty userId}"><button type="button" class="btn btn-primary" id="checkout-btn" value="' + value.id + '" style="width:85px">주문하기</button></c:if>';
 	    		book_data += '<c:if test="${empty userId}"><button type="button" class="btn btn-primary" onclick="location.href =\'../user/login.do\'" value="' + value.id + '" style="width:85px">주문하기</button></c:if>';
-	    		book_data += '<button type="button" class="btn btn-info" style="width:85px">찜하기</button>';
+	    		book_data += '<c:if test="${not empty userId}"><button type="button" class="btn btn-info" id="addMyList-btn" value="' + value.id + '" style="width:85px">찜하기</button></c:if>';
+	    		book_data += '<c:if test="${empty userId}"><button type="button" class="btn btn-info" style="width:85px" onclick="location.href =\'../user/login.do\'">찜하기</button></c:if>';
 	    		book_data += '<button type="button" class="btn btn-default" id="del-button" value="' + value.id + '" style="width:85px">삭제하기</button></td>';
 	    		book_data += '</tr>';
 	    		

@@ -215,6 +215,23 @@ td#quantity-column{
 #user-btn{
 	background-color: #0052D4;
 }
+/* 빈 장바구니 영역 */
+#empty-cart-area{
+	text-align: center;
+}
+#empty-cart-img{
+	width: 20vw;
+	height: auto;
+	margin: 15vh 0 0 0;
+}
+#empty-warning{
+	display: block;
+	color: #0052D4;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-weight: 500;
+	font-size: 30px;
+	margin: 10vh 0 10vh 0;
+}
 /* 추천 도서 영역 */
 .jumbotron{
 	height: 110vh;
@@ -262,6 +279,12 @@ td#quantity-column{
 	z-index: 0;
 	border-radius: 10px;
 	background-color: rgba(0, 0, 0, 0.2);
+}
+#sorry-for-recommend{
+	color: white;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 25px;
+	margin: 100px 0 0 25vw;
 }
 /* 최근 조회한 도서 목록 */
 #history-title{
@@ -312,6 +335,9 @@ td#quantity-column{
 	}
 	.recentSwiper{
 		padding-right: 10px;
+	}
+	#sorry-for-recommend{
+		margin: 100px 0 0 15vw;
 	}
 }
 @media screen and (max-width: 768px) {
