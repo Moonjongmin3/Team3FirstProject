@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.admin_wrap{
+	width:1080px;
+	margin: 0 auto;
+}
+.admin_wrap>div h3{
+	height: 50px;
+}
+.admin_wrap>div h3:before{
+  content:'';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}

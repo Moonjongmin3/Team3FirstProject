@@ -101,5 +101,12 @@ public class MyPageModel {
 		return "../my/myPagePwd.jsp";
 		
 	}
+/* =============================================== 어드민 페이지 ======================================================	*/
 	
+	@RequestMapping("my/adminPage.do")
+	public String adminPage(HttpServletRequest request,HttpServletResponse response) {
+		
+		request.setAttribute("main_jsp", "../my/adminPage.jsp");
+		return "../main/main.jsp";
+	}
 }

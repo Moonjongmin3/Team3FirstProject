@@ -1,5 +1,7 @@
 package model;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -119,8 +121,22 @@ public class LoginModel {
     }
 	@RequestMapping("user/idfind_result.do")
     public String memberIdCFind_Result(HttpServletRequest request, HttpServletResponse respose) {
-    	
-    	return"../user/idfind_result.jsp";
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    String name = request.getParameter("member_name");
+	     String tel = request.getParameter("member_tel");
+	     
+	     LoginDAO dao = new LoginDAO();
+	     String id = dao.findId_tel(name, tel); 	
+	     
+	     request.setAttribute("id", id);
+	     request.setAttribute("main_jsp", "../user/idfind_result.jsp");
+	     
+    	return"../main/main.jsp";
     }
 	@RequestMapping("user/idfind.do")
     public String memberIdFind(HttpServletRequest request, HttpServletResponse respose) {

@@ -17,6 +17,7 @@
 <!-- Index 페이지 StyleSheet -->
 <link rel="stylesheet" href="../css/index.css">
 <!-- Index 페이지 StyleSheet -->
+<link rel="stylesheet" href="../css/admin.css">
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/customer.css">
 <link rel="stylesheet" href="../css/login.css">
@@ -100,7 +101,7 @@
 									<li class="top-list-element sign-up"><a href="../my/myPage.do">마이페이지</a></li>
 								</c:if>
 								<c:if test="${sessionScope.admin==1 }">
-									<li class="top-list-element sign-up"><a href="#">관리자페이지</a></li>
+									<li class="top-list-element sign-up"><a href="../my/adminPage.do">관리자페이지</a></li>
 								</c:if>
 							</c:if>
 							<c:if test="${sessionScope.userId == null}">

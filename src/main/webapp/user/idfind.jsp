@@ -71,9 +71,7 @@
     	})
     })
  });
-  </script> 
-  <script type="text/javascript">
-  function id_search() { 
+function id_search() { 
 	 	var frm = document.idfindscreentel;
 
 	 	if (frm.member_name.value.length < 1) {
@@ -89,11 +87,9 @@
 	 frm.method = "post";
 	 frm.action = "idfind_result.do"; //넘어간화면
 	 frm.submit();  
-	 }
- </script>
+}
  
- <script type="text/javascript">
-	function id_search1() { 
+function id_search1() { 
  	var frm = document.idfindscreenemail;
 
  	if (frm.member_name1.value.length < 1) {
@@ -104,7 +100,7 @@
  	if (frm.member_email.value.length < 1) {
  		  alert("이메일을 입력해주세요.");
  		  return;
- 		 }
+ }
  frm.method = "post";
  frm.action = "idfind_result.do"; //넘어간화면
  frm.submit();  

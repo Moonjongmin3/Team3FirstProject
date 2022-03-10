@@ -99,7 +99,8 @@ public class LoginDAO {
 		String id = null;
 		
 		try {
-			String sql = "SELECT (*)"
+			conn=cm.getConnection();
+			String sql = "SELECT id"
 					+ " FROM user_3 "
 					+ "where name=? and tel=? ";
 			ps = conn.prepareStatement(sql);
@@ -109,7 +110,7 @@ public class LoginDAO {
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				id = rs.getString("id");
+				id = rs.getString(1);
 			}
 				
 		} catch (Exception e) {
@@ -121,8 +122,9 @@ public class LoginDAO {
 		String id = null;
 		
 		try {
-			String sql = "SELECT (*)"
-					+ " FROM user_3 "
+			conn=cm.getConnection();
+			String sql = "SELECT id "
+					+ "FROM user_3 "
 					+ "where name=? and email=? ";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, name);
@@ -131,7 +133,7 @@ public class LoginDAO {
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				id = rs.getString("id");
+				id = rs.getString(1);
 			}
 				
 		} catch (Exception e) {
