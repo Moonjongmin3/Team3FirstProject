@@ -12,17 +12,16 @@
  <!--#6699cc #72a4d9  #112444  #dfdfdf  #fda4ba-->
 <style type="text/css">
 .container{
-	margin-top:50px;
 	margin-bottom:50px;
 	font-family: '맑은 고딕','Malgun Gothic',Helvetica,AppleSDGothicNeo,sans-serif;
-	
 }
 .wrap_left{
 	float:left;
 	width:20%;	
 }
 .wrap_right{
-  	float:right;
+	margin-left:30px;
+  	float:left;
   	width:60%; /*77*/
   	
 }
@@ -121,7 +120,7 @@ hr{
 $(document).ready(function () {
 	   let tmp = parseInt($(".floating").css('top'));
 	 
-	     $(window).scroll(function () {
+	   $(window).scroll(function () {
 	         let scrollTop = $(window).scrollTop();
 	         let floating_position = scrollTop + tmp + "px";
 	 

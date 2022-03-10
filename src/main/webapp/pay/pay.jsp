@@ -207,6 +207,9 @@ label{
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script> 
 <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+/* Shadowbox.init({   
+}) */
+
 $(document).ready(function () {
    let tmp = parseInt($(".Rrow").css('top'));
  
@@ -223,18 +226,7 @@ $(document).ready(function () {
 });
 
 //수정 필요
-/* $(function(){
-Shadowbox.init({   
-})
-$('.payBtn').click(function(){      
-    Shadowbox.open({
-       content:'order_complete.jsp',
-       player:'iframe',
-       title:'주문완료',
-       width:600,
-       height:540
-    })
-})
+/* 
 }) */
 
 $(function(){   
@@ -253,6 +245,16 @@ $(function(){
       //
       
      
+
+	$('.payBtn').click(function(){      
+  	  Shadowbox.open({
+       content:'order_complete.jsp',
+       player:'iframe',
+       title:'주문완료',
+       width:600,
+       height:540
+   	 	})
+	})
    
 })
 
@@ -295,6 +297,7 @@ $(function(){
             </tr>
           </thead>
           <tbody>
+           <fmt:parseNumber value="0" var="total"/>
            <c:forEach var="bvo" items="${orderBookList }">
             <tr>
               <td type="hidden" name="book_id" value="${bvo.id }"></td>
@@ -309,7 +312,12 @@ $(function(){
               <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
               <td id="qty">${bvo.quantity}</td>
               <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
-              <td>내일<br>도착예정</td>
+              <td>내일<br>도착예정
+              </td>
+              <td style="display: none">
+              	<fmt:parseNumber value="${bvo.price }" var="price"/>
+                 ${total=total+price }
+              </td>
             </tr>
            </c:forEach> 
             <!-- <tr> ....위치 고민중.....<fmt:formatDate value ="${diliveryDate}" pattern ="MM/dd" var="now"/>
@@ -320,7 +328,7 @@ $(function(){
         </table>
         <ul class="caution_ul">
           <li><img alt="" src="../img/caution.PNG" style="height: 20px;width: 20px;"> 
-              날씨나 택배사 사정에 따라 배송이 지연될 수 있습니다.</li>        
+              날씨나 택배사 사정에 따라 배송이 지연될 수 있습니다. </li>        
         </ul>
         <ul style="padding-left:25px;">
           <li>도서정가제 대상 도서는 최대 10% 할인 + 5% 적립 혜택 가능 (쿠폰은 최대 할인 및 적립 범위 내에서만 적용 가능)</li>
@@ -346,16 +354,17 @@ $(function(){
             <!-- <input type="radio" name="chk_info" value="recent">최근배송지 -->
               </td>
             </tr>
+            
             <tr>
               <th width=15%><strong>이름</strong></th>
-              <td width=85%><input type="text" name="receiver_name" value="${userName }" size="10"> </td><!-- user.name -->
+              <td width=85%><input type="text" name="receiver_name" value="${uvo.name }" size="10"> </td><!-- user.name -->
             </tr>
             <tr>
               <th width=15%><strong>배송주소</strong></th>
               <td width=85%>
-                <input type="text" name="zipcode" id="post_pay" value="${userAddr1 }" readonly="readonly" size="10"style="margin-bottom:8px;">&nbsp;&nbsp;<input type="button" id="postBtn_pay" value="주소찾기"><br>
-                도로명 주소<input type="text" name="ship_address1" id="addr1_pay" value="${userAddr2 }" readonly="readonly" size="35"style=";margin-bottom:8px;"><br>
-                상세 주소<input type="text" name="ship_address2" id="addr2_pay" size="35" style="margin-left:14px;margin-bottom:8px;"><br>                
+                <input type="text" name="zipcode" id="post_pay" value="${uvo.post }" readonly="readonly" size="10"style="margin-bottom:8px;">&nbsp;&nbsp;<input type="button" id="postBtn_pay" value="주소찾기"><br>
+                도로명 주소<input type="text" name="ship_address1" id="addr1_pay" value="${uvo.address1 }" readonly="readonly" size="35"style=";margin-bottom:8px;"><br>
+                상세 주소<input type="text" name="ship_address2" id="addr2_pay" value="${uvo.address2 }"size="35" style="margin-left:14px;margin-bottom:8px;"><br>                
                 <ul class="caution_ul">
                   <li style="font-size: 10px">
                     <img alt="!!" src="../img/caution_sm.PNG" style="height: 13px;width: 5px;margin-top:0px;"> 
@@ -368,7 +377,7 @@ $(function(){
             <tr>
               <th width=15%><strong>휴대폰</strong></th>
               <td width=85%>
-                <select name="receiver_phone1" value="${fn:substring(userPhone,0,3) }" id="phone1_pay">
+                <select name="receiver_phone1" value="${fn:substring(uvo.tel,0,2) }" id="phone1_pay">
                <option value="010" selected="selected">010</option>
                    <option value="011">011</option>
                    <option value="016">016</option>
@@ -376,8 +385,8 @@ $(function(){
                    <option value="018">018</option>
                    <option value="019">019</option>
             </select>&nbsp;-&nbsp;
-                 <input type='tel' name='receiver_phone2' value="${fn:substring(userPhone,3,7) }" size="2" id="phone2_pay"/>&nbsp;-&nbsp;
-                <input type='tel' name='receiver_phone3' value="${fn:substring(userPhone,7,11) }" size="2" id="phone3_pay"/><br>
+                 <input type='tel' name='receiver_phone2' value="${fn:substring(uvo.tel,2,6) }" size="2" id="phone2_pay"/>&nbsp;-&nbsp;
+ <!-- 11 -->               <input type='tel' name='receiver_phone3' value="${fn:substring(uvo.tel,6,10) }" size="2" id="phone3_pay"/><br>
                 <div class="caution">
                   연락처는 하나만 입력하셔도 결제가 가능합니다.
                 </div>
@@ -396,7 +405,7 @@ $(function(){
                  <input type='tel' name='tel2' size="2"/>&nbsp;-&nbsp; 
                 <input type='tel' name='tel3' size="2"/>
            </td>
-            </tr>
+            </tr>          
           </table>
         </div>
        
@@ -405,17 +414,17 @@ $(function(){
           <div class="wrap_white">
           <h4 class="text-center">주문고객</h4>
           <hr>
-          <table class="table_wh_addr" style="vertical-align: center;" >
+          <table class="table_wh_addr" style="vertical-align: center;" >          
             <tr>
               <th width=23%>이름</th>
-              <td><input type="text" name="username_pay" value="${userName }" size="10" class="input_gray" readonly="readonly"> </td>
+              <td><input type="text" name="username_pay" value="${uvo.name }" size="10" class="input_gray" readonly="readonly"> </td>
             </tr>
             <tr>
               <th>휴대폰</th>
               <td>
-                <input type='tel' name="u_phone1" value="${fn:substring(userPhone,0,3) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
-                <input type='tel' name='u_phone2' value="${fn:substring(userPhone,3,7) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
-                <input type='tel' name='u_phone3' value="${fn:substring(userPhone,7,11) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/><br>
+                <input type='tel' name="u_phone1" value="${fn:substring(uvo.tel,0,2) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
+                <input type='tel' name='u_phone2' value="${fn:substring(uvo.tel,2,6) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
+ <!-- 11 -->                <input type='tel' name='u_phone3' value="${fn:substring(uvo.tel,6,10) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/><br>
                 <div class="caution">
                   <img class="caution_img" alt="SMS" src="../img/sms_2.PNG"><span class="caution">&nbsp;이 번호로 주문진행과정이 SMS로 안내됩니다.</span>
                 </div>
@@ -432,7 +441,7 @@ $(function(){
             <tr>
               <th>이메일</th>
               <td>
-                <input type="email" name="u_email" id="u_email_pay"size="24"value="${userEmail }"class="input_gray" readonly="readonly"/>
+                <input type="email" name="u_email" id="u_email_pay"size="24"value="${uvo.email }"class="input_gray" readonly="readonly"/>
                 <div class="caution">
                   <img class="caution_img" alt="SMS" src="../img/email.PNG"><span class="caution">&nbsp;이 이메일로 주문진행과정이 SMS로 안내됩니다.</span>
               	</div>
@@ -443,12 +452,13 @@ $(function(){
               <td colspan="2" align="right">
                 <a href="#">회원정보 수정하러 가기</a>
               </td>
-            </tr>  
+            </tr>            
           </table>      
         </div>
         </div>
       </div>
       </div> 
+      
 <!--결제방법------------------------------------------------------------------ -->    
       <div class="wrap_gray_div">
         <h2>결제방법</h2>
@@ -566,15 +576,15 @@ $(function(){
                   </td>
                 </tr>
               </table>
-              <table>
+              <table>               
                 <tr>
                   <th width="60%"><strong>최종 결제금액</strong></th>
                   <td style="font-size: 25px;text-align: right;">
                     <strong>
-                      <fmt:formatNumber pattern="#,##0 원"  value="${sellingPrice*qty }"/>
+                      <fmt:formatNumber pattern="#,##0 원" value="${total-(total/10)}"/>
                     </strong>
                   </td>
-                </tr>
+                </tr>              
               </table>
               <hr>
               <p>주문하실 상품, 가격, 배송정보, 할인정보 등을 확인하였으며, 구매에 동의하시겠습니까?</p>
@@ -596,21 +606,21 @@ $(function(){
       <h3 class="text-center tr_sol" style="padding-bottom:15px;font-weight: bold; border-color:white;">
         결제예정금액
       </h3>
-      <table class="table_f">
+      <table class="table_f">        
           <tr >
             <th width=40%><strong>상품가격</strong></th>
-            <td><fmt:formatNumber pattern="#,##0 원" value="${price*qty }"/></td>
+            <td><fmt:formatNumber pattern="#,##0 원" value="${total}"/></td>
           </tr>
           <tr class="tr_dot">
             <th><strong>할인금액</strong></th>
-            <td><fmt:formatNumber pattern="#,##0 원" value="${ price*(saleRate/100)}"/></td><!--(${Price}*${saleRate })+${usePoint} .. UserVO에 point가 없어서 일단  -->
+            <td><fmt:formatNumber pattern="#,##0 원" value="${total/10}"/></td><!--(${Price}*${saleRate })+${usePoint} .. UserVO에 point가 없어서 일단  -->
           </tr>
           <tr>
             <th colspan="2" style="padding-top:10px;" ><strong>총 결제 금액</strong></th> 
           </tr>
           <tr>
-            <td colspan="2" style="text-align:right; font-size:30px;"><fmt:formatNumber pattern="#,##0 원" value="${sellingPrice*qty }"/></td>
-          </tr> 
+            <td colspan="2" style="text-align:right; font-size:30px;"><fmt:formatNumber pattern="#,##0 원" value="${total-(total/10)}"/></td>
+          </tr>         
           <tr>
             <td colspan="2" style="font-size:18px"><label><input type="checkbox"/><strong>&nbsp;구매 및 이용약관 모두 동의</strong></label></td>
           </tr>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="model.BoardModel"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -65,8 +65,8 @@ td {
 	      </tr>
 	      <tr>
 	       <td class="text-right" colspan="4">
-	         <a href="board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
-	         <a href="board_delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
+	         <a href="../board/board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
+	         <a href="../board/delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
 	         <a href="list.do" class="btn btn-xs btn-success">목록</a>
 	       </td>
 	      </tr>
@@ -114,25 +114,24 @@ td {
 	             </tr>
 	           </table>
 	          </li>
-	         
           </c:forEach>
           </ul>
-        </div>
-        <c:if test="${sessionScope.user_id!=null }"><%--로그인이 된 상태 --%>
-	        <table class="table">
-	             <tr>
-	               <td>
-	                 <form method=post action="../reply/reply_insert.do">
-	                     <input type="hidden" name=rno value="${vo.no }">
-	                     <input type=hidden name="type" value="5">
-		                 <textarea rows="5" name="msg" cols="48" style="float:left"></textarea>
-		                  <input type=submit value="댓글쓰기" class="btn btn-primary"
-		                  style="height: 105px">
-	                 </form>
-	               </td>
-	             </tr>
-	           </table>
-        </c:if>
-
+	         <c:if test="${sessionScope.userId!=null }"><%--로그인이 된 상태 --%>
+		        <table class="table">
+		             <tr>
+		               <td>
+		               <!-- 모델에 ../board/reply_insert.do 만들면 될거같음 -->
+		                 <form method=post action="../reply/reply_insert.do">
+		                     <input type="hidden" name=rno value="${vo.no }">
+		                     <input type=hidden name="type" value="5">
+			                 <textarea rows="5" name="msg" cols="48" style="float:left"></textarea>
+			                  <input type=submit value="댓글쓰기" class="btn btn-primary"
+			                  style="height: 117px;float: left;">
+		                 </form>
+		               </td>
+		             </tr>
+		           </table>
+		      </c:if>
+	</div>
 </body>
 </html>

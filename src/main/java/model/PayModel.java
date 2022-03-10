@@ -43,11 +43,12 @@ public class PayModel {
       request.setAttribute("orderBookList", orderBookList);//주문상품
       request.setAttribute("diliveryDate",new Date(new Date().getTime()+60*60*24*1000*2));
       //배송정보
-      request.setAttribute("userName", uvo.getName());
-      request.setAttribute("userPhone", uvo.getTel());
-      request.setAttribute("userEmail", uvo.getEmail());
-      request.setAttribute("userAddr1", uvo.getAddress1());
-      request.setAttribute("userAddr1", uvo.getAddress2());
+      request.setAttribute("uvo", uvo);
+//      request.setAttribute("userName", uvo.getName());
+//      request.setAttribute("userPhone", uvo.getTel());
+//      request.setAttribute("userEmail", uvo.getEmail());
+//      request.setAttribute("userAddr1", uvo.getAddress1());
+//      request.setAttribute("userAddr1", uvo.getAddress2());
       //request.setAttribute("userPoint", uvo.getPoint());// UserVO에 point 없음
       
 //      //주문상품
@@ -76,6 +77,7 @@ public class PayModel {
       //Gson books
       String books = request.getParameter("books");//Gson books=[{id:qty}, ..]      
       Gson gson = new Gson();
+      
       List<BookVO> orderBookList = gson.fromJson(books, new TypeToken<List<BookVO>>(){}.getType());
       
       PayDAO pdao=new PayDAO();
@@ -85,29 +87,10 @@ public class PayModel {
       request.setAttribute("orderBookList",orderBookList );
       //request.setAttribute("diliveryDate",new Date().getTime() + 60*60*24*1000*2);
       //배송정보
-      request.setAttribute("userName", uvo.getName());
-      request.setAttribute("userPhone", uvo.getTel());
-      request.setAttribute("userEmail", uvo.getEmail());
-      request.setAttribute("userAddr1", uvo.getAddress1());
-      request.setAttribute("userAddr1", uvo.getAddress2());
-      
+     
+      request.setAttribute("uvo", uvo);
       request.setAttribute("main_jsp","../pay/pay.jsp");
       return "../main/main.jsp";
-      //request.setAttribute("userPoint", uvo.getPoint());// UserVO에 point 없음
-      
-      //주문상품
-//      request.setAttribute("poster", bvo.getPoster());
-//      request.setAttribute("mainCategory", bvo.getMainCategory());
-//      request.setAttribute("title", bvo.getName());
-//      request.setAttribute("author", bvo.getAuthor());
-//      request.setAttribute("price", bvo.getPrice());//정가
-//      request.setAttribute("saleRate", bvo.getSaleRate());
-//      request.setAttribute("point", bvo.getPrice()*0.05);//적립포인트
-//      request.setAttribute("qty", qty);
-      //배송예정일자:주문 후 2일 이후
-      
-//      request.setAttribute("sellingPrice", bvo.getPrice()*(1.0-(bvo.getSaleRate()/100)));//판매가
-      
       
    }
    
@@ -139,9 +122,12 @@ public class PayModel {
 	    	      request.getParameter("total_price")//8
 	     };
 	       PayDAO dao=new PayDAO();
-	      dao.order_insert(id,Integer.parseInt(bid),qty,orderobj);//배송정보 
+	      int order_id=dao.order_insert(id,Integer.parseInt(bid),qty,orderobj);//배송정보 
 	     
-	      request.setAttribute("main_jsp","../pay/pay.jsp");
+	     
+	      request.setAttribute("order_id", order_id);
+	      request.setAttribute("main_jsp","../pay/order_complete.jsp");
+//	      request.setAttribute("main_jsp","../pay/pay.jsp");
 	      return "../main/main.jsp";
    }
    

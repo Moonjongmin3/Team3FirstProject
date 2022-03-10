@@ -64,5 +64,9 @@ public class BoardReplyModel {
 			   
 		  return "redirect:../board/board_detail.do?no="+boardNo;
 	  }
+<<<<<<< HEAD
+=======
+	
+>>>>>>> branch 'master' of https://github.com/Moonjongmin3/Team3FirstProject.git
 }
 
