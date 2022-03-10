@@ -226,15 +226,42 @@ td#quantity-column{
     padding-top: 20vh;
     z-index: -1;
 }
-.recommendSwiper{
-	background-color: gray;
-	width: 80vw;
-	height: 30vh;
-	margin-bottom: 10vh;
-	z-index: 0;
+#recommend-title{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-weight: 500;
+	font-size: 30px;
+	text-align: center;
+	color: #0052D4;
+	margin-top: -80px;
+	margin-bottom: 30px;
 }
-.recommendSwiper>.swiper-wrapper>.swiper-slide{
-	background-color: white;
+#recommend-subtitle{
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-weight: 500;
+	font-size: 23px;
+	text-align: center;
+	color: #4d9ffb;
+	margin-top: -80px;
+	margin-bottom: 30px;
+}
+#recommend-emphtitle{
+	color: #0052D4;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-weight: 500;
+	font-size: 35px;
+	text-align: center;
+	margin-top: -80px;
+	margin-bottom: 30px;
+}
+.recommendSwiper{
+	text-align: center;
+	margin-top: 20px;
+	padding-right: 30px;
+	width: 80vw;
+	height: 34vh;
+	z-index: 0;
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.2);
 }
 /* 최근 조회한 도서 목록 */
 #history-title{
@@ -259,7 +286,7 @@ td#quantity-column{
 	border-radius: 10px;
 	background-color: rgba(0, 0, 0, 0.2);
 }
-#history-slide>a>img{
+#swiper-slide>a>img{
 	left:10px;
 	margin-top: 1vw;
 	margin-left: 0.5vw;
@@ -272,7 +299,7 @@ td#quantity-column{
 	background-color: lightgrey;
 }
 @media screen and (max-width: 1200px) {
-	#history-slide>a>img{
+	#swiper-slide>a>img{
 		width: 15vw;
 	}
 	.recentSwiper{
@@ -280,7 +307,7 @@ td#quantity-column{
 	}
 }
 @media screen and (max-width: 992px) {
-	#history-slide>a>img{
+	#swiper-slide>a>img{
 		width: 18vw;
 	}
 	.recentSwiper{
@@ -288,7 +315,7 @@ td#quantity-column{
 	}
 }
 @media screen and (max-width: 768px) {
-	#history-slide>a>img{
+	#swiper-slide>a>img{
 		width: 25vw;
 		margin-right: 10px;
 	}

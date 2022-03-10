@@ -350,4 +350,63 @@ public class BookDAO {
        }
 	   return list;
    }
+   public List<BookVO> selectListBasedRecommendation(String userId) {
+       List<BookVO> recommendedBooks = new ArrayList<BookVO>();
+
+       String query = "SELECT rownum, bb.* FROM ("
+       		+ "SELECT sc.NAME SUB_CATEGORY, b.* "
+       		+ "FROM BOOKS_3 b "
+       		+ "INNER JOIN SUB_CATEGORY_3 sc ON b.CATEGORY_ID = sc.ID "
+       		+ "WHERE sc.NAME = ("
+       		+ "SELECT sub_category "
+       		+ "FROM "
+       		+ "(SELECT sc.NAME sub_category, rank() OVER (ORDER BY count(*) desc) AS rnk "
+       		+ "FROM CART_3 c "
+       		+ "INNER JOIN BOOKS_3 b ON b.ID = c.BOOK_ID "
+       		+ "INNER JOIN SUB_CATEGORY_3 sc ON b.CATEGORY_ID = sc.ID "
+       		+ "WHERE c.USER_ID = ? "
+       		+ "GROUP BY sc.NAME) "
+       		+ "WHERE rownum = 1 "
+       		+ ") "
+       		+ "ORDER BY b.sell_count DESC "
+       		+ ") bb WHERE rownum <= 20";
+       
+       try {
+           con = cm.getConnection();
+
+            psmt = con.prepareStatement(query);
+
+            psmt.setString(1, userId);
+
+           ResultSet rs = psmt.executeQuery();
+           
+           while (rs.next()) {
+               BookVO book = new BookVO();
+               book.setId(rs.getInt("id"));
+               book.setPoster(rs.getString("poster"));
+               book.setName(rs.getString("title"));
+               book.setPrice(Integer.parseInt(rs.getString("price")));
+               book.setQuantity(1);
+               book.setAuthor(rs.getString("author"));
+               book.setPublisher(rs.getString("publisher"));
+               book.setSaleRate(rs.getInt("salerate"));
+               book.setScore(rs.getInt("score"));
+               book.setIsbn(rs.getString("isbn"));
+               book.setBsize(rs.getString("bsize"));
+               book.setState(rs.getString("state"));
+               book.setTag(rs.getString("tag"));
+               book.setSubCategory(rs.getString("sub_category"));
+               
+               recommendedBooks.add(book);
+           }
+           rs.close();
+
+       } catch (Exception e) {
+           e.printStackTrace();
+       }finally {
+           cm.disConnection(con,psmt);
+       }
+
+       return recommendedBooks;
+   }
 }

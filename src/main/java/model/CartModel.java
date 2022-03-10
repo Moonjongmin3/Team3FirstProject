@@ -33,6 +33,7 @@ public class CartModel {
 	public String getCart(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
 		request.setAttribute("main_jsp", "../cart/Cart.jsp");
 		
 		// 로그인 시 회원 주소 가져오기
@@ -40,6 +41,12 @@ public class CartModel {
 			PayDAO paydao = new PayDAO();
 			UserVO user = paydao.orderer_info(request.getSession().getAttribute("userId").toString());
 			request.setAttribute("fullAddress", user.getAddress1() + " " + user.getAddress2());
+			
+			// 추천 상품 리스트 전달
+			BookDAO bookDAO = new BookDAO();
+			List<BookVO> recommendedBooks = (ArrayList<BookVO>)bookDAO.selectListBasedRecommendation(
+					request.getSession().getAttribute("userId").toString());
+			session.setAttribute("recommendedBooks", recommendedBooks);
 		}
 		
 		// 날짜 가져오기

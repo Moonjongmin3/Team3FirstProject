@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
+import dao.BookDAO;
 import dao.CartDAO;
 import vo.BookVO;
 
@@ -36,8 +37,8 @@ public class GetCartModel extends HttpServlet {
 			}			
 			
 			cart = (LinkedHashMap<String, BookVO>) cartDAO.getCart(userId);
-			session.setAttribute("isLogin", "T");	
-
+			session.setAttribute("isLogin", "T");
+			
 		} else {
 			// 비회원 상태
 			// 카트에 아무것도 담지 않은 채 장바구니 링크 진입
