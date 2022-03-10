@@ -1,4 +1,4 @@
-package model;
+package backupdao;
 
 import java.io.*;
 import java.util.*;
@@ -12,7 +12,7 @@ import dao.BoardReplyDAO;
 import vo.BoardReplyVO;
 
 public class BoardReplyModel {
-	@RequestMapping("reply/reply_insert.do")
+	@RequestMapping("board/reply_insert.do")
 	public String reply_insert(HttpServletRequest request,HttpServletResponse response)
 	{
 		  try
@@ -35,19 +35,18 @@ public class BoardReplyModel {
 		  return "redirect:../board/board_detail.do?no="+boardNo;
 	  }
 	
-	@RequestMapping("reply/reply_delete.do")
+	@RequestMapping("board/reply_delete.do")
 	public String reply_delete(HttpServletRequest request, HttpServletResponse response)
 	  {
 		   String no=request.getParameter("no"); // 댓글 번호
 		   String boardNo=request.getParameter("board_no");
-		   String content=request.getParameter("content");
 		   BoardReplyDAO dao=new BoardReplyDAO();
 
 		   dao.replyDelete(Integer.parseInt(no));
 		   return "redirect:../board/board_detail.do?no="+boardNo;
 	  }
 	  
-	  @RequestMapping("reply/reply_update.do")
+	  @RequestMapping("board/reply_update.do")
 	  public String replyUpdate(HttpServletRequest request,
 			  HttpServletResponse response)
 	  {
@@ -56,7 +55,7 @@ public class BoardReplyModel {
 			  request.setCharacterEncoding("UTF-8");
 		  }catch(Exception ex) {}
 		  String no=request.getParameter("no"); // 댓글 번호
-		  String boardNo=request.getParameter("board_no"); // 맛집번호 
+		  String boardNo=request.getParameter("board_no");
 		  String content=request.getParameter("content");
 		  BoardReplyDAO dao=new BoardReplyDAO();
 		  // 수정 메소드 호출 
@@ -64,9 +63,5 @@ public class BoardReplyModel {
 			   
 		  return "redirect:../board/board_detail.do?no="+boardNo;
 	  }
-<<<<<<< HEAD
-=======
 	
->>>>>>> branch 'master' of https://github.com/Moonjongmin3/Team3FirstProject.git
 }
-

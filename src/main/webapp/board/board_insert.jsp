@@ -38,9 +38,9 @@ td {
      <form method=post action="../board/board_insert_ok.do" enctype="multipart/form-data">
       <table class="table">
        <tr>
-        <th width=15%>이름</th> <!-- userID로바꾸기 -->
+        <th width=15%>이름</th>
         <td width=85%>
-         <input type=text name=user_id size=15 class="input-sm">
+         ${sessionScope.userId }
         </td>
        </tr>
        <tr>

@@ -65,20 +65,14 @@ td {
 	      </tr>
 	      <tr>
 	       <td class="text-right" colspan="4">
-	         <a href="../board/board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
-	         <a href="../board/delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
+	        <c:if test="${sessionScope.userId==vo.user_id }">
+	         <a href="board_update.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-info">수정</a>
+	         <a href="board_delete.do?page=${page}&no=${vo.no}" class="btn btn-xs btn-danger">삭제</a>
+			</c:if>
 	         <a href="list.do" class="btn btn-xs btn-success">목록</a>
 	       </td>
 	      </tr>
-	      <tr style="display:none" id="tr">
-	        <td class="text-right inline" colspan="4">
-	           <input type=hidden name=no value="${vo.no }" id="data-no">
-	           비밀번호 : <input type=password name=pwd class="input-sm"
-	                      size=15 id="data-pwd">
-	           <input type=button id="del" class="btn btn-sm btn-danger"
-	             value="삭제">
-	        </td>
-	      </tr>
+	      
 	     </table>
 
         <h2 class="sectiontitle">댓글</h2>
@@ -88,9 +82,9 @@ td {
 	            <article>
 	              <header>
 	                <figure class="avatar">
-	                 <c:if test="${sessionScope.user_id==rvo.user_id}">
+	                 <c:if test="${sessionScope.userId==rvo.user_id}">
 	                   <span class="btn btn-xs btn-success updates" data-no="${rvo.no }" style="color:black">수정</span>
-	                   <a href="../reply/reply_delete.do?no=${rvo.no }" class="btn btn-xs btn-warning" style="color:black">삭제</a>
+	                   <a href="../board/reply_delete.do?no=${rvo.no }" class="btn btn-xs btn-warning" style="color:black">삭제</a>
 	                 </c:if>
 	                </figure>
 	                <address>
@@ -104,7 +98,7 @@ td {
 	            <table class="table ups" id="${rvo.no }" style="display:none">
 	             <tr>
 	               <td>
-	                 <form method=post action="../reply/reply_update.do">
+	                 <form method=post action="../board/reply_update.do">
 	                     <input type=hidden name=no value="${rvo.no}">
 		                 <textarea rows="5" name="content" cols="48" style="float:left">${rvo.content }</textarea>
 		                  <input type=submit value="댓글수정" class="btn btn-primary"
@@ -121,10 +115,10 @@ td {
 		             <tr>
 		               <td>
 		               <!-- 모델에 ../board/reply_insert.do 만들면 될거같음 -->
-		                 <form method=post action="../reply/reply_insert.do">
-		                     <input type="hidden" name=rno value="${vo.no }">
-		                     <input type=hidden name="type" value="5">
-			                 <textarea rows="5" name="msg" cols="48" style="float:left"></textarea>
+		                 <form method=post action="../board/reply_insert.do">
+		                     <input type="hidden" name=no value="${rvo.no }">
+		                     <input type=hidden name=board_no value="${vo.no }">
+			                 <textarea rows="5" name="content" cols="48" style="float:left"></textarea>
 			                  <input type=submit value="댓글쓰기" class="btn btn-primary"
 			                  style="height: 117px;float: left;">
 		                 </form>

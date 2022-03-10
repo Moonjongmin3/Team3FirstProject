@@ -213,46 +213,22 @@ public class BoardDAO {
 	}
 	
 	
-	public boolean boardDelete(int no,String pwd) {
-		boolean bCheck=false;
+	public void boardDelete(int no) {
 		try {
 			conn=cm.getConnection();
 			String sql="SELECT pwd FROM board_3 "
 						+"WHERE no=?";
 			ps=conn.prepareStatement(sql);
 			ps.setInt(1, no);
-			ResultSet rs=ps.executeQuery();
-			rs.next();
-			String db_pwd=rs.getString(1);
-			rs.close();
-			if(db_pwd.equals(pwd)) {
-				bCheck=true;
-				sql="DELETE FROM board_3 WHERE no=?";
-				ps=conn.prepareStatement(sql);
-				ps.setInt(1, no);
-				ps.executeUpdate();
-			}
-			else {
-				bCheck=false;
-			}
-			conn.commit();
+			ps.executeUpdate();
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
-			try
-    		{
-    			conn.rollback();// SQL문장 전체를 취소 (수행이 못함)
-    		}catch(Exception e){}
 		}
 		finally {
-			try
-    		{
-    			conn.setAutoCommit(true);
-    		}catch(Exception e){}
+			
 			cm.disConnection(conn, ps);
 		}
-		
-		return bCheck;
 	}
 	
 	public List<BoardVO> boardFind(String fs,String ss,int page){

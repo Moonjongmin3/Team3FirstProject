@@ -154,70 +154,72 @@ public class BoardModel {
 	public String boardUpdate(HttpServletRequest request,HttpServletResponse response) {
 		String no=request.getParameter("no");
 		String page=request.getParameter("page");
+		BoardVO vo=new BoardVO();
 		BoardDAO dao=new BoardDAO();
-		BoardVO vo=dao.boardUpdateDate(Integer.parseInt(no));
+		vo=dao.boardUpdateDate(Integer.parseInt(no));
 		
 		request.setAttribute("no", no);
 		request.setAttribute("page", page);
 		request.setAttribute("board", vo);
-		request.setAttribute("main_jsp", "../board/board_update.jsp");
+		request.setAttribute("main_jsp", "../board/list.jsp");
 		
 		return "../main/main.jsp";
 	}
 	
 	@RequestMapping("board/board_update_ok.do")
 	public String boardUpdate_ok(HttpServletRequest request, HttpServletResponse response) {
+		String no=request.getParameter("no");
+		String page=request.getParameter("page");
 		try {
 			request.setCharacterEncoding("UTF-8");
+			HttpSession session=request.getSession();
+			String user_id=request.getParameter("user_id");
+			
+			int maxSize=1024*1024*200; 
+            String path="c:\\download";
+   			String enctype="UTF-8";
+			MultipartRequest mr=new MultipartRequest(request,path,maxSize,enctype,new DefaultFileRenamePolicy());
+			String title = mr.getParameter("title");
+            String content = mr.getParameter("content");
+            String bfile=mr.getOriginalFileName("file");
+    	    String pwd = mr.getParameter("pwd");
+    	    
+    	    BoardVO vo=new BoardVO();
+    	    vo.setNo(Integer.parseInt(no));
+    	    vo.setUser_id(user_id);
+    	    vo.setTitle(title);
+    	    vo.setContent(content);
+    	    vo.setPwd(pwd);
+    	    vo.setBfile(bfile);
+    	    
+    	    if(bfile==null) {
+    	    	vo.setBfile("");
+    	    }
+    	    else {
+    	    	File file=new File(path+"\\"+bfile);
+    	    	vo.setBfile(file.getName());
+    	    }
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		// 파일 넣게 만드려면 insert_ok 처럼  MultipartRequest 사용
-		String no=request.getParameter("no");
-		String user_id=request.getParameter("userID");
-		String title=request.getParameter("title");
-		String content=request.getParameter("content");
-		String pwd=request.getParameter("pwd");
-		String bfile=request.getParameter("bfile");
-		String page=request.getParameter("page");
-		
-		BoardVO vo=new BoardVO();
-		vo.setNo(Integer.parseInt(no));
-		vo.setUser_id(user_id);
-		vo.setTitle(title);
-		vo.setContent(content);
-		vo.setPwd(pwd);
-		vo.setBfile(bfile);
-		
-		BoardDAO dao=new BoardDAO();
-		boolean bCheck=dao.boardUpdate(vo);
-		request.setAttribute("bCheck", bCheck);
-		request.setAttribute("no", no);
-		request.setAttribute("page", page);
+
 		// update가 정상적으로 이루어 졌으면 detail로 다시 이동하게 해야됨
 		//return "../board/board_detail.do?no="+no (페이지도 넘겨줘야하면 넘겨줘야 함)
-		return "../board/update_ok.jsp";
+		return "../board/board_detail.do?no="+no+"&page="+page;
 	}
 	
 	@RequestMapping("board/delete.do")
 	public String boardDelete(HttpServletRequest request, HttpServletResponse response) {
 		String no=request.getParameter("no");
-		String pwd=request.getParameter("pwd");
+		String page=request.getParameter("page");
 		
 		BoardDAO dao=new BoardDAO();
-		boolean bCheck=dao.boardDelete(Integer.parseInt(no), pwd);
-		String temp="";
-		if(bCheck==true) {
-			temp="yes";
-		}
-		else {
-			temp="no";
-		}
-		request.setAttribute("result", temp);
+		dao.boardDelete(Integer.parseInt(no));
+
 		// board_delete 페이지를 띄울건지?
 		// 그럴꺼면 request.setAttribute("main_jsp","../board/board_delete.jsp")
 		//return "../main/main.jsp"
-		return "../board/delete.jsp";
+		return "redirect:../board/list.do?page="+page;
 	}
 }
