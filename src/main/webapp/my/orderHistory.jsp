@@ -151,12 +151,20 @@ hr{
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1"> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>             	 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>   
 <script type="text/javascript">
 $(function(){	
-	$(".detail_oh").on("click", function() {//detail페이지 hide/show..
-		
-  	$(".detail_hide").toggle();
+	let i=0;
+	$('#detail_oh').click(function(){ //detail페이지 hide/show
+		if(i==0){
+			$('#detail').show();
+			i=1;
+		}else{
+			$('#detail').hide();
+			i=0;
+		}
+	})
 });
 </script>
 </head>
@@ -221,43 +229,45 @@ $(function(){
 	        <th width=10% class="text-center color_Mgray">주문상태</th>
 	        <th width=5% class=""></th>
 	      </tr>
-	    <c:forEach var="vo" items="${list }">	      
+	    <c:forEach var="vo" items="${ohList }">	      
 	      <tr>
 	        <td width=20% class="text-center">
-	          <a href="..my/orderHistory.do?order_id=${vo.order_id}" id="detail_oh">${vo.order_id }</a><!--클릭시 디테일show -->
+	          <a href="../my/orderHistory_detail.do?order_id=${vo.order_id}" id="detail_oh">${vo.order_id }</a><!--클릭시 디테일show -->
 	        </td>
-	        <td width=40%>${name }</td>
+	        <td width=40%>${vo.book_name }</td>
 	        <td width=10% class="text-center">${vo.total_price }</td>
 	        <td width=15% class="text-center">
 	          <fmt:formatDate value="${vo.order_date }" pattern="yyyy-MM-dd"/>
 	        </td>
 	        <td width=10% class="text-center">
-	          <c:if test="${vo.state==0 }">
+	          <c:if test="${vo.pay_state==0 }">
 	            <span class="text-center">주문완료</span>
 	          </c:if>
-	          <c:if test="${vo.state==1 }">
+	          <c:if test="${vo.pay_state==1 }">
 	            <span href="javascript:alrert('메일에서 결제내역을 확인하실 수 있습니다 :)')" class="text-center">결제완료</span>
 	          </c:if>
 	        <td>
 	        <td width=5% class="text-center">
-	          <a href="..my/orderHistory_delete.do?order_id=${vo.order_id} }">삭제</a>
+	          <a href="../my/orderHistory_delete.do?order_id=${vo.order_id} }">삭제</a>
 	        </td>  
 	      </tr>
+	    </c:forEach>
 	      <!-- hide() 목록 name클릭-> show() -->
-	      <tr id="${vo.order_id }" class="detail_hide">
-	        <td rowspan="7">
-	          <img src="${poster }" width="120px" height="150px">
+	    <c:forEach var="dvo" items="${ohDetailList }">
+	      <tr style="display:none" id="detail" class="detail_hide">
+	        <td>
+	          <img src="${dvo.poster }" width="120px" height="150px">
 	        </td>
 	        <td>
-	          <a href="..book/book/productdetail.do?no=${vo.book_id }">${name }</a><br>
-	          ${author }<br>
-	          ${vo.zipcode}<br>
-	          ${vo.ship_address1 }<br>
-	          ${vo.ship_address2 }<br>
-	          ${vo.receiver_phone }
+	          <a href="..book/book/productdetail.do?no=${dvo.book_id }">${dvo.name }</a><br>
+	          ${dvo.author }<br>
+	          ${dvo.zipcode}<br>
+	          ${dvo.ship_address1 }<br>
+	          ${dvo.ship_address2 }<br>
+	          ${dvo.receiver_phone }
 	        </td>
 	      </tr>  
-	    </c:forEach>
+	   </c:forEach>
 	    </table>
 	    <table class="table">
 	      <tr>
