@@ -95,92 +95,136 @@ public class LoginDAO {
  		   cm.disConnection(conn, ps);
  	   }
     }
- // ID => 전화번호로 찾기 
-    public String idfind_tel(String tel)
-    {
- 	   String result="";
- 	   try
- 	   {
- 		   conn=cm.getConnection();
- 		   String sql="SELECT COUNT(*) "
- 				     +"FROM project_member "
- 				     +"WHERE REGEXP_REPLACE(tel,'[^0-9]','')=?";
- 		   ps=conn.prepareStatement(sql);
- 		   ps.setString(1, tel);
- 		   ResultSet rs=ps.executeQuery();
- 		   rs.next();
- 		   int count=rs.getInt(1);
- 		   rs.close();
- 		   if(count==0)
- 		   {
- 			   result="no";
- 		   }
- 		   else
- 		   {
- 			   // 전화번호가 존재 
- 			   sql="SELECT RPAD(SUBSTR(id,1,1),LENGTH(id),'*') "
- 				  +"FROM project_member "
- 				  +"WHERE REGEXP_REPLACE(tel,'[^0-9]','')=?";
- 			   ps=conn.prepareStatement(sql);
- 			   ps.setString(1, tel);
- 			   rs=ps.executeQuery();
- 			   rs.next();
- 			   result=rs.getString(1);
- 			   rs.close();
- 		   }
- 		   
- 	   }catch(Exception ex)
- 	   {
- 		   ex.printStackTrace();
- 	   }
- 	   finally
- 	   {
- 		   cm.disConnection(conn, ps);
- 	   }
- 	   return result;
-    }
-    public String idfind_email(String email)
-    {
- 	   String result="";
- 	   try
- 	   {
- 		   conn=cm.getConnection();
- 		   String sql="SELECT COUNT(*) "
- 				     +"FROM project_member "
- 				     +"WHERE email=?";
- 		   ps=conn.prepareStatement(sql);
- 		   ps.setString(1, email);
- 		   ResultSet rs=ps.executeQuery();
- 		   rs.next();
- 		   int count=rs.getInt(1);
- 		   rs.close();
- 		   if(count==0)
- 		   {
- 			   result="no";
- 		   }
- 		   else
- 		   {
- 			   // 전화번호가 존재 
- 			   sql="SELECT RPAD(SUBSTR(id,1,1),LENGTH(id),'*') "
- 				  +"FROM project_member "
- 				  +"WHERE email=?";
- 			   ps=conn.prepareStatement(sql);
- 			   ps.setString(1, email);
- 			   rs=ps.executeQuery();
- 			   rs.next();
- 			   result=rs.getString(1);
- 			   rs.close();
- 		   }
- 		   
- 	   }catch(Exception ex)
- 	   {
- 		   ex.printStackTrace();
- 	   }
- 	   finally
- 	   {
- 		   cm.disConnection(conn, ps);
- 	   }
- 	   return result;
-    }
-    
+    public String findId_tel(String name, String tel) {
+		String mid = null;
+		
+		try {
+			String sql = "SELECT (*)"
+					+ " FROM user_3 "
+					+ "where name=? and tel=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setString(2, tel);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				mid = rs.getString("member_mid");
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mid;
+	}
+    public String findId_email(String name, String email) {
+		String mid1 = null;
+		
+		try {
+			String sql = "SELECT (*)"
+					+ " FROM user_3 "
+					+ "where name=? and email=? ";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setString(2, email);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				mid1 = rs.getString("member_mid1");
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mid1;
+	}
+// // ID => 전화번호로 찾기 
+//    public String idfind_tel(String tel)
+//    {
+// 	   String result="";
+// 	   try
+// 	   {
+// 		   conn=cm.getConnection();
+// 		   String sql="SELECT COUNT(*) "
+// 				     +"FROM project_member "
+// 				     +"WHERE REGEXP_REPLACE(tel,'[^0-9]','')=?";
+// 		   ps=conn.prepareStatement(sql);
+// 		   ps.setString(1, tel);
+// 		   ResultSet rs=ps.executeQuery();
+// 		   rs.next();
+// 		   int count=rs.getInt(1);
+// 		   rs.close();
+// 		   if(count==0)
+// 		   {
+// 			   result="no";
+// 		   }
+// 		   else
+// 		   {
+// 			   // 전화번호가 존재 
+// 			   sql="SELECT RPAD(SUBSTR(id,1,1),LENGTH(id),'*') "
+// 				  +"FROM project_member "
+// 				  +"WHERE REGEXP_REPLACE(tel,'[^0-9]','')=?";
+// 			   ps=conn.prepareStatement(sql);
+// 			   ps.setString(1, tel);
+// 			   rs=ps.executeQuery();
+// 			   rs.next();
+// 			   result=rs.getString(1);
+// 			   rs.close();
+// 		   }
+// 		   
+// 	   }catch(Exception ex)
+// 	   {
+// 		   ex.printStackTrace();
+// 	   }
+// 	   finally
+// 	   {
+// 		   cm.disConnection(conn, ps);
+// 	   }
+// 	   return result;
+//    }
+//    public String idfind_email(String email)
+//    {
+// 	   String result="";
+// 	   try
+// 	   {
+// 		   conn=cm.getConnection();
+// 		   String sql="SELECT COUNT(*) "
+// 				     +"FROM project_member "
+// 				     +"WHERE email=?";
+// 		   ps=conn.prepareStatement(sql);
+// 		   ps.setString(1, email);
+// 		   ResultSet rs=ps.executeQuery();
+// 		   rs.next();
+// 		   int count=rs.getInt(1);
+// 		   rs.close();
+// 		   if(count==0)
+// 		   {
+// 			   result="no";
+// 		   }
+// 		   else
+// 		   {
+// 			   // 전화번호가 존재 
+// 			   sql="SELECT RPAD(SUBSTR(id,1,1),LENGTH(id),'*') "
+// 				  +"FROM project_member "
+// 				  +"WHERE email=?";
+// 			   ps=conn.prepareStatement(sql);
+// 			   ps.setString(1, email);
+// 			   rs=ps.executeQuery();
+// 			   rs.next();
+// 			   result=rs.getString(1);
+// 			   rs.close();
+// 		   }
+// 		   
+// 	   }catch(Exception ex)
+// 	   {
+// 		   ex.printStackTrace();
+// 	   }
+// 	   finally
+// 	   {
+// 		   cm.disConnection(conn, ps);
+// 	   }
+// 	   return result;
+//    }
+//    
 }

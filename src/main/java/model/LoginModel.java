@@ -117,6 +117,11 @@ public class LoginModel {
     	
     	return"../user/idcheck.jsp";
     }
+	@RequestMapping("user/idfind_result.do")
+    public String memberIdCFind_Result(HttpServletRequest request, HttpServletResponse respose) {
+    	
+    	return"../user/idfind_result.jsp";
+    }
 	@RequestMapping("user/idfind.do")
     public String memberIdFind(HttpServletRequest request, HttpServletResponse respose) {
     	

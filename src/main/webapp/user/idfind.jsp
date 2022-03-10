@@ -72,6 +72,43 @@
     })
  });
   </script>
+  <script type="text/javascript">
+  function id_search() { 
+	 	var frm = document.idfindscreentel;
+
+	 	if (frm.member_name.value.length < 1) {
+		  alert("이름을 입력해주세요");
+		  return;
+		 }
+
+		 if (frm.member_tel.value.length < 1) {
+			  alert("핸드폰번호를 정확하게 입력해주세요");
+			  return;
+		 }
+
+	 frm.method = "post";
+	 frm.action = "idfind_result.do"; //넘어간화면
+	 frm.submit();  
+	 }
+ </script>
+ <script type="text/javascript">
+	function id_search1() { 
+ 	var frm = document.idfindscreenemail;
+
+ 	if (frm.member_name1.value.length < 1) {
+	  alert("이름을 입력해주세요");
+	  return;
+	 }
+
+ 	if (frm.member_email.value.length < 1) {
+ 		  alert("이메일을 입력해주세요.");
+ 		  return;
+ 		 }
+ frm.method = "post";
+ frm.action = "idfind_result.do"; //넘어간화면
+ frm.submit();  
+ }
+</script>
 </head>
 <body>
   <div class="wrapper row3">
@@ -93,20 +130,72 @@
 		    <li><a href="#tabs-2">이메일</a></li>
 		  </ul>
 		  <div id="tabs-1">
-		    <p class="inline">
-		      <input type=text id="tel" size=20 class="input-sm">
+		   
+<form name="idfindscreentel" method="POST">
+							<div class="search-title">
+				<h3>휴대폰 본인확인</h3>
+			</div>
+		<section class="form-search">
+			<div class="find-name">
+				<label>이 름 :</label>
+				<input type="text" name="member_name" class="btn-name"
+										placeholder="등록한 이름">
+			<br>
+			</div>
+			<div class="find-tel">
+				<label>번 호 :</label>
+				<input type="text" onKeyup="addHypen(this);" name="member_tel"
+										class="btn-tel" placeholder="휴대폰번호를 '-'없이 입력">
+			</div>
+			<br>
+	</section>
+	<div class="btnSearch">
+		<input type="button" name="enter" value="찾기" class="btn btn-sm btn-primary"id="telBtn" onClick="id_search()">
+		<input type="button" name="cancle" value="취소" class="btn btn-sm btn-danger" onClick="history.back()">
+ 	</div>
+ </form>
+
+<!--  -	 아이디찾기 수정	      <input type=text id="tel" size=20 class="input-sm">
 		      <input type=button value="검색" class="btn btn-sm btn-danger"
 		       id="telBtn">
 		    </p>
-		    <p id="tel_find" style="font-size: 15pt;color:red"></p>
-		  </div>
+		    <p id="tel_find" style="font-size: 15pt;color:red"></p>-->
+						</div>
 		  <div id="tabs-2">
-		    <p class="inline">
+<form name="idfindscreenemail" method="POST">
+							<div class="search-title">
+				<h3>이메일 본인확인</h3>
+			</div>
+		<section class="form-search-email">
+			<div class="find-name-email">
+				<label>이  름  :</label>
+				<input type="text" name="member_name1" class="btn-name"
+										placeholder="등록한 이름">
+			<br>
+			</div>
+			<div class="find-email">
+				<label>Email:</label>
+				<input type="text" onKeyup="addHypen(this);" name="member_email"
+										class="btn-email" placeholder="이메일을 입력하세요">
+			</div>
+			<br>
+	</section>
+	<div class="btnSearch">
+		<input type="button" name="enter" class="btn btn-sm btn-primary" value="찾기" id="emailBtn" onClick="id_search1()">
+		<input type="button" name="cancle" class="btn btn-sm btn-danger" value="취소" onClick="history.back()">
+ 	</div>
+ </form>
+
+
+
+
+
+<!--  		    <p class="inline">
 		      <input type=text id="email" size=35 class="input-sm">
 		      <input type=button value="검색" class="btn btn-sm btn-danger"
 		       id="emailBtn">
 		    </p>
-		    <p id="email_find" style="font-size: 15pt;color:red"></p>
+		    <p id="email_find" style="font-size: 15pt;color:red"></p>-->
 		</div>
 	   </main>
    </div>
