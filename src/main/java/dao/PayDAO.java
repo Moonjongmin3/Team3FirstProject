@@ -72,46 +72,23 @@ public class PayDAO {
     * total_price
     * quantity
     * }
-    */
+    *///////////////////////jsp에서 데이터가 안 넘어오는 듯..!! 인서트 안 됨.....///////
    //public int order_insert(String userId , int bid, int qty,String[] orderobj){
-	public void order_insert(OrderHistoryVO ohvo){
+	public void order_item_insert(OrderHistoryVO ohvo){
 		
          try {          
         	//orders_item_3테이블에 인서트
              conn=cm.getConnection();
-             String sql1="INSERT INTO orders_item_3 "
-                   +"VALUES (?,?,?)";
+             String sql="INSERT INTO orders_item_3 "
+                   +"VALUES(NVL(MAX(no)+1,1),?,?)";
              
-             ps=conn.prepareStatement(sql1);
-             ps.setInt(1,ohvo.getOrder_id());//order_id
-             ps.setInt(2, ohvo.getBook_id());
-             ps.setInt(3, ohvo.getQuantity());
+             ps=conn.prepareStatement(sql);
+//             ps.setInt(1,ohvo.getOrder_id());//order_id
+             ps.setInt(1, ohvo.getBook_id());
+             ps.setInt(2, ohvo.getQuantity());
              
              ps.executeUpdate();
              
-             //orders_3테이블에 인서트
-             String sql2="INSERT INTO orders_3 "
-                     +"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-             ps=conn.prepareStatement(sql2);
-           
-             ps.setInt(1,ohvo.getOrder_id());//order_id
-             ps.setString(2,ohvo.getUser_id());
-             ps.setString(3,ohvo.getReceiver_name());//receiver_name
-             ps.setString(4,ohvo.getShip_address1());//ship_address1
-             ps.setString(5,ohvo.getShip_address2());//ship_address2
-             ps.setString(6,ohvo.getZipcode());//zipcode
-             
-             ps.setInt(7,ohvo.getReceiver_phone());//receiver_phone
-             ps.setString(8,ohvo.getShip_request());//ship_request
-//             String state="order";//admin승인->pay로 전환 /주문취소-> cancle로 전환
-             ps.setString(9,ohvo.getState());//주문완료 / cancle / 결제완료
-             ps.setInt(10,ohvo.getPay_state());//관리자 승인여부_default:0
-             ps.setDate(11,(java.sql.Date)ohvo.getOrder_date());//default:sysdate
-             int use_point=0;// 사용 point 미구현 -> 일단 0으로
-             ps.setInt(12,use_point);//use_point
-             ps.setInt(13,ohvo.getTotal_price());//total_price
-            
-             ps.executeUpdate();
              
          }catch(Exception ex){
             ex.printStackTrace();
@@ -119,7 +96,47 @@ public class PayDAO {
             cm.disConnection(conn, ps);
          }      
 //         return order_id;
-      }
+    }
+	
+	public void orders_insert(OrderHistoryVO ohvo){
+		
+        try {          
+       	//orders_item_3테이블에 인서트
+            conn=cm.getConnection();
+            
+            //orders_3테이블에 인서트
+            String sql="INSERT INTO orders_3 "
+                    +"VALUES(NVL(MAX(no)+1,1),?,?,?,?,?,?,?,?,?,?,?,?)";
+            ps=conn.prepareStatement(sql);
+            //order_id : NVL(MAX(no)+1,1)
+//            ps.setInt(1,ohvo.getOrder_id());
+            ps.setString(1,ohvo.getUser_id());
+            ps.setString(2,ohvo.getReceiver_name());//receiver_name
+            ps.setString(3,ohvo.getShip_address1());//ship_address1
+            ps.setString(4,ohvo.getShip_address2());//ship_address2
+            ps.setString(5,ohvo.getZipcode());//zipcode
+            
+            ps.setInt(6,ohvo.getReceiver_phone());//receiver_phone
+            ps.setString(7,ohvo.getShip_request());//ship_request
+//            String state="order";//admin승인->pay로 전환 /주문취소-> cancle로 전환
+            ps.setString(8,ohvo.getState());//주문완료 / cancle / 결제완료
+            ps.setInt(9,ohvo.getPay_state());//관리자 승인여부_default:0
+            ps.setDate(10,(java.sql.Date)ohvo.getOrder_date());//default:sysdate
+            int use_point=0;// 사용 point 미구현 -> 일단 0으로
+            ps.setInt(11,use_point);//use_point
+            ps.setInt(12,ohvo.getTotal_price());//total_price
+           
+            ps.executeUpdate();
+            
+        }catch(Exception ex){
+           ex.printStackTrace();
+        }finally {
+           cm.disConnection(conn, ps);
+        }      
+//        return order_id;
+     }
+	
+	
 	
    
    

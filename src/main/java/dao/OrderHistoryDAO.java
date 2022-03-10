@@ -14,50 +14,51 @@ public class OrderHistoryDAO {
 	   private ConnectionManager cm=new ConnectionManager();
 	
 	 //주문내역 목록 출력
-	   public List<PayVO> orderHistoryListData(int page)
+	   public List<OrderHistoryVO> orderHistoryListData(int page,int user_id)
 	   {
-	      List<PayVO> list=new ArrayList<PayVO>();
+	      List<OrderHistoryVO> ohList=new ArrayList<OrderHistoryVO>();
 	      try
 	      {
-	         conn=cm.getConnection();
-	         String sql="SELECT o.*,num "
-	                   +"FROM (SELECT o.*,rownum as num "
-	                         +"FROM (SELECT * "
-	                               +"FROM orders_3 ORDER BY order_date) o"//최신순 정렬
-	                         +") o "
-	                   +"WHERE num BETWEEN ? AND ?";//1~10 , 11~20
+	         conn=cm.getConnection();	         
+//	         String sql="SELECT o.*,num "
+//	                   +"FROM (SELECT o.*,rownum as num "
+//	                         +"FROM (SELECT * "
+//	                               +"FROM orders_3 ORDER BY order_id DESC) o"
+//	                         +") o "
+//	                   +"WHERE num BETWEEN ? AND ?";//1~10 , 11~20
+	         
+	         String sql="SELECT o.order_id,b.title,o.order_date,o.pay_state,o.total_price,num "
+	         		+ "FROM(SELECT o.order_id,b.title,o.order_date,o.pay_state,o.total_price, rownum as num "
+	         		+ "FROM (SELECT * "
+	         		+ "FROM books_3 b LEFT JOIN order_item_3 i ON b.id=i.book_id "
+	         		+ "LEFT JOIN orders_3 o ON i.order_id=o.order_id "
+	         		+ "LEFT JOIN user_3 u ON o.user_id=u.id) ORDER BY o.order_id DESC "
+	         		+ "WHERE u.id=?) "//사용자 주문내역중에
+	         		+ "WHERE num BETWEEN ? AND ?";
 	         
 	         int rowSize=10;
 	         int start=(rowSize*page)-(rowSize-1);
 	         int end=rowSize*page;
 	         
 	         ps=conn.prepareStatement(sql);
-	         ps.setInt(1, start);
-	         ps.setInt(2, end);
+	         ps.setInt(1, user_id);
+	         ps.setInt(2, start);
+	         ps.setInt(3, end);
 	         
 	         ResultSet rs=ps.executeQuery();
-	         while(rs.next())
-	         {
-	            PayVO vo=new PayVO();
-	            vo.setOrder_id(rs.getInt("order_id"));
-	            vo.setBook_id(rs.getInt("book_id"));
-	            vo.setUser_id(rs.getString("user_id"));
-//	            vo.setReceiver_name(rs.getString("receiver_name"));
-	            vo.setShip_address1(rs.getString("ship_address1"));
-	            vo.setShip_address2(rs.getString("ship_address2"));
-	            vo.setZipcode(rs.getString("zipcode"));
-	            vo.setReceiver_phone(rs.getString("receiver_phone"));
-	            vo.setShip_request(rs.getString("ship_request"));
-	            vo.setState(rs.getString("state"));
-	            vo.setPay_state(rs.getInt("pay_state"));
-	            vo.setOrder_date(rs.getDate("order_date"));
-	            vo.setUse_point(rs.getInt("use_point"));
-	            vo.setTotal_price(rs.getInt("total_price"));
-	            vo.setQuantity(rs.getInt("quantity"));
-	            
-	            list.add(vo);
-	         }
-	         rs.close();
+	         while(rs.next()) {
+				   
+				   OrderHistoryVO vo=new OrderHistoryVO();
+				   
+				   vo.setOrder_id(rs.getInt("o.order_id"));
+				   vo.setBook_name(rs.getString("b.title"));
+				   vo.setOrder_date(rs.getDate("o.order_date"));
+				   vo.setTotal_price(rs.getInt("o.total_price"));
+				   vo.setPay_state(rs.getInt("o.pay_state"));//결제여부
+				   
+				   ohList.add(vo);
+			   }
+			   rs.close();
 	         
 	      }catch(Exception ex)
 	      {
@@ -67,43 +68,55 @@ public class OrderHistoryDAO {
 	      {
 	         cm.disConnection(conn, ps);
 	      }
-	      return list;
+	      return ohList;
 	   }
 	   
-	   
-	   //주문내역 상세보기(목록-타이틀 클릭시)
-	   public PayVO OrderHistoryDetail(int order_id)
+	   								       // 근데 장바구니 리스트 구매가 안됨ㅎ
+	   //주문내역 상세보기(목록-타이틀 클릭시) //장바구니에서 한번에 구매시 -> 주문번호 하나에 book 여러 개 들어있음..
+	   public List<OrderHistoryVO> OrderHistoryDetail(int order_id)
 	   {
-		  
-		   PayVO vo=new PayVO();
+		   List<OrderHistoryVO> ohList=new ArrayList<OrderHistoryVO>();
+//		   PayVO vo=new PayVO();
 		   try
 		   {
 			   conn=cm.getConnection();
-			   String sql="SELECT o.*,(SELECT quantity FROM orders_item_3 WHERE order_id=?) "
-					   +"FROM orders_3 o "
-					   +"WHERE order_id=?";
+//			   String sql="SELECT o.*,(SELECT quantity FROM orders_item_3 WHERE order_id=?) "
+//					   +"FROM orders_3 o "
+//					   +"WHERE order_id=?";
+			   String sql="SELECT o.order_id,b.title,b.poster,b.id "
+					  +"o.order_date,o.total_price,o.state,o.pay_state,o.receiver_name,"
+					  +"o.ship_address1,o.ship_address2,o.zipcode,o.receiver_phone,o.ship_request,i.quantity"
+	         		  + "FROM (SELECT * "
+	         		  + "FROM books_3 b LEFT JOIN order_item_3 i ON b.id=i.book_id "
+	         		  + "LEFT JOIN orders_3 o ON i.order_id=o.order_id) "
+	         		  + "WHERE o.order_id=?";
+			  
 			   ps=conn.prepareStatement(sql);
 			   ps.setInt(1, order_id);
-			   ps.setInt(2, order_id);
 			   ResultSet rs=ps.executeQuery();
-			   rs.next();
-			   vo.setOrder_id(rs.getInt("order_id"));
-	           vo.setBook_id(rs.getInt("book_id"));
-	           vo.setUser_id(rs.getString("user_id"));
-	           vo.setReceiver_name(rs.getString("receiver_name"));
-	           vo.setShip_address1(rs.getString("ship_address1"));
-	           vo.setShip_address2(rs.getString("ship_address2"));
-	           vo.setZipcode(rs.getString("zipcode"));
-	           vo.setReceiver_phone(rs.getString("receiver_phone"));
-	           vo.setShip_request(rs.getString("ship_request"));
-	           vo.setState(rs.getString("state"));
-	           vo.setPay_state(rs.getInt("pay_state"));
-	           vo.setOrder_date(rs.getDate("order_date"));
-	           vo.setUse_point(rs.getInt("use_point"));
-	           vo.setTotal_price(rs.getInt("total_price"));
-	           vo.setQuantity(rs.getInt("quantity"));
-	           
+			   while(rs.next()) {
+				   
+				   OrderHistoryVO vo=new OrderHistoryVO();
+				   
+				   vo.setOrder_id(rs.getInt("o.order_id"));
+				   vo.setBook_name(rs.getString("b.title"));
+				   vo.setPoster(rs.getString("b.poster"));
+				   vo.setOrder_date(rs.getDate("o.order_date"));
+				   vo.setTotal_price(rs.getInt("o.total_price"));
+				   vo.setState(rs.getString("o.state"));//주문완료/취소
+				   vo.setPay_state(rs.getInt("o.pay_state"));//결제여부
+				   vo.setReceiver_name(rs.getString("o.receiver_name"));
+				   vo.setShip_address1(rs.getString("o.ship_address1"));
+				   vo.setShip_address2(rs.getString("o.ship_address2"));
+				   vo.setZipcode(rs.getString("o.zipcode"));
+				   vo.setReceiver_phone(rs.getInt("o.receiver_phone"));
+				   vo.setShip_request(rs.getString("o.ship_request"));
+				   vo.setQuantity(rs.getInt("i.quantity"));
+				   vo.setBook_id(rs.getInt("b.id"));
+				   ohList.add(vo);
+			   }
 			   rs.close();
+			   
 		   }catch(Exception ex)
 		   {
 			  ex.printStackTrace();   
@@ -112,22 +125,22 @@ public class OrderHistoryDAO {
 		   {
 			   cm.disConnection(conn, ps);
 		   }
-		   return vo;
+		   return ohList;
 	   } 
 	   
 	 
-	  
-	   
 	   //주문내역=> 총페이지
-	   public int orderHistoryTotalPage()
+	   public int orderHistoryTotalPage(int user_id)
 	   {
 		   int total=0;
 		   try
 		   {
 			   conn=cm.getConnection();
 			   String sql="SELECT CEIL(COUNT(*)/10.0) "
-					     +"FROM orders_3";
+					     +"FROM orders_3 "
+					     +"WHERE user_id=?";
 			   ps=conn.prepareStatement(sql);
+			   ps.setInt(1, user_id);
 			   ResultSet rs=ps.executeQuery();
 			   rs.next();
 			   total=rs.getInt(1);

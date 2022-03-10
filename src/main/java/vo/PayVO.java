@@ -18,6 +18,7 @@ public class PayVO {
    private int use_point;//사용포인트
    private int total_price;//결제금액
    private int quantity;
+   
    public int getOrder_id() {
       return order_id;
    }

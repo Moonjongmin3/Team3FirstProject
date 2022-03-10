@@ -45,25 +45,7 @@ public class PayModel {
       request.setAttribute("diliveryDate",new Date(new Date().getTime()+60*60*24*1000*2));
       //배송정보
       request.setAttribute("uvo", uvo);
-//      request.setAttribute("userName", uvo.getName());
-//      request.setAttribute("userPhone", uvo.getTel());
-//      request.setAttribute("userEmail", uvo.getEmail());
-//      request.setAttribute("userAddr1", uvo.getAddress1());
-//      request.setAttribute("userAddr1", uvo.getAddress2());
-      //request.setAttribute("userPoint", uvo.getPoint());// UserVO에 point 없음
-      
-//      //주문상품
-//      request.setAttribute("poster", bvo.getPoster());
-//      request.setAttribute("mainCategory", bvo.getMainCategory());
-//      request.setAttribute("title", bvo.getName());
-//      request.setAttribute("author", bvo.getAuthor());
-//      request.setAttribute("price", bvo.getPrice());//정가
-//      request.setAttribute("saleRate", bvo.getSaleRate());
-//      request.setAttribute("point", bvo.getPrice()*0.05);//적립포인트
-//      request.setAttribute("qty", qty);
-      //배송예정일자:주문 후 2일 이후
-      
-//      request.setAttribute("sellingPrice", bvo.getPrice()*(1.0-(bvo.getSaleRate()/100)));//판매가
+
       
       request.setAttribute("main_jsp","../pay/pay.jsp");
       return "../main/main.jsp";
@@ -122,11 +104,11 @@ public class PayModel {
 ////	    	      request.getParameter("use_point");
 //	    	      request.getParameter("total_price")//8
 //	     };
+	      
 	      Date today = new Date();
 	      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	      String today_str = sdf.format(today);
-	      
-	      
+	      String today_str = sdf.format(today); 
+	      	      
 	      String receiver_name=request.getParameter("receiver_name");//0
 	    	      
 	      String ship_address1=request.getParameter("ship_address1");//1
@@ -138,22 +120,21 @@ public class PayModel {
 	      String receiver_phone3=request.getParameter("receiver_phone3");//6
 	      int receiver_phone=Integer.parseInt(receiver_phone1+receiver_phone2+receiver_phone3);
 	      
-	      String order_id= today_str+receiver_phone2+receiver_phone2;
+//	      String order_id=today_str+receiver_phone2+receiver_phone3;//주문일+폰번호..ㅎ
 	      
-//	      String ship_request=request.getParameter("ship_request");//7
-	      String ship_request="";
-	      if(request.getParameter("ship_request")==null)
+	      String ship_request=request.getParameter("ship_request");
+	      if(ship_request==null)
 	    	  ship_request="내용없음";
-//	    	      String receiver_name=request.getParameter("use_point");
+//	      String receiver_name=request.getParameter("use_point");
 	      String total_price=request.getParameter("total_price");//8
 	      //
 	      String book_id=request.getParameter("book_id");
 	      String order_poster=request.getParameter("order_poster");
 	      String category_name=request.getParameter("category_name");
-	      String quentity=request.getParameter("quentity");
+	      String quantity=request.getParameter("quantity");
 	      
-	     OrderHistoryVO ohvo=new OrderHistoryVO();
-	     ohvo.setOrder_id(Integer.parseInt(order_id));
+	     OrderHistoryVO ohvo=new OrderHistoryVO(); // 주문내역 데이터 
+//	     ohvo.setOrder_id(Integer.parseInt(order_id));
 	     ohvo.setBook_id(Integer.parseInt(book_id));
 	     ohvo.setUser_id(id);
 	     ohvo.setReceiver_name(receiver_name);
@@ -162,43 +143,25 @@ public class PayModel {
 	     ohvo.setZipcode(zipcode);
 	     ohvo.setReceiver_phone(receiver_phone);
 	     ohvo.setShip_request(ship_request);
-	     ohvo.setState("주문완료");
-	     ohvo.setPay_state(0);
+	     ohvo.setState("주문완료");//주문완료/취소
+	     ohvo.setPay_state(0);//결제대기/완료
 	     ohvo.setOrder_date(today);
 	     ohvo.setTotal_price(Integer.parseInt(total_price));
-	     ohvo.setQuantity(Integer.parseInt(quentity));
+	     ohvo.setQuantity(Integer.parseInt(quantity));
 	     ohvo.setPoster(order_poster);
 	     ohvo.setCate_name(category_name);
 	      
 	      PayDAO dao=new PayDAO();
-	      dao.order_insert(ohvo);//주문정보 오라클에 insert
+	      dao.orders_insert(ohvo);//주문정보 오라클에 insert
+	      dao.order_item_insert(ohvo);
 	     
 	     
 //	      request.setAttribute("order_id", ohvo.getOrder_id());
 //	      request.setAttribute("main_jsp","../pay/order_complete.jsp");
 //	      request.setAttribute("main_jsp","../pay/pay.jsp");
-	      return "redirect:../my/orderHistory.do";
-   }
-   
-   //
-   @RequestMapping("reserve/reserve_ok.do")
-   public String reserve_reserve_ok(HttpServletRequest request,
-	         HttpServletResponse response) {
-	   try {
-		   request.setCharacterEncoding("UTF-8");
-		   
-	   }catch(Exception ex) {}
-	   		String receiver_name=request.getParameter("receiver_name");//예약관련 vo로 묶어서 전송
-	   		String ship_address1=request.getParameter("ship_address1");//1
-	   		
-	   		HttpSession session=request.getSession();
-	   		String id=(String)session.getAttribute("id");
-	   		
-	   		//dao=> insert요청
-	   		
-	   		
-	   return "redirect:../my/mainMy.do";
-	   
-   }
+	      return "../my/orderHistory.do";// 마이페이지로 이동
+   }		//주문정보 인서트 작업한 후 '주문내역페이지로 이동'
+
+
 
 }
