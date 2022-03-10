@@ -71,7 +71,8 @@ div .bookInfo_list {
 .value {
 	padding-bottom: 3px;
 	font-size: 15px;
-	line-height: 22.5px width:400px
+	line-height: 22.5px width:400px;
+	
 }
 
 span.value_p {
@@ -89,11 +90,13 @@ span.value_p {
 .star>ul>li {
 	display: inline;
 	margin-right: 10px;
+	
 }
 
 .t>ul>li {
 	display: inline;
 	margin-right: 30px;
+
 }
 
 .btn>ul>li {
@@ -106,6 +109,7 @@ span.value_p {
 	width: 1060px;
 	/* border: 1px solid black; */
 	margin: 0 auto;
+	margin-top:30px;
 }
 
 #order_delivery_area h2 {
@@ -141,8 +145,8 @@ span.value_p {
 #order_delivery_area table.bottom td {
 	font-size: 14px;
 }
-/*  모달 창 css */
-    #cart-modal{
+/*  모달 창 css */  
+    #cart-modal{ 
 	display: none;
 	position: absolute;
 	top: 0;
@@ -150,6 +154,7 @@ span.value_p {
 	height: 100vh;
 	z-index: 30;
 	background-color: rgba(0,0,0,0.5);
+		
 }
 .modal-content{
 	width: 30vw;
@@ -347,36 +352,7 @@ span.value_p {
 		<div id="order_delivery_area" class="tabBox">
 			<!-- 리뷰 -->
 			<div id="review_area">
-				<div id="order_reviews_area" class="tabBox"
-					style="flex-direction: column;">
-					<div class="tabBox"
-						style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid black; padding-bottom: 5px;">
-						<div>
-							<input type="button" value="구매후기"
-								style="background-color: #3A4C67; color: white; width: 100px; height: 40px;">
-						</div>
-					</div>
-					<div class="tabBox"
-						style="margin-top: 30px; padding-bottom: 5px; border-bottom: 1px solid #DDDDDD;">
-						<ul style="list-style: disc; padding: 0;">
-	
-							<li style="margin-left: 20px; font-size: 14px;">매주 10건의 우수리뷰를
-								선정하여 용용포인트 3만원을 드립니다..</li>
-							<li style="margin-left: 20px; font-size: 14px;">3,000원 이상 구매
-								후 리뷰 작성 시 일반회원 300원, 마니아회원 600원의 용용포인트를 드립니다.</li>
-						</ul>
-	
-					</div>
-	
-					<textarea cols="140" rows="5" placeholder='내용을 입력하세요.'
-						style="overflow-y: scroll; overflow-x: hidden; resize: none;"
-						required></textarea>
-					<br>
-					<div id="button" style="padding-top: 10px;">
-						<input type="submit" value="등록"> <input type="reset"
-							value="초기화">
-					</div>
-				</div>
+				
 				<table style="width: 100%;">
 					<tr>
 						<th style="width: 20%; vertical-align: middle">배송 구분</th>

@@ -95,7 +95,7 @@
 
 	  var frm=document.pwfindscreenemail;
 
-	  if(frm.member_pwd_id1.value.length <2){
+	  if(frm.member_pwd_id.value.length <2){
 	   alert("아이디를 올바르게 입력해주세요");
 	   return;
 	  }
@@ -162,7 +162,7 @@
 							</div>
 							<section class="form-search">
 								<div class="find-id">
-									<label>아이디 :</label> <input type="text" name="member_pwd_id1"
+									<label>아이디 :</label> <input type="text" name="member_pwd_id"
 										class="btn-name" placeholder="ID를 입력하세요."> <br>
 								</div>
 

@@ -92,7 +92,7 @@ function id_search() {
 function id_search1() { 
  	var frm = document.idfindscreenemail;
 
- 	if (frm.member_name1.value.length < 1) {
+ 	if (frm.member_name.value.length < 1) {
 	  alert("이름을 입력해주세요");
 	  return;
 	 }
@@ -166,7 +166,7 @@ function id_search1() {
 		<section class="form-search-email">
 			<div class="find-name-email">
 				<label>이  름  :</label>
-				<input type="text" name="member_name1" class="btn-name"
+				<input type="text" name="member_name" class="btn-name"
 										placeholder="등록한 이름">
 			<br>
 			</div>

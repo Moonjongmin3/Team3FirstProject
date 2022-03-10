@@ -114,6 +114,7 @@ let recommendSwiper = new Swiper(".recommendSwiper", {
     	  let url = "../pay/orderlist.do";
     	  
     	  $.each($("input.book-check:checked"), function(){
+			  let book = {};
     		  book['id'] = $(this).val();
     		  book['quantity'] = $('#quantity-' + $(this).val()).val();
     		  book['name'] = $('#name-' + $(this).val()).text();

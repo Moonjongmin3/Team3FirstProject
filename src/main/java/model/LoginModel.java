@@ -129,16 +129,27 @@ public class LoginModel {
 		}
 	    String name = request.getParameter("member_name");
 	    String tel = request.getParameter("member_tel");
-
-	     LoginDAO dao = new LoginDAO();
-	     String id = dao.findId_tel(name,tel); 	
-
-	     request.setAttribute("id", id);
-	     request.setAttribute("main_jsp", "../user/idfind_result.jsp");
+	    String email= request.getParameter("member_email");
+	    if(tel!=null)
+	    {
+	    	LoginDAO dao = new LoginDAO();
+	    	String id = dao.findId_tel(name,tel); 	
+	    	
+	    	request.setAttribute("id", id);
+	    	request.setAttribute("main_jsp", "../user/idfind_result.jsp");
+	    }
+	    else
+	    {
+	    	LoginDAO dao = new LoginDAO();
+	    	String id = dao.findId_email(name,email); 	
+	    	
+	    	request.setAttribute("id", id);
+	    	request.setAttribute("main_jsp", "../user/idfind_result.jsp");
+	    }
 
     	return"../main/main.jsp";
     }
-	@RequestMapping("user/idfind_result.do")
+/*	@RequestMapping("user/idfind_result.do")
     public String memberIdEFind_Result(HttpServletRequest request, HttpServletResponse respose) {
 		try {
 			request.setCharacterEncoding("UTF-8");
@@ -158,6 +169,7 @@ public class LoginModel {
 	     
     	return"../main/main.jsp";
     }
+    */
 	@RequestMapping("user/pwdfind_result.do")
     public String memberPwdCFind_Result(HttpServletRequest request, HttpServletResponse respose) {
     	try {
@@ -168,16 +180,30 @@ public class LoginModel {
     	}
     	String id = request.getParameter("member_pwd_id");
     	String tel= request.getParameter("member_pwd_tel");
+    	String email=request.getParameter("member_pwd_email");
     	
-    	LoginDAO dao = new LoginDAO();
-    	String password = dao.findPwd_tel(id, tel);	
+    	if(tel!=null)
+    	{
+    		LoginDAO dao = new LoginDAO();
+        	String password = dao.findPwd_tel(id, tel);	
+        	
+        	request.setAttribute("password", password);
+        	request.setAttribute("main_jsp", "../user/pwdfind_result.jsp");
+    	}
+    	else
+    	{
+    		LoginDAO dao = new LoginDAO();
+        	String password = dao.findPwd_email(id, email);	
+        	
+        	request.setAttribute("password", password);
+        	request.setAttribute("main_jsp", "../user/pwdfind_result.jsp");
+    	}
     	
-    	request.setAttribute("password", password);
-    	request.setAttribute("main_jsp", "../user/pwdfind_result.jsp");
+    	
     	
     	return"../main/main.jsp";
     }
-	@RequestMapping("user/pwdfind_result.do")
+/*	@RequestMapping("user/pwdfind_result.do")
     public String memberPwdEFind_Result(HttpServletRequest request, HttpServletResponse respose) {
     	try {
     		request.setCharacterEncoding("UTF-8");
@@ -196,6 +222,7 @@ public class LoginModel {
     	
     	return"../main/main.jsp";
     }
+    */
 	@RequestMapping("user/idfind.do")
     public String memberIdFind(HttpServletRequest request, HttpServletResponse respose) {
     	
