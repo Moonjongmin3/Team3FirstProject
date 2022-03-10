@@ -207,8 +207,8 @@ label{
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script> 
 <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-Shadowbox.init({   
-})
+/* Shadowbox.init({   
+}) */
 
 $(document).ready(function () {
    let tmp = parseInt($(".Rrow").css('top'));
@@ -297,6 +297,7 @@ $(function(){
             </tr>
           </thead>
           <tbody>
+           <fmt:parseNumber value="0" var="total"/>
            <c:forEach var="bvo" items="${orderBookList }">
             <tr>
               <td type="hidden" name="book_id" value="${bvo.id }"></td>
@@ -311,7 +312,12 @@ $(function(){
               <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
               <td id="qty">${bvo.quantity}</td>
               <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
-              <td>내일<br>도착예정</td>
+              <td>내일<br>도착예정
+              </td>
+              <td style="display: none">
+              	<fmt:parseNumber value="${bvo.price }" var="price"/>
+                 ${total=total+price }
+              </td>
             </tr>
            </c:forEach> 
             <!-- <tr> ....위치 고민중.....<fmt:formatDate value ="${diliveryDate}" pattern ="MM/dd" var="now"/>
@@ -322,7 +328,7 @@ $(function(){
         </table>
         <ul class="caution_ul">
           <li><img alt="" src="../img/caution.PNG" style="height: 20px;width: 20px;"> 
-              날씨나 택배사 사정에 따라 배송이 지연될 수 있습니다.</li>        
+              날씨나 택배사 사정에 따라 배송이 지연될 수 있습니다. </li>        
         </ul>
         <ul style="padding-left:25px;">
           <li>도서정가제 대상 도서는 최대 10% 할인 + 5% 적립 혜택 가능 (쿠폰은 최대 할인 및 적립 범위 내에서만 적용 가능)</li>
@@ -575,7 +581,7 @@ $(function(){
                   <th width="60%"><strong>최종 결제금액</strong></th>
                   <td style="font-size: 25px;text-align: right;">
                     <strong>
-                      <fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9*bvo.quantity }"/>
+                      <fmt:formatNumber pattern="#,##0 원" value="${total-(total/10)}"/>
                     </strong>
                   </td>
                 </tr>              
@@ -603,17 +609,17 @@ $(function(){
       <table class="table_f">        
           <tr >
             <th width=40%><strong>상품가격</strong></th>
-            <td><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*bvo.quantity }"/></td>
+            <td><fmt:formatNumber pattern="#,##0 원" value="${total}"/></td>
           </tr>
           <tr class="tr_dot">
             <th><strong>할인금액</strong></th>
-            <td><fmt:formatNumber pattern="#,##0 원" value="${ bvo.price*0.1*bvo.quantity}"/></td><!--(${Price}*${saleRate })+${usePoint} .. UserVO에 point가 없어서 일단  -->
+            <td><fmt:formatNumber pattern="#,##0 원" value="${total/10}"/></td><!--(${Price}*${saleRate })+${usePoint} .. UserVO에 point가 없어서 일단  -->
           </tr>
           <tr>
             <th colspan="2" style="padding-top:10px;" ><strong>총 결제 금액</strong></th> 
           </tr>
           <tr>
-            <td colspan="2" style="text-align:right; font-size:30px;"><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td>
+            <td colspan="2" style="text-align:right; font-size:30px;"><fmt:formatNumber pattern="#,##0 원" value="${total-(total/10)}"/></td>
           </tr>         
           <tr>
             <td colspan="2" style="font-size:18px"><label><input type="checkbox"/><strong>&nbsp;구매 및 이용약관 모두 동의</strong></label></td>
