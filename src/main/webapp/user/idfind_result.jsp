@@ -14,7 +14,7 @@
      String tel = request.getParameter("tel");
      
 LoginDAO dao = new LoginDAO();
- String member_mid = dao.findId_tel(name, tel); //아이디를 디비에서 가져옴..실패시 널
+ String id = dao.findId_tel(name, tel); 
  
 %>
 <%
@@ -23,19 +23,19 @@ LoginDAO dao = new LoginDAO();
      String email = request.getParameter("tel");
      
 LoginDAO dao1 = new LoginDAO();
- String member_mid1 = dao.findId_email(name, email); //아이디를 디비에서 가져옴..실패시 널
+ String member_id = dao.findId_email(name, email); 
  
 %>
 
   <form name="idsearch" method="post">
       <%
-       if (member_mid != null) {
+       if (id != null) {
       %>
       
       <div class = "container">
       	<div class = "found-success">
 	      <h4>  회원님의 아이디는 </h4>  
-	      <div class ="found-id"><%=member_mid%></div>
+	      <div class ="found-id"><%=id%></div>
 	      <h4>  입니다 </h4>
 	     </div>
 	     <div class = "found-login">

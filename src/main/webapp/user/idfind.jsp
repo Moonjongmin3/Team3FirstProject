@@ -71,7 +71,7 @@
     	})
     })
  });
-  </script>
+  </script> 
   <script type="text/javascript">
   function id_search() { 
 	 	var frm = document.idfindscreentel;
@@ -91,6 +91,7 @@
 	 frm.submit();  
 	 }
  </script>
+ 
  <script type="text/javascript">
 	function id_search1() { 
  	var frm = document.idfindscreenemail;

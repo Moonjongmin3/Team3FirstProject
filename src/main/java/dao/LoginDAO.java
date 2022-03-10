@@ -96,7 +96,7 @@ public class LoginDAO {
  	   }
     }
     public String findId_tel(String name, String tel) {
-		String mid = null;
+		String id = null;
 		
 		try {
 			String sql = "SELECT (*)"
@@ -109,16 +109,16 @@ public class LoginDAO {
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				mid = rs.getString("member_mid");
+				id = rs.getString("id");
 			}
 				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return mid;
+		return id;
 	}
     public String findId_email(String name, String email) {
-		String mid1 = null;
+		String id = null;
 		
 		try {
 			String sql = "SELECT (*)"
@@ -131,13 +131,13 @@ public class LoginDAO {
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				mid1 = rs.getString("member_mid1");
+				id = rs.getString("id");
 			}
 				
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return mid1;
+		return id;
 	}
 // // ID => 전화번호로 찾기 
 //    public String idfind_tel(String tel)
