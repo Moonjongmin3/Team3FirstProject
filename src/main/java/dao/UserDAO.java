@@ -173,7 +173,7 @@ public class UserDAO {
 				vo.setPoster(rs.getString(7));
 				vo.setBookPirce(rs.getString(8));
 				vo.setBook_id(rs.getInt(9));
-				
+				System.out.println(vo.getOrder_date());
 				list.put(Integer.toString(i++), vo);
 			}
 			rs.close();

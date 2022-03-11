@@ -1,11 +1,13 @@
 package model;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,6 @@ import com.google.gson.Gson;
 
 import controller.RequestMapping;
 import dao.UserDAO;
-import vo.BookVO;
 import vo.OneInquiryVO;
 import vo.OrderHistoryVO;
 import vo.UserVO;
@@ -157,8 +158,16 @@ public class MyPageModel {
 		UserDAO dao = new UserDAO();
 		Map<String,OrderHistoryVO> list = new HashMap<>();
 		list=dao.getStayOrderData();
-		List<OrderHistoryVO> orderValues = new ArrayList<>(list.values());
 		
+		List<OrderHistoryVO> orderValues = new ArrayList<>();
+		
+		Set<String> keys = list.keySet();
+		Iterator<String> it = keys.iterator();
+		while(it.hasNext()) {
+			String key= it.next();
+			orderValues.add(list.get(key));
+		}
+		Collections.reverse(orderValues);
 		Gson gson = new Gson();
 		String adminOrderJson = gson.toJson(orderValues);
 		request.setAttribute("oJson", adminOrderJson);

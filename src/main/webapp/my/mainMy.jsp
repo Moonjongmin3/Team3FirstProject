@@ -212,40 +212,6 @@ $(document).ready(function () {
 	            </ul>
 	          </dd>
 	       </dl>
-	       <hr>
-	       <dl class="menu_block">
-	          <dt>찜한 도서</dt>
-	          <dd>
-	            <ul class="menu_ul">
-	              <li class="">
-	                <a href="#">test</a>
-	              </li>
-	              <li class="menu_li">
-	                <a href="#">test</a>
-	              </li>
-	              <li class="menu_li">
-	                <a href="#">test</a>
-	              </li>
-	            </ul>
-	          </dd>
-	       </dl>
-	       <hr>
-	       <dl class="menu_block">
-	          <dt>장바구니</dt>
-	          <dd>
-	            <ul class="menu_ul">
-	              <li class="menu_li">
-	                <a href="#">test</a>
-	              </li>
-	              <li class="menu_li">
-	                <a href="#">test</a>
-	              </li>
-	              <li class="menu_li">
-	                <a href="#">test</a>
-	              </li>
-	            </ul>
-	          </dd>
-	       </dl>
 	     </div>
 	   </div>	        
      </div>      
