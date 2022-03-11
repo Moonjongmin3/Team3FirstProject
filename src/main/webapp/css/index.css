@@ -180,15 +180,15 @@ div.btn-sign-in>a{
 	background: linear-gradient( to right, #0052d4 30%, #4364f7, #6fb1fc);
 }
 #logo-space{
-	font-size: 75px;
-	margin-top: 5px;
+	font-size: 50px;
+	margin-top: 25px;
 	padding-left: 50px;
 	margin-right: 50px ;
 }
 @media screen and (max-width: 1200px) {
   #logo-space{
-		font-size: 60px;
-		margin-top: 20px;
+  		font-size: 40px;
+		margin-top: 35px;
 		padding-left: 30px;
 		margin-right: 50px ;
 		transition: 1s;
@@ -196,8 +196,7 @@ div.btn-sign-in>a{
 }
 @media screen and (max-width: 992px) {
   #logo-space{
-		font-size: 60px;
-		margin-top: 20px;
+		margin-top: 35px;
 		padding-left: 10px;
 		margin-right: 60px ;
 		transition: 1s;

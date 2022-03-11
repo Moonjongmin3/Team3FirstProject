@@ -149,7 +149,7 @@ public class BoardModel {
     	}catch(Exception e){
     		e.printStackTrace();
     	}
-    	return"redirect:../board/detail.do";
+    	return"redirect:../board/board_detail.do";
     }
 	
 	@RequestMapping("board/board_update.do")
@@ -163,7 +163,7 @@ public class BoardModel {
 		request.setAttribute("no", no);
 		request.setAttribute("page", page);
 		request.setAttribute("board", vo);
-		request.setAttribute("main_jsp", "../board/update.jsp");
+		request.setAttribute("main_jsp", "../board/board_update.jsp");
 		
 		return "../main/main.jsp";
 	}

@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="../css/customer.css">
 <link rel="stylesheet" href="../css/login.css">
 <link rel="stylesheet" href="../css/bookList.css">
+<link rel="stylesheet" href="../css/productdetail.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="../js/search.js"></script>
 </head>
@@ -139,7 +140,7 @@
 		<div class="middle-inner">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="hidden-xs col-sm-1 col-sm-offset-1" id="logo-space"><a href="../main/main.do">LOGO</a></div>
+					<div class="hidden-xs col-sm-1 col-sm-offset-1" id="logo-space"><a href="../main/main.do">SSBOOKS</a></div>
 					<div class="col-xs-12 col-xs-offset-0 col-sm-8 col-md-6 col-sm-offset-1">
 						<form action="../book/bookList.do" method="get" id="search_form" class="form-inline">
 							<div class="form-group search-group">
@@ -176,7 +177,7 @@
 				<div class="nav-option hidden-xs hidden-sm cscenter-main"><a href="../customer/notice.do">고객센터</a>
 					 <ul class="cscenter-nav">
 								<li><a href="../customer/notice.do">공지사항</a></li>
-								<li><a href="#">FAQ</a></li>
+								<li><a href="../customer/Faq.do">FAQ</a></li>
 								<li><a href="../customer/one_inquiry.do">1:1문의</a></li>
 							</ul>
 				</div>
