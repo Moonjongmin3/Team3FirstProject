@@ -27,7 +27,8 @@ public class BookdetailDAO {
     		psmt.setInt(1, id);
     		ResultSet rs=psmt.executeQuery();
     		rs.next();
-
+    		
+    		book.setId(rs.getInt("id"));
     		book.setPoster(rs.getString("poster"));
             book.setName(rs.getString("title"));
             book.setPrice(Integer.parseInt(rs.getString("price")));

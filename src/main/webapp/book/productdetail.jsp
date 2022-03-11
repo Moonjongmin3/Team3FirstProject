@@ -96,9 +96,6 @@
 							<span style="margin-left: 15px">
 								<a href="#">100자평(40)</a>
 							</span>
-							<span style="margin-left: 15px">
-								<a href="#">리뷰{리뷰수}</a>
-							</span>
 						</li>
 						<li>
 							<img src="../img/howabout.png" style="width: 77.9px; height: 19.5px;">
@@ -123,7 +120,7 @@
 					<ul>
 						<li><input type="button" class="search_cart_input" value="장바구니 담기"
 							style="background-color: #ef3b96; color: white; width: 130px; height: 50px; border: none;"></li>
-						<li><input type="button" value="바로구매"
+						<li><input type="button" value="바로구매" id="book_detail_buy" book-id=${vo.id }
 							style="background-color: #ef3b96; color: white; width: 130px; height: 50px; border: none;"></li>
 						<li><input type="button" value="선물하기"
 							style="color: #ef3b96; background-color: white; height: 55px; border-color: #ef3b96; font: bold;"></li>
@@ -246,6 +243,13 @@
 			$('#cart-modal').css('display','none');
 		})
 		/* 장바구니 모달 창 끝 */
+	$(function(){
+		$('#book_detail_buy').click(function(){
+			let id=$(this).attr('book-id')
+			location.href="../pay/order.do?qty=1&no="+id
+		})
+	})
+		
 	</script>
 </body>
 </html>

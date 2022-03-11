@@ -32,7 +32,7 @@ public class LoginModel {
 			LoginDAO dao = new LoginDAO();
 			// UserVO로 결과값을 받을지 고민
 			UserVO vo = dao.isLogin(id, pwd);
-			request.setAttribute("result",vo);
+			request.setAttribute("result",vo.getMsg());
 
 			String result = vo.getMsg();
 			if(!(result.equals("NOID")||result.equals("NOPWD"))){
