@@ -126,6 +126,12 @@ function deleteOkBtn(){
 .myPagetable textarea{
 	padding:5px 5px;
 }
+#myUpdateTable>tbody tr td:last-child{
+	text-align: left;
+}
+#myUpdateTable>tbody tr:last-child td{
+	text-align: center;
+}
 </style>
 </head>
 <body>

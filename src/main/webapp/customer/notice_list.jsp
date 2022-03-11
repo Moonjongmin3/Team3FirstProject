@@ -59,10 +59,7 @@
 					<li class="prev"><a href="notice.do?page=${curpage-1}&type=${type}&keyword=${keyword}" class="pageicon"></a></li>
 				</c:if>
 				<c:forEach var="i" begin="${startpage}" end="${endpage}" step="1">
-					<c:if test="${i==curpage}">
-						<c:set var="css" value="style=\"color: #0052d4\""/>
-					</c:if>
-					<li class="page_list"><a href="notice.do?page=${i}&type=${type}&keyword=${keyword}" ${css} class="pagenum">${i}</a></li>
+					<li class="page_list"><a href="notice.do?page=${i}&type=${type}&keyword=${keyword}" ${i==curpage?"style='color: #0052d4'":""} class="pagenum">${i}</a></li>
 				</c:forEach>
 				<c:if test="${curpage!=endpage}">
 					<li class="next" ><a href="notice.do?page=${curpage+1}&type=${type}&keyword=${keyword}" class="pageicon"></a></li>

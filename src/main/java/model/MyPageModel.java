@@ -70,6 +70,10 @@ public class MyPageModel {
 		   String tel=request.getParameter("tel");
 		   String content=request.getParameter("content");
 		   
+		   if(admin==null) {
+			   admin="0";
+		   }
+		   
 		   UserVO vo=new UserVO();
 		   vo.setId(id);
 		   vo.setName(name);

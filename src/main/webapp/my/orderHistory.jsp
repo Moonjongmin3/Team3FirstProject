@@ -8,7 +8,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
  <!--#6699cc #72a4d9  #112444  #dfdfdf  #fda4ba-->
 <style type="text/css">
 .container{
