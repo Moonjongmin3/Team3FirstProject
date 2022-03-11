@@ -27,14 +27,13 @@ public class OrderHistoryDAO {
 //	                         +") o "
 //	                   +"WHERE num BETWEEN ? AND ?";//1~10 , 11~20
 	         
-	         String sql="SELECT o.order_id,b.title,o.order_date,o.pay_state,o.total_price,num "
-	         		+ "FROM(SELECT o.order_id,b.title,o.order_date,o.pay_state,o.total_price, rownum as num "
-	         		+ "FROM (SELECT * "
-	         		+ "FROM books_3 b LEFT JOIN order_item_3 i ON b.id=i.book_id "
-	         		+ "LEFT JOIN orders_3 o ON i.order_id=o.order_id "
-	         		+ "LEFT JOIN user_3 u ON o.user_id=u.id) ORDER BY o.order_id DESC "
-	         		+ "WHERE u.id=?) "//사용자 주문내역중에
-	         		+ "WHERE num BETWEEN ? AND ?";
+	         String sql="SELECT orderId,title,order_data,payState,totalPrice,num "
+	         		+ "FROM (SELECT orderId,title,order_data,payState,totalPrice, rownum as num "
+	         		+ "FROM (SELECT o.ORDER_ID as orderId ,b.TITLE as title ,o.order_date as order_data,o.pay_state as payState,o.total_price as totalPrice "
+	         		+ "FROM orders_3 o, books_3 b , order_item_3 i,user_3 u "
+	         		+ "WHERE b.id=i.book_id  and i.order_id=o.order_id and o.user_id=u.id AND o.USER_ID=? "
+	         		+ "ORDER BY o.order_id DESC)) "
+	         		+ "WHERE num BETWEEN ? AND ? ";
 	         
 	         int rowSize=10;
 	         int start=(rowSize*page)-(rowSize-1);
@@ -50,11 +49,11 @@ public class OrderHistoryDAO {
 				   
 				   OrderHistoryVO vo=new OrderHistoryVO();
 				   
-				   vo.setOrder_id(rs.getInt("o.order_id"));
-				   vo.setBook_name(rs.getString("b.title"));
-				   vo.setOrder_date(rs.getDate("o.order_date"));
-				   vo.setTotal_price(rs.getInt("o.total_price"));
-				   vo.setPay_state(rs.getInt("o.pay_state"));//결제여부
+				   vo.setOrder_id(rs.getInt(1));
+				   vo.setBookName(rs.getString(2));
+				   vo.setOrder_date(rs.getDate(3));
+				   vo.setPay_state(rs.getInt(4));//결제여부
+				   vo.setTotal_price(rs.getInt(5));
 				   
 				   ohList.add(vo);
 			   }

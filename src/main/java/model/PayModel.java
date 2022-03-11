@@ -6,6 +6,7 @@ import vo.*;
 import java.io.FileReader;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -104,9 +105,8 @@ public class PayModel {
 ////	    	      request.getParameter("use_point");
 //	    	      request.getParameter("total_price")//8
 //	     };
-	      
 	      Date today = new Date();
-	      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	      String today_str = sdf.format(today); 
 	      	      
 	      String receiver_name=request.getParameter("receiver_name");//0
@@ -135,6 +135,8 @@ public class PayModel {
 	      
 	     OrderHistoryVO ohvo=new OrderHistoryVO(); // 주문내역 데이터 
 //	     ohvo.setOrder_id(Integer.parseInt(order_id));
+	     System.out.println(receiver_name);
+	     ohvo.setReceiver_name(receiver_name);
 	     ohvo.setBook_id(Integer.parseInt(book_id));
 	     ohvo.setUser_id(id);
 	     ohvo.setReceiver_name(receiver_name);
@@ -145,8 +147,10 @@ public class PayModel {
 	     ohvo.setShip_request(ship_request);
 	     ohvo.setState("주문완료");//주문완료/취소
 	     ohvo.setPay_state(0);//결제대기/완료
-	     ohvo.setOrder_date(today);
-	     ohvo.setTotal_price(Integer.parseInt(total_price));
+	     ohvo.setoDate(today_str);
+	     String total = total_price.replace(",", "");
+	     total = total.replace("원", "");
+	     ohvo.setTotal_price(Integer.parseInt(total.trim()));
 	     ohvo.setQuantity(Integer.parseInt(quantity));
 	     ohvo.setPoster(order_poster);
 	     ohvo.setCate_name(category_name);
@@ -154,12 +158,12 @@ public class PayModel {
 	      PayDAO dao=new PayDAO();
 	      dao.orders_insert(ohvo);//주문정보 오라클에 insert
 	      dao.order_item_insert(ohvo);
-	     
+	      return "redirect:../my/orderHistory.do";
 	     
 //	      request.setAttribute("order_id", ohvo.getOrder_id());
 //	      request.setAttribute("main_jsp","../pay/order_complete.jsp");
 //	      request.setAttribute("main_jsp","../pay/pay.jsp");
-	      return "../my/orderHistory.do";// 마이페이지로 이동
+	      // 마이페이지로 이동
    }		//주문정보 인서트 작업한 후 '주문내역페이지로 이동'
 
 

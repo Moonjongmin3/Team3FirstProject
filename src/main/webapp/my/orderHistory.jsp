@@ -154,7 +154,7 @@ hr{
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>   
 <script type="text/javascript">
 $(function(){	
-	let i=0;
+	/* let i=0;
 	$('#detail_oh').click(function(){ //detail페이지 hide/show
 		if(i==0){
 			$('#detail').show();
@@ -163,14 +163,14 @@ $(function(){
 			$('#detail').hide();
 			i=0;
 		}
-	})
+	}) */
 });
 </script>
 </head>
 <body>
 
 <!-- right--------------------------------------------------------------------- -->      
-      
+     <div style="overflow: hidden">
         <h2 class="color_sky_point">주문/배송 조회</h2>
         <table class="table">
          <tr>
@@ -217,28 +217,31 @@ $(function(){
         </div>
          </div>
         
-        <!--  -->
+      <div style="overflow: hidden;">
         <table class="table">
 	      <tr class="bg_color_Lgray">
-	        <th><input type="checkbox"></th>
-	        <th width=10% class="text-center color_Mgray">주문번호</th>
+	        <th width=5%></th>
+	        <th width=5% class="text-center color_Mgray">주문번호</th>
 	        <th width=40% class="text-center color_Mgray">상품명</th>
-	        <th width=15% class="text-center color_Mgray">결제금액</th>
-	        <th width=20% class="text-center color_Mgray">주문일</th>
-	        <th width=10% class="text-center color_Mgray">주문상태</th>
-	        <th width=5% class=""></th>
+	        <th width=10% class="text-center color_Mgray">결제금액</th>
+	        <th width=15% class="text-center color_Mgray">주문일</th>
+	        <th width=15% class="text-center color_Mgray">주문상태</th>
+	        <th width=10%></th>
 	      </tr>
 	    <c:forEach var="vo" items="${ohList }">	      
 	      <tr>
-	        <td width=20% class="text-center">
+	      	 <td width=5%>
+	      	 <input type="checkbox">
+	        </td>
+	        <td class="text-center" width=5%>
 	          <a href="../my/orderHistory_detail.do?order_id=${vo.order_id}" id="detail_oh">${vo.order_id }</a><!--클릭시 디테일show -->
 	        </td>
-	        <td width=40%>${vo.book_name }</td>
-	        <td width=10% class="text-center">${vo.total_price }</td>
-	        <td width=15% class="text-center">
-	          <fmt:formatDate value="${vo.order_date }" pattern="yyyy-MM-dd"/>
-	        </td>
-	        <td width=10% class="text-center">
+		    <td width=40%>${vo.bookName }</td>
+		    <td width=10% class="text-center">${vo.total_price }</td>
+		    <td  width=15% class="text-center">
+		          <fmt:formatDate value="${vo.order_date }" pattern="yyyy-MM-dd"/>
+		    </td>
+	        <td class="text-center" width=15%>
 	          <c:if test="${vo.pay_state==0 }">
 	            <span class="text-center">주문완료</span>
 	          </c:if>
@@ -246,9 +249,9 @@ $(function(){
 	            <span href="javascript:alrert('메일에서 결제내역을 확인하실 수 있습니다 :)')" class="text-center">결제완료</span>
 	          </c:if>
 	        <td>
-	        <td width=5% class="text-center">
+	        <td   width=10% class="text-center">
 	          <a href="../my/orderHistory_delete.do?order_id=${vo.order_id} }">삭제</a>
-	        </td>  
+	        </td> 
 	      </tr>
 	    </c:forEach>
 	      <!-- hide() 목록 name클릭-> show() -->
@@ -277,22 +280,23 @@ $(function(){
 	       </td>
 	      </tr>
 	    </table>
+	   </div>  
  <!-- //Tab -->
  		
- <ul class="nav nav-tabs" style="margin-top:50px;">
-    <li class="active"><a href="#home">물류 배송상품</a></li>
-    <li><a href="#menu1">업체 배송상품</a></li> 
-  </ul>
+	 <ul class="nav nav-tabs" style="margin-top:50px;">
+	    <li class="active"><a href="#home">물류 배송상품</a></li>
+	    <li><a href="#menu1">업체 배송상품</a></li> 
+	  </ul>
 
-  <div class="tab-content">
-    <div id="home" class="tab-pane fade in active">
-      <p><img src="../img/oh_tap1.PNG" style="width: 100%;"></p>
-    </div>
-    <div id="menu1" class="tab-pane fade">
-      <p><img src="../img/oh_tap2.PNG" style="width: 100%;"></p>  
-    </div>
-    
- 
+	  <div class="tab-content">
+	    <div id="home" class="tab-pane fade in active">
+	      <p><img src="../img/oh_tap1.PNG" style="width: 100%;"></p>
+	    </div>
+	    <div id="menu1" class="tab-pane fade">
+	      <p><img src="../img/oh_tap2.PNG" style="width: 100%;"></p>  
+	    </div>
+   </div> 
+ </div> 
 
 </body> 
  <script>

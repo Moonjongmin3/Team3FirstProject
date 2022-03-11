@@ -29,7 +29,9 @@ public class OrderHistoryModel {
 		OrderHistoryDAO ohdao=new OrderHistoryDAO();
 		List<OrderHistoryVO> ohList=ohdao.orderHistoryListData(curpage,user_id);
 		int totalpage=ohdao.orderHistoryTotalPage(user_id);
-		
+		for(OrderHistoryVO l : ohList) {
+			System.out.println(l.getBookName());
+		}
 		//list용
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("totalpage", totalpage);

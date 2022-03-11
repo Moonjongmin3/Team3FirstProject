@@ -26,7 +26,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
  <!-- #72a4d9  #112444-->
 <style type="text/css">
@@ -237,32 +236,55 @@ label{
 //      }).open()
 //      })
       
-/*       //결제하기 클릭시-> order_insert 후(오라클에 저장) -> my/orderHistory.do(주문내역)
-      $('#order_btn').click(function(){
-    	 $('#name_data').val($('#receiver_name').val()); 
-    	 $('#addr1_data').val($('#ship_address1').val());
-    	 $('#addr2_data').val($('#ship_address2').val());
-    	 $('#zip_data').val($('#zipcode').val());
-    	 $('#rphone1_data').val($('#receiver_phone1').val());
-    	 $('#rphone2_data').val($('#receiver_phone2').val());
-    	 $('#rphone3_data').val($('#receiver_phone3').val());
-    	 $('#msg_data').val($('#ship_request').val());
-    	 $('#total_data').val($('#total_price').val());
+       //결제하기 클릭시-> order_insert 후(오라클에 저장) -> my/orderHistory.do(주문내역)
+ $(function(){
+	
+	 $('#order_btn').click(function(){
+	    	console.log("click")
+	    	let name = $('#receiver_name').val()
+	    	 $('#name_data').val(name); 
+	    	let addr1 =$('#ship_address1').val()
+	    	 $('#addr1_data').val(addr1);
+	    	let addr2=$('#ship_address2').val()
+	    	 $('#addr2_data').val(addr2);
+	    	let zipcode=$('#zipcode').val()
+	    	 $('#zip_data').val(zipcode);
+	    	let phone1 = $('#receiver_phone1').val()
+	    	 $('#rphone1_data').val(phone1);
+	    	let phone2=$('#receiver_phone2').val()
+	    	 $('#rphone2_data').val(phone2);
+	    	let phone3=$('#receiver_phone3').val()
+	    	 $('#rphone3_data').val(phone3);
+	    	let msg = $('#ship_request').val()
+	    	 $('#msg_data').val(msg);
+	    	let totalprice=$('#total_price').text()
+	    	 $('#total_data').val(totalprice);
+	    	 let bookid =$('#book_id').val()
+	    	 $('#bid_data').val(bookid);
+	    	 let poster=$('#order_poster').val()
+	    	 $('#poster_data').val(poster);
+	    	 let catename = $('#category_name').val()
+	    	 $('#catename_data').val(catename);
+	    	 let qty=$('#qty').text()
+	    	 console.log(qty)
+	    	 $('#qty_data').val(qty);
+	    	 
+	    	 	let fr = $('#orderFrm')
+	    	 	fr.submit()
+	    	 })
+	 
+	 
+ })
+ 
+      
     	 
-    	 $('#bid_data').val($('#book_id').val());
-    	 $('#poster_data').val($('#order_poster').val());
-    	 $('#catename_data').val($('#category_name').val());
-    	 $('#qty_data').val($('#qty').val());
-    	 
-    	 })
     	 
     	 
     	 
     	 
     	 
     	 
-    	 
-      }) */
+    
       
 /* 주문완료 안내 없이 결제하기 클릭시인서트 후 (../pay/order_insert_ok.do-}) 바로 주문내역 이동
 	$('.payBtn').click(function(){      
@@ -318,7 +340,9 @@ label{
            <fmt:parseNumber value="0" var="total"/>
            <c:forEach var="bvo" items="${orderBookList }">
             <tr>
-              <td type="hidden" name="book_id" id="book_id" value="${bvo.id }"></td>
+            	<td>
+              	<input type="hidden" name="book_id" id="book_id" value="${bvo.id }">
+              </td>
             </tr>
             <tr>
              <td class="img_oi"><img alt="poster" id="order_poster" src="${bvo.poster }" width="120px" height="150px"></td>
@@ -645,9 +669,8 @@ label{
           </tr>
           <tr><br></tr>         
       </table>
-      
-
-<!--         <input type=hidden name="receiver_name" value="" id="name_data">
+      <form method="post" action="../pay/order_insert.do" id ="orderFrm">
+        <input type=hidden name="receiver_name" value="" id="name_data">
         <input type=hidden name="zipcode" value="" id="zip_data">
         <input type=hidden name="ship_address1" value="" id="addr1_data">
         <input type=hidden name="ship_address2" value="" id="addr2_data">
@@ -661,8 +684,10 @@ label{
         <input type=hidden name="book_id" value="" id="bid_data">
         <input type=hidden name="order_poster" value="" id="poster_data">
         <input type=hidden name="category_name" value="" id="catename_data">
-        <input type=hidden name="quantity" value="" id="qty_data"> -->
-        <button onclick="requestPay()" style="font-size:20px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">결제하기</button>
+        <input type=hidden name="quantity" value="" id="qty_data">
+       </form>
+        <button onclick="requestPay()" style="font-size:18px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">결제하기</button>
+        <button id="order_btn" style="margin-left:10px; font-size:18px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">결제하기(가상)</button>
     </div> 
   </div>
 <!-- jQuery -->
@@ -689,9 +714,10 @@ function requestPay() {
       buyer_postcode: "01181"
   }, function (rsp) { // callback
       if (rsp.success) {
-          // 결제 성공 시 로직,
+         console.log("success")
       } else {
           // 결제 실패 시 로직,
+          console.log("fail")
       }
   });
 }

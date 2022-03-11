@@ -1,6 +1,6 @@
 package vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class OrderHistoryVO {
 		//출력용
@@ -18,8 +18,16 @@ public class OrderHistoryVO {
 	   private Date order_date;//주문일
 	   private int total_price;//결제금액
 	   private int quantity;
+	   private String oDate;
+	   
+	   public String getoDate() {
+		return oDate;
+	}
+	public void setoDate(String oDate) {
+		this.oDate = oDate;
+	}
 
-	   private String bookName;
+	private String bookName;
 	   private String bookPirce;
 		   public String getBookName() {
 			return bookName;

@@ -250,7 +250,7 @@ $(document).ready(function () {
 	   </div>	        
      </div>      
 <!-- right--------------------------------------------------------------------- -->      
-     <div class="wrap_right" style="height: 650px"> 
+     <div class="wrap_right" style="min-height: 650px"> 
        <jsp:include page="${mainMy_jsp }"/>
      </div>
 <!-- -------------------------------------------------------------------------- -->   
