@@ -88,7 +88,7 @@ td {
 	                 </c:if>
 	                </figure>
 	                <address>
-	                By <a href="#">${rvo.user_id}</a>
+	                By <a href="#">${rvo.user_id}(${rvo.created_at })</a>
 	                </address>
 	              </header>
 	              <div class="comcont">
@@ -99,6 +99,7 @@ td {
 	             <tr>
 	               <td>
 	                 <form method=post action="../board/reply_update.do">
+	                 	 <input type="hidden" name=rno value="${vo.no }">
 	                     <input type=hidden name=no value="${rvo.no}">
 		                 <textarea rows="5" name="content" cols="48" style="float:left">${rvo.content }</textarea>
 		                  <input type=submit value="댓글수정" class="btn btn-primary"

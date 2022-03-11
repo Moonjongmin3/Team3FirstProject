@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>찜하기</title>
 </head>
 <body>
-	<!-- 카트 페이지 시작 -->
 	<section>
 		<aritcle>
 			<hr id="mid-line">
@@ -19,7 +19,7 @@
 						<label for="all-checked">전체선택</label>&nbsp;&nbsp;&nbsp;
 						<div class="btn-group" role="group" aria-label="...">
 						  <c:if test="${not empty userId}">
-						  	<button type="button" class="btn btn-default addMyList-selected">장바구니에 넣기</button>
+						  	<button type="button" class="btn btn-default">장바구니에 넣기</button>
 						  </c:if>
 						  <c:if test="${empty userId}">
 						  	<button type="button" class="btn btn-default" onclick="location.href ='../user/login.do'">장바구니에 넣기</button>

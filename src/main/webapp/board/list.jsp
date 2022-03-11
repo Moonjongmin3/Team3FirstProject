@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" import="dao.*,java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +68,12 @@ form{
 	      <tr>
 	       <td class="text-center" width=10%>${vo.no }</td>
 	       <td width=45%>
-	        <a href="../board/board_detail.do?page=${curpage }&no=${vo.no }">${vo.title }</a>
+	        <c:if test="${fn:length(vo.title)>33 }">
+	         <a href="../board/board_detail.do?page=${curpage }&no=${vo.no }">${fn:substring(vo.title,0,33) }...</a>
+	        </c:if>
+	        <c:if test="${fn:length(vo.title)<33 }">
+	         <a href="../board/board_detail.do?page=${curpage }&no=${vo.no }">${vo.title }</a>
+	        </c:if>
 	       </td>
 	       <td class="text-center" width=15%>${vo.user_id }</td>
 	       <td class="text-center" width=20%>

@@ -163,7 +163,7 @@ public class BoardModel {
 		request.setAttribute("no", no);
 		request.setAttribute("page", page);
 		request.setAttribute("board", vo);
-		request.setAttribute("main_jsp", "../board/list.jsp");
+		request.setAttribute("main_jsp", "../board/update.jsp");
 		
 		return "../main/main.jsp";
 	}
@@ -172,10 +172,10 @@ public class BoardModel {
 	public String boardUpdate_ok(HttpServletRequest request, HttpServletResponse response) {
 		String no=request.getParameter("no");
 		String page=request.getParameter("page");
+		HttpSession session=request.getSession();
+		String user_id=(String)session.getAttribute("user_id");
 		try {
 			request.setCharacterEncoding("UTF-8");
-			HttpSession session=request.getSession();
-			String user_id=request.getParameter("user_id");
 			
 			int maxSize=1024*1024*200; 
             String path="c:\\download";
@@ -217,7 +217,7 @@ public class BoardModel {
 		
 		BoardDAO dao=new BoardDAO();
 		dao.boardDelete(Integer.parseInt(no));
-
+		
 		// board_delete 페이지를 띄울건지?
 		// 그럴꺼면 request.setAttribute("main_jsp","../board/board_delete.jsp")
 		//return "../main/main.jsp"
