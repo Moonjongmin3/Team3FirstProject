@@ -32,3 +32,10 @@
     margin: 80px auto;
     box-shadow: 10px 10px 10px 5px rgba(72, 65, 54, 0.3);
 }
+#join-input{
+	padding-left: 30px;
+	text-align: left;
+}
+.yakkwan{
+	margin-left: -30px;
+}
