@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +17,24 @@
         heightStyle: "content"
     });
     
+    $('#adminUpdateBtn').click(function(){
+		$.ajax({
+			type:'post',
+			url:'../my/myPage_update.do',
+			success:function(res){
+				$('#ui-id-6 .myPagetable').hide()
+				$('#ui-id-6 .myPagetable').after(res)
+				$('#ui-id-6 #myUpdateTable #address1').after("<input type='hidden' name='admin' value='1'>")
+			}
+		})
+		
+	})
+	
   });
-  
+  function myUpdateBackBtn(){
+  	$('#ui-id-6 #myUpdateTable').remove()
+  	$('#ui-id-6 .myPagetable').show()
+  }
   $.ajax({
   	type:'post',
   	url:'../my/adminPageGet.do',
@@ -92,7 +109,7 @@
   	  			orderStay2 += '</td>'
   	  			orderStay2 += '<td>'+value.quantity +'</td>';
   	  			orderStay2 += '<td>'+value.order_date +'</td>';
-  	  			orderStay2 += '<td id="btn_td'+key+'"><a href="../customer/one_inquiry_detail.do?groupId='
+  	  			orderStay2 += '<td id="btn_td'+key+'"><a href="../my/order_ok.do?orderId='
   	  							+value.order_id+'"class="btn btn-sm" style="background-color: 4364F7;border-radius: 20px;font-weight: 550;color: white;">주문승인</a></td>';
   	  			orderStay2 += '</tr>';
   	  			let u=key-1;
@@ -111,7 +128,7 @@
   	}
   	
   })
- 
+ 	
   function addComma(value){
         value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return value; 
@@ -129,7 +146,6 @@
 					김장군 (운영자)
 				</div>
 				<div class="admin_info_btn_group">
-					<a class="admin_info_btn">관리자 삭제</a>
 					<a class="admin_info_btn">관리자 계정 수정</a>
 				</div>
 			</div>
@@ -189,7 +205,7 @@
 			</table>
 			</div>
 		<div id="accordion">
-		  <h3>주문 승인 대기 목록</h3>
+		  <h3 style="font-size: 18px;">주문 승인 대기 목록</h3>
 		  <div class="order_stay_list">
 			    <table style="width: 100%"class="order_stay_list_table" id="order_stay">
 			    	<tr>
@@ -203,9 +219,9 @@
 			    	</tr>
 			    </table>
 		  </div>
-		  <h3>1:1 답변 대기 목록</h3>
+		  <h3 style="font-size: 18px;">1:1 답변 대기 목록</h3>
 		  <div style="height: 400px">
-			    <table style="width: 100%"class="order_stay_list_table" id="answer_stay">
+			    <table class="order_stay_list_table" id="answer_stay">
 			    	<tr>
 			    		<th width="10%">문의 번호</th>
 			    		<th width="10%">문의자 ID</th>
@@ -216,19 +232,81 @@
 			    	</tr>
 			    </table>
 		  </div>
-		  <h3>Section 3</h3>
+		  <h3 style="font-size: 18px;">관리자 계정 관리</h3>
 		  <div>
-			    <p>
-			    Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
-			    Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
-			    ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
-			    lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
-			    </p>
-			    <ul>
-			      <li>List item one</li>
-			      <li>List item two</li>
-			      <li>List item three</li>
-			    </ul>
+			  <table class="myPagetable table">
+			      <tr>
+				       <td width=15%>아이디</td>
+				       <td width=85% class="inline" style="vertical-align: middle">
+				       		<span>${admin.id }</span>
+				       </td>
+			      </tr>
+			      <tr>
+			      </tr>
+			      <tr>
+			       <td width=15%>이름</td>
+			       <td width=85%>
+			         <span>${admin.name }</span>
+			       </td>
+			      </tr>
+			      <tr>
+			       <td width=15%>성별</td>
+			       <td width=85% class="inline">
+			         <span>${admin.gender }</span>
+			       </td>
+			      </tr>
+			      <tr>
+			       <td  width=15%>생년월일</td>
+			       <td width=85%>
+			         <span>${admin.birth }</span>
+			       </td>
+			      </tr>
+			      <tr>
+			       <td width=15%>E-mail</td>
+			       <td width=85%>
+			         <span>${admin.email }</span>
+			       </td>
+			      </tr>
+			      <tr>
+			       <td width=15%>우편번호</td>
+			       <td width=85% class='inline'>
+			         <span>${admin.post }</span>
+			       </td>
+			      </tr>
+			      <tr>
+			       <td width=15%>주소</td>
+			       <td width=85%>
+			         <span>${admin.address1 }</span>
+			       </td>
+			      </tr>
+			      <tr>
+				      <c:if test="${vo.address2!='' }">
+					       <td width=15%>상세주소</td>
+					       <td width=85%>
+					       		<span>${admin.address2 }</span>
+					       </td>
+				       </c:if>
+			      </tr>
+			      <tr>
+			      <tr>
+			       <td width=15%>휴대폰 </td>
+			       <td width=85% class="inline">
+			         <span>0${admin.tel }</span>
+			       </td>
+			      </tr>
+			      <tr>
+			       <td width=15%>소개 </td>
+			       <td width=85%>
+			         <textarea rows="8" cols="55" id="content" name="content" readonly>${admin.content }</textarea>
+			       </td>
+			      </tr>
+			      <tr>
+			        <td colspan="2" class="text-center" style="padding-top:10px;">
+			         <input type=button class="btn btn-md btn-primary" value="정보수정"
+			           id="adminUpdateBtn">
+			        </td>
+			      </tr>
+			    </table>
 		  </div>
 		</div>
 	</div>
