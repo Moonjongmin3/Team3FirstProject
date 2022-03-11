@@ -39,7 +39,7 @@ form{
 <body>
   <div class="board row3">
    <div class="board_wrap">
-    <h3>자유 게시판</h3>
+    <h3></h3>
     <ul>
      <li>
      <c:if test="${sessionScope.userId!=null }">

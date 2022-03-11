@@ -7,9 +7,7 @@
 <meta charset="UTF-8">
 <title>자유게시판</title>
 <style type="text/css">
-th{
-  color:black;
-}
+
 .board_wrap{
   margin: 0px auto;
   width:800px;
@@ -23,6 +21,9 @@ th{
 th{
 	background-color:DeepSkyBlue;
 	text-align:center;
+}
+td{
+	text-align:left;
 }
 </style>
 </head>
