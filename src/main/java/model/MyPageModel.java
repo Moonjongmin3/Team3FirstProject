@@ -58,6 +58,7 @@ public class MyPageModel {
 			e.printStackTrace();
 		}
 		   // 입력값 받기 
+		   String admin = request.getParameter("admin");
 		   String id=(String) session.getAttribute("userId");
 		   String name=request.getParameter("name");
 		   String gender=request.getParameter("gender");
@@ -86,7 +87,11 @@ public class MyPageModel {
 		
 		   	UserDAO dao = new UserDAO();
 		   	dao.UserUpdate(vo);
-		return "redirect:../my/myPage.do";
+		   	if(admin.equals("1")) {
+		   		return "redirect:../my/adminPage.do";
+		   	}else {
+		   		return "redirect:../my/myPage.do";
+		   	}
 	}
 	@RequestMapping("my/myPage_delete.do")
 	public String myPageDeleteData(HttpServletRequest request,HttpServletResponse response) {
@@ -152,8 +157,17 @@ public class MyPageModel {
 		
 		Gson gson = new Gson();
 		String adminOrderJson = gson.toJson(orderValues);
-		System.out.println(adminOrderJson);
 		request.setAttribute("oJson", adminOrderJson);
 		return "../my/adminPageOrderData.jsp";
+	}
+	
+			
+	@RequestMapping("my/order_ok.do")
+	public String adminPageOrderOk(HttpServletRequest request,HttpServletResponse response) {
+		String orderId = request.getParameter("orderId");
+		UserDAO dao = new UserDAO();
+		dao.adminOrderOk(Integer.parseInt(orderId));
+		
+		return "redirect:../my/adminPage.do";
 	}
 }

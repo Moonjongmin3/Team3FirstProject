@@ -32,7 +32,6 @@
 #accordion{
 	margin-top: 50px;
 }
-
 .admin_info_wrap{
 	border: 1px solid #899bdb;
     border-left: 0;
@@ -101,7 +100,7 @@
 .order_stay_list_table tr{
 	border-top:1px solid #dadada;
 	border-bottom:1px solid #dadada;
-	height:37px;
+	height:55px;
 }
 .order_stay_list_table th{
 	background-color:#f7f7f7;
@@ -114,8 +113,44 @@
     color: white;
 }
 
+.myPagetable{
+	width:800px;
+}
+#ui-id-6 .myPagetable tr td{
+	height: 55px;
+	vertical-align: middle;
+	border-top : 1px solid #dedede
+}
+#ui-id-6 .myPagetable tr:first-child td{
+	border-top:none;
+}
+#ui-id-6 .myPagetable tr td:first-child{
+	padding-left:40px;
+}
+#ui-id-6 .myPagetable tr td:last-child{
+	padding-left:50px
+}
+.myPagetable>tbody>tr:first-child>td{
+	border-top: none;
+}
+.myPagetable>tbody>tr:last-child>td input{
+	margin:0 7px;
+}
+.myPagetable>tbody>tr>td>span,textarea{
+	float: left;
+}
+.myPagetable textarea{
+	padding:5px 5px;
+}
 
+#ui-id-6 #myUpdateTable td{
+	text-align: left;
+}
 
+#ui-id-6 #myUpdateTable tr:last-child td{
+	
+	text-align: center;
+}
 
 
 

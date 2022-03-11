@@ -20,7 +20,7 @@ public class OrderHistoryModel {
 			HttpServletResponse response) {
 		
 		HttpSession session=request.getSession();
-	    int user_id=(int)session.getAttribute("userId");
+	    String user_id= session.getAttribute("userId").toString();
 		String page=request.getParameter("page");
 		//list용
 		if(page==null)

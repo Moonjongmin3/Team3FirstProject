@@ -158,7 +158,7 @@ public class UserDAO {
 			conn=cm.getConnection();
 			String sql="SELECT o.order_id,user_id,order_date,total_price,oi.QUANTITY,b.TITLE,b.POSTER,b.PRICE,oi.book_id "
 					+ "FROM orders_3 o,ORDER_ITEM_3 oi,BOOKS_3 b "
-					+ "WHERE o.ORDER_ID=oi.ORDER_ID AND o.state='주문완료' AND oi.BOOK_ID=b.ID order by ORDER_DATE";
+					+ "WHERE o.ORDER_ID=oi.ORDER_ID AND o.state='주문완료' AND oi.BOOK_ID=b.ID order by ORDER_DATE, ORDER_ID desc";
 			ps=conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			int i=1;
@@ -185,5 +185,21 @@ public class UserDAO {
 			cm.disConnection(conn, ps);
 		}
 		return list;
+	}
+	
+	public void adminOrderOk(int orderId) {
+		try {
+			conn=cm.getConnection();
+			String sql="Update orders_3 SET state='승인완료', pay_state=1 WHERE order_id=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, orderId);
+			ps.executeUpdate();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		finally {
+			cm.disConnection(conn, ps);
+		}
 	}
 }

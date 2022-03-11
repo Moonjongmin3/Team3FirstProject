@@ -73,7 +73,7 @@
 	      <tr>
 	        <td colspan="2" class="text-center" style="padding-top:10px;">
 	         <input type=submit class="btn btn-md btn-primary" value="수정하기">
-	         <a href="javascript:myUpdateBackBtn()" class="btn btn-md btn-danger myUpdateBack" >취소</a>
+	         <a href="javascript:myUpdateBackBtn()" class="btn btn-md btn-danger myUpdateBack" style="color: #fff;">취소</a>
 	        </td>
 	      </tr>
 	 </table> 
