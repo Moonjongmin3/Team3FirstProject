@@ -494,9 +494,6 @@ $(function(){
 											<a class="search_sort ${sort3 }" onclick="sortBtn('day')" sorted="day">출시일순</a>
 										</li>
 										<li>
-											<a class="search_sort ${sort4 }" onclick="sortBtn('review')" sorted="review">리뷰순</a>
-										</li>
-										<li>
 											<a class="search_sort ${sort5 }" onclick="sortBtn('price')" sorted="price">저가격순</a>
 										</li>
 									</ul>
@@ -623,26 +620,26 @@ $(function(){
 									<div class="search_book_rating sbi">
 										<span calss="saleNum">판매지수 ${vo.sellCount }</span>
 										<!-- 리뷰 생성 후 재 구현 -->
-										<span class="rating_rvCount"><a>회원리뷰(<em>?</em>건)</a></span>
+										<!-- <span class="rating_rvCount"><a>회원리뷰(<em>?</em>건)</a></span> -->
 									
 										<c:choose>
 											<c:when test="${vo.score==5 }">
-												<span><img src="../img/starFive.png"><strong>${vo.score }점</strong></span>
+												<span class="rating_rvCount"><img src="../img/starFive.png"><strong>${vo.score }점</strong></span>
 											</c:when>
 											<c:when test="${vo.score==4 }">
-												<span><img src="../img/starFour.png"><strong>${vo.score }점</strong></span>
+												<span class="rating_rvCount"><img src="../img/starFour.png"><strong>${vo.score }점</strong></span>
 											</c:when>
 											<c:when test="${vo.score==3 }">
-												<span><img src="../img/starThree.png"><strong>${vo.score }점</strong></span>
+												<span class="rating_rvCount"><img src="../img/starThree.png"><strong>${vo.score }점</strong></span>
 											</c:when>
 											<c:when test="${vo.score==2 }">
-												<span><img src="../img/starTwo.png"><strong>${vo.score }점</strong></span>
+												<span class="rating_rvCount"><img src="../img/starTwo.png"><strong>${vo.score }점</strong></span>
 											</c:when>
 											<c:when test="${vo.score==1 }">
-												<span><img src="../img/starOne.png"><strong>${vo.score }점</strong></span>
+												<span class="rating_rvCount"><img src="../img/starOne.png"><strong>${vo.score }점</strong></span>
 											</c:when>
 											<c:otherwise>
-												<span><img src="../img/starZero.png"><strong>${vo.score }점</strong></span>
+												<span class="rating_rvCount"><img src="../img/starZero.png"><strong>${vo.score }점</strong></span>
 											</c:otherwise>
 										</c:choose>
 									</div>
