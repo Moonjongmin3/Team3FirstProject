@@ -225,20 +225,19 @@ label{
 }) */
 /* Shadowbox.init({   
 }) */
-$(function(){   
-   <%-- 주소찾기 --%>
-      $('#postBtn_pay').click(function(){
+//$(function(){   
+//      $('#postBtn_pay').click(function(){
       //alert("Post")
-      new daum.Postcode({
-         oncomplete:function(data)
-         {
-            $('#post_pay').val(data.zonecode)
-            $('#addr1_pay').val(data.address)
-         }
-      }).open()
-      })
+//      new daum.Postcode({
+//         oncomplete:function(data)
+//         {
+//            $('#post_pay').val(data.zonecode)
+//            $('#addr1_pay').val(data.address)
+//         }
+//      }).open()
+//      })
       
-      //결제하기 클릭시-> order_insert 후(오라클에 저장) -> my/orderHistory.do(주문내역)
+/*       //결제하기 클릭시-> order_insert 후(오라클에 저장) -> my/orderHistory.do(주문내역)
       $('#order_btn').click(function(){
     	 $('#name_data').val($('#receiver_name').val()); 
     	 $('#addr1_data').val($('#ship_address1').val());
@@ -263,7 +262,7 @@ $(function(){
     	 
     	 
     	 
-      })
+      }) */
       
 /* 주문완료 안내 없이 결제하기 클릭시인서트 후 (../pay/order_insert_ok.do-}) 바로 주문내역 이동
 	$('.payBtn').click(function(){      
@@ -298,7 +297,6 @@ $(function(){
 </script>
 </head>
 <body>
-<form method="post" action="#">
   <div class="container">
     <h2>주문상품</h2>
     <hr>
@@ -615,7 +613,7 @@ $(function(){
               <br>
               
               <p>
-              <input type="submit" class="button_pay payBtn" value="결제하기" style="font-size:20px;height:50px;color:white;font-weight: bold;">
+              <button onclick="requestPay()" style="font-size:20px;height:50px;color:white;font-weight: bold;">결제하기</button>
               </p>
             </div>
           </div><!-- 결제방법R 끝 --------------------------------------------- -->         
@@ -649,7 +647,7 @@ $(function(){
       </table>
       
 
-        <input type=hidden name="receiver_name" value="" id="name_data">
+<!--         <input type=hidden name="receiver_name" value="" id="name_data">
         <input type=hidden name="zipcode" value="" id="zip_data">
         <input type=hidden name="ship_address1" value="" id="addr1_data">
         <input type=hidden name="ship_address2" value="" id="addr2_data">
@@ -663,13 +661,10 @@ $(function(){
         <input type=hidden name="book_id" value="" id="bid_data">
         <input type=hidden name="order_poster" value="" id="poster_data">
         <input type=hidden name="category_name" value="" id="catename_data">
-        <input type=hidden name="quantity" value="" id="qty_data">
-        <input type="button" data-no="" value="결제하기" class="button_pay payBtn" style="font-size:20px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">
-      
-    </div><!-- Rrow ------------------------------------------------------------>    
-  </div> <!-- container -->
-</form>
-<button value="아임포트" onclick="requestPay()"></button>
+        <input type=hidden name="quantity" value="" id="qty_data"> -->
+        <button onclick="requestPay()" style="font-size:20px;height:50px;color:white;background-color:#165fa1; font-weight: bold;">결제하기</button>
+    </div> 
+  </div>
 <!-- jQuery -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <!-- iamport.payment.js -->
@@ -686,7 +681,7 @@ function requestPay() {
       pay_method: "card",
       merchant_uid: "ORD20180131-0000011",
       name: "노르웨이 회전 의자",
-      amount: 64900,
+      amount: 5000,
       buyer_email: "gildong@gmail.com",
       buyer_name: "홍길동",
       buyer_tel: "010-4242-4242",
