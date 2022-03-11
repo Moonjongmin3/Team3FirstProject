@@ -316,9 +316,10 @@ label{
           </thead>
           <tbody>
            <fmt:parseNumber value="0" var="total"/>
+           <c:set var = "sum" value = "0" />
            <c:forEach var="bvo" items="${orderBookList }">
             <tr>
-              <td type="hidden" name="book_id" id="book_id" value="${bvo.id }"></td>
+              <td type="hidden" class="book-id" value="${bvo.id}"></td>
             </tr>
             <tr>
              <td class="img_oi"><img alt="poster" id="order_poster" src="${bvo.poster }" width="120px" height="150px"></td>
@@ -328,6 +329,7 @@ label{
                 <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${bvo.price*0.05}"/>
               </td>
               <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
+              <c:set var= "sum" value="${sum+bvo.price*0.9}"/>
               <td id="qty">${bvo.quantity}</td>
               <td id="total_price"><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
               <td>내일<br>도착예정
@@ -337,7 +339,8 @@ label{
                  ${total=total+price }
               </td>
             </tr>
-           </c:forEach> 
+           </c:forEach>
+           <c:out value="${sum}"/>
             <!-- <tr> ....위치 고민중.....<fmt:formatDate value ="${diliveryDate}" pattern ="MM/dd" var="now"/>
             <td colspan="7"><img alt="" src="../img/caution.PNG" style="height: 20px;width: 20px;"> 
               날씨나 택배사 사정에 따라 배송이 지연될 수 있습니다.</td>
@@ -435,13 +438,13 @@ label{
           <table class="table_wh_addr" style="vertical-align: center;" >          
             <tr>
               <th width=23%>이름</th>
-              <td><input type="text" name="username_pay" value="${uvo.name }" size="10" class="input_gray" readonly="readonly"> </td>
+              <td><input type="text" id="username_pay" value="${uvo.name }" size="10" class="input_gray" readonly="readonly"> </td>
             </tr>
             <tr>
               <th>휴대폰</th>
               <td>
-                <input type='tel' name="u_phone1" value="0${fn:substring(uvo.tel,0,2) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
-                <input type='tel' name='u_phone2' value="${fn:substring(uvo.tel,2,6) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
+                <input type='tel' id="u_phone1" value="0${fn:substring(uvo.tel,0,2) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
+                <input type='tel' id='u_phone2' value="${fn:substring(uvo.tel,2,6) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/>&nbsp;-&nbsp;
  <!-- 11 -->                <input type='tel' name='u_phone3' value="${fn:substring(uvo.tel,6,10) }" id="u_phone1_pay" size="2" class="input_gray" readonly="readonly"/><br>
                 <div class="caution">
                   <img class="caution_img" alt="SMS" src="../img/sms_2.PNG"><span class="caution">&nbsp;이 번호로 주문진행과정이 SMS로 안내됩니다.</span>
@@ -599,7 +602,7 @@ label{
                   <th width="60%"><strong>최종 결제금액</strong></th>
                   <td style="font-size: 25px;text-align: right;">
                     <strong>
-                      <fmt:formatNumber pattern="#,##0 원" value="${total-(total/10)}"/>
+                      <fmt:formatNumber pattern="#,##0 원" value="${sum}"/>
                     </strong>
                   </td>
                 </tr>              
