@@ -140,7 +140,7 @@
 		<div class="middle-inner">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="hidden-xs col-sm-1 col-sm-offset-1" id="logo-space"><a href="../main/main.do">LOGO</a></div>
+					<div class="hidden-xs col-sm-1 col-sm-offset-1" id="logo-space"><a href="../main/main.do">SSBOOKS</a></div>
 					<div class="col-xs-12 col-xs-offset-0 col-sm-8 col-md-6 col-sm-offset-1">
 						<form action="../book/bookList.do" method="get" id="search_form" class="form-inline">
 							<div class="form-group search-group">
