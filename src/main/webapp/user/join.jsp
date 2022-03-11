@@ -11,6 +11,7 @@
 <script type="text/javascript" src="../shadow/js/shadowbox.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://kit.fontawesome.com/8f6fa300a9.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="../css/join.css">
 <script type="text/javascript">
 Shadowbox.init({
@@ -118,14 +119,14 @@ $(function(){
     	<span>* 표시는 필수적으로 입력해주셔야 가입이 가능합니다.</span>
     </div>
       <tr>
-       <td class="text-right" width=15%>아이디 *</td>
+       <td class="text-right" width=15%>아이디 *<i class="fa-solid fa-user"></i></td>
        <td width=85% class="inline">
          <input type=text name=id id="join_id" size=15 class="input-sm" readonly>
          <input type=button id="checkBtn" value="아이디중복체크" class="btn btn-sm btn-primary">
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>비밀번호 *</td>
+       <td class="text-right" width=15%>비밀번호 *<i class="fa-solid fa-user-lock"></i></td>
        <td width=85% class="inline">
          <input type=password name=pwd id=join_pwd size=15 class="input-sm">
          &nbsp;&nbsp;비밀번호 확인*:
@@ -133,32 +134,32 @@ $(function(){
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>이름 *</td>
+       <td class="text-right" width=15%>이름 *<i class="fa-solid fa-a"></i></td>
        <td width=85%>
          <input type=text name=name id=name size=15 class="input-sm">
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>성별 *</td>
+       <td class="text-right" width=15%>성별 *<i class="fa-solid fa-circle-check"></i></td>
        <td width=85% class="inline">
          <input type=radio value="남성" name=gender checked="checked">남자
          <input type=radio value="여성" name=gender>여자
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>생년월일 *</td>
+       <td class="text-right" width=15%>생년월일 *<i class="fa-regular fa-clock"></i></td>
        <td width=85%>
          <input type=date size=20 name=birth class="input-sm" id="day">
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>E-mail *</td>
+       <td class="text-right" width=15%>E-mail *<i class="fa-brands fa-edge-legacy"></i></td>
        <td width=85%>
          <input type=text name=email id=email size=50 class="input-sm">
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>우편번호 *</td>
+       <td class="text-right" width=15%>우편번호 *<i class="fa-solid fa-signs-post"></i></td>
        <td width=85% class='inline'>
          <input type=text name=post id=post size=10 class="input-sm" readonly>
          <input type=button id="postBtn" value="우편번호찾기"
@@ -166,26 +167,26 @@ $(function(){
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>주소 *</td>
+       <td class="text-right" width=15%>주소 *<i class="fa-solid fa-address-card"></i></td>
        <td width=85%>
          <input type=text name=address1 id=address1 size=50 class="input-sm" readonly>
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>상세주소</td>
+       <td class="text-right" width=15%>상세주소<i class="fa-solid fa-address-card"></i></td>
        <td width=85%>
          <input type=text name=address2 id=address2 size=50 class="input-sm">
        </td>
       </tr>
       <tr>
       <tr>
-       <td class="text-right" width=15%>휴대폰번호 *</td>
+       <td class="text-right" width=15%>휴대폰번호 *<i class="fa-solid fa-phone"></i></td>
        <td width=85% class="inline">
          <input type=text name=tel id=tel size=20 class="input-sm">
        </td>
       </tr>
       <tr>
-       <td class="text-right" width=15%>소개 *</td>
+       <td class="text-right" width=15%>소개 *<i class="fa-regular fa-clipboard"></i></td>
        <td width=85%>
          <textarea rows="8" cols="55" id="content" name="content"></textarea>
        </td>

@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://kit.fontawesome.com/8f6fa300a9.js" crossorigin="anonymous"></script>
 <style type="text/css">
 .container{
   margin-top: 50px;
@@ -66,6 +67,7 @@ $(function(){
     <table class="table">
      <tr>
        <td class="text-center">
+       <i class="fa-solid fa-user">
        ID:<input type=text name=id id="check_id" class="input-sm" size=15>
        <input type=button value="아이디체크" class="btn btn-sm btn-danger"
          id="idBtn"> 
