@@ -20,10 +20,11 @@
 		$.ajax({
 			type:'post',
 			url:'../my/myPage_update.do',
+			dataType:'json',
 			success:function(res){
 				$('#ui-id-6 .myPagetable').hide()
 				$('#ui-id-6 .myPagetable').after(res)
-				$('#ui-id-6 #myUpdateTable #address1').after("<input type='hidden' name='admin' value='1'>")
+				$('#ui-id-6 #myUpdateTable #address1').after("<input type='hidden' name='admin' value='1'>") 
 			}
 		})
 		
