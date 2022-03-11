@@ -176,7 +176,7 @@
 				<div class="nav-option hidden-xs hidden-sm cscenter-main"><a href="../customer/notice.do">고객센터</a>
 					 <ul class="cscenter-nav">
 								<li><a href="../customer/notice.do">공지사항</a></li>
-								<li><a href="#">FAQ</a></li>
+								<li><a href="../customer/Faq.do">FAQ</a></li>
 								<li><a href="../customer/one_inquiry.do">1:1문의</a></li>
 							</ul>
 				</div>
