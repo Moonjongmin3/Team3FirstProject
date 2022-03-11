@@ -98,7 +98,7 @@
 							<li class="top-list-element cart"><a href="../cart/Cart.do">장바구니</a></li>
 							<c:if test="${sessionScope.userId != null}" var="loginCheck">
 								<c:if test="${sessionScope.admin==0 }">
-									<li class="top-list-element mypage"><a href="#">주문배송</a></li>
+									<li class="top-list-element mypage"><a href="..my/orderHistory.do">주문배송</a></li>
 									<li class="top-list-element sign-up"><a href="../my/myPage.do">마이페이지</a></li>
 								</c:if>
 								<c:if test="${sessionScope.admin==1 }">
