@@ -14,7 +14,7 @@ public class OrderHistoryDAO {
 	   private ConnectionManager cm=new ConnectionManager();
 	
 	 //주문내역 목록 출력
-	   public List<OrderHistoryVO> orderHistoryListData(int page,int user_id)
+	   public List<OrderHistoryVO> orderHistoryListData(int page,String user_id)
 	   {
 	      List<OrderHistoryVO> ohList=new ArrayList<OrderHistoryVO>();
 	      try
@@ -41,7 +41,7 @@ public class OrderHistoryDAO {
 	         int end=rowSize*page;
 	         
 	         ps=conn.prepareStatement(sql);
-	         ps.setInt(1, user_id);
+	         ps.setString(1, user_id);
 	         ps.setInt(2, start);
 	         ps.setInt(3, end);
 	         
@@ -130,7 +130,7 @@ public class OrderHistoryDAO {
 	   
 	 
 	   //주문내역=> 총페이지
-	   public int orderHistoryTotalPage(int user_id)
+	   public int orderHistoryTotalPage(String user_id)
 	   {
 		   int total=0;
 		   try
@@ -140,7 +140,7 @@ public class OrderHistoryDAO {
 					     +"FROM orders_3 "
 					     +"WHERE user_id=?";
 			   ps=conn.prepareStatement(sql);
-			   ps.setInt(1, user_id);
+			   ps.setString(1, user_id);
 			   ResultSet rs=ps.executeQuery();
 			   rs.next();
 			   total=rs.getInt(1);
