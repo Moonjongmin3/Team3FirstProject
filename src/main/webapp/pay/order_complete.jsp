@@ -71,7 +71,7 @@ td{
          <tr>
            <td>
            <input class="inline" type="button" value="주문 상세보기" />
-           <input class="inline" type="button" value="메인으로 이동" />
+           <input class="inline" type="button" value="메인으로 이동" onclick="location.href='../main/main.do'"/>
            </td>
          </tr>
        </table>

@@ -23,6 +23,7 @@
 <link rel="stylesheet" href="../css/login.css">
 <link rel="stylesheet" href="../css/bookList.css">
 <link rel="stylesheet" href="../css/productdetail.css">
+<link rel="stylesheet" href="../css/pay.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="../js/search.js"></script>
 </head>

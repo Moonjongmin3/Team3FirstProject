@@ -1,10 +1,11 @@
 package vo;
 
+import java.math.BigInteger;
 import java.sql.Date;
 
 public class OrderHistoryVO {
 		//출력용
-	   private int order_id;//주문번호
+	   private long order_id;//주문번호
 	   private int book_id;//책id
 	   private String user_id;//회원id
 	   private String receiver_name;//받는분 성함
@@ -54,10 +55,10 @@ public class OrderHistoryVO {
 	public void setBook_name(String book_name) {
 		this.book_name = book_name;
 	}
-	public int getOrder_id() {
+	public long getOrder_id() {
 		return order_id;
 	}
-	public void setOrder_id(int order_id) {
+	public void setOrder_id(long order_id) {
 		this.order_id = order_id;
 	}
 	public int getBook_id() {

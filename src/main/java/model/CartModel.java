@@ -25,7 +25,7 @@ import dao.BookDAO;
 import dao.CartDAO;
 import dao.PayDAO;
 import vo.BookVO;
-import vo.PayVO;
+import vo.OrderVO;
 import vo.UserVO;
 
 public class CartModel {

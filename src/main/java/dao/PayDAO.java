@@ -106,25 +106,23 @@ public class PayDAO {
             
             //orders_3테이블에 인서트
             String sql="INSERT INTO orders_3 "
-                    +"VALUES ((SELECT NVL(MAX(order_id)+1,1) FROM orders_3),?,?,?,?,?,?,?,?,?,TO_DATE(?,'YYYY-MM-DD'),?,?)";
+                    +"VALUES (?,?,?,?,?,?,?,?,?,?,TO_DATE(?,'YYYY-MM-DD'),?,?)";
             ps=conn.prepareStatement(sql);
-            //order_id : NVL(MAX(no)+1,1)
-//            ps.setInt(1,ohvo.getOrder_id());
-            ps.setString(1,ohvo.getUser_id());
-            ps.setString(2,ohvo.getReceiver_name());//receiver_name
-            ps.setString(3,ohvo.getShip_address1());//ship_address1
-            ps.setString(4,ohvo.getShip_address2());//ship_address2
-            ps.setString(5,ohvo.getZipcode());//zipcode
+
+            ps.setLong(1,ohvo.getOrder_id());
+            ps.setString(2,ohvo.getUser_id());
+            ps.setString(3,ohvo.getReceiver_name());//receiver_name
+            ps.setString(4,ohvo.getShip_address1());//ship_address1
+            ps.setString(5,ohvo.getShip_address2());//ship_address2
+            ps.setString(6,ohvo.getZipcode());//zipcode
             
-            ps.setInt(6,ohvo.getReceiver_phone());//receiver_phone
-            ps.setString(7,ohvo.getShip_request());//ship_request
-//            String state="order";//admin승인->pay로 전환 /주문취소-> cancle로 전환
-            ps.setString(8,ohvo.getState());//주문완료 / cancle / 결제완료
-            ps.setInt(9,ohvo.getPay_state());//관리자 승인여부_default:0
-            ps.setString(10,ohvo.getoDate());//default:sysdate
-            int use_point=0;// 사용 point 미구현 -> 일단 0으로
-            ps.setInt(11,use_point);//use_point
-            ps.setInt(12,ohvo.getTotal_price());//total_price
+            ps.setInt(7,ohvo.getReceiver_phone());//receiver_phone
+            ps.setString(8,ohvo.getShip_request());//ship_request
+            ps.setString(9,ohvo.getState());//주문완료 / cancel / 결제완료
+            ps.setInt(10,ohvo.getPay_state());//관리자 승인여부_default:0
+            ps.setString(11,ohvo.getoDate());//default:sysdate
+            ps.setInt(12, 0);//use_point
+            ps.setInt(13,ohvo.getTotal_price());//total_price
            
             ps.executeUpdate();
             
