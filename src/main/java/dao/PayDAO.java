@@ -47,55 +47,24 @@ public class PayDAO {
       return vo;
    }
   
-
- //주문정보 insert 
-   /*
-    * orders_item_3{
-    * order_id number
-    * book_id number
-    * quantity number
-    * }
-    * 
-    * orders_3{
-    * order_id
-    * user_id
-    * receiver_name
-    * ship_address1
-    * ship_address2
-    * zipcode
-    * receiver_phone
-    * ship_request
-    * state
-    * pay_state
-    * order_date
-    * use_point
-    * total_price
-    * quantity
-    * }
-    *///////////////////////jsp에서 데이터가 안 넘어오는 듯..!! 인서트 안 됨.....///////
-   //public int order_insert(String userId , int bid, int qty,String[] orderobj){
-	public void order_item_insert(OrderHistoryVO ohvo){
-		
+	public void insertOrderItem(OrderItemVO item){
          try {          
-        	//orders_item_3테이블에 인서트
              conn=cm.getConnection();
              String sql="INSERT INTO order_item_3 "
-                   +"VALUES ((SELECT MAX(order_id) FROM orders_3),?,?)";
+                   +"VALUES (?,?,?)";
              
              ps=conn.prepareStatement(sql);
-//             ps.setInt(1,ohvo.getOrder_id());//order_id
-             ps.setInt(1, ohvo.getBook_id());
-             ps.setInt(2, ohvo.getQuantity());
+             ps.setLong(1,item.getBookId());//order_id
+             ps.setInt(2, item.getBookId());
+             ps.setInt(3, item.getQuantity());
              
              ps.executeUpdate();
              
-             
-         }catch(Exception ex){
+         } catch(Exception ex){
             ex.printStackTrace();
-         }finally {
+         } finally {
             cm.disConnection(conn, ps);
          }      
-//         return order_id;
     }
 	
 	public void orders_insert(OrderHistoryVO ohvo){

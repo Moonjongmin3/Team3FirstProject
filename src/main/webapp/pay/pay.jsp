@@ -84,7 +84,7 @@
                 <img src="../img/point.PNG" style="height: 15px;width: 15px;"><fmt:formatNumber pattern="#,##0"  value="${bvo.price*0.05}"/>
               </td>
               <td><fmt:formatNumber pattern="#,##0 원"  value="${bvo.price*0.9}"/></td>
-              <c:set var= "sum" value="${sum+bvo.price*0.9}"/>
+              <c:set var= "sum" value="${sum+bvo.price*0.9*bvo.quantity}"/>
               <td class="qty">${bvo.quantity}</td>
               <td id="total_price"><fmt:formatNumber pattern="#,##0 원" value="${bvo.price*0.9*bvo.quantity }"/></td><!--책 개별 합계 -->
               <td>내일<br>도착예정
@@ -237,7 +237,10 @@
               <tr>
                 <td colspan="2">
                   <button class="btn btn-default checkout-btn" value="credit-card">신용카드</button>             
-                  <button class="btn btn-default checkout-btn" value="kakao-pay">카카오페이</button>             
+                  <button class="btn btn-default checkout-btn" value="kakao-pay">
+                  	<img alt="kakaopay_logo" src="../img/kakaopay_logo.png">
+                  	<img alt="kakaopay_icon" src="../img/kakaopay_icon.png">
+                  </button>             
                 </td>
               </tr>               
             </table>
@@ -255,9 +258,9 @@
                     </strong>
                     <input type="hidden" id = "tot-price" value = "${sum}">
                   </td>
-                </tr>              
+                </tr>  
               </table>
-              <button onclick="requestPay()" style="font-size:20px;height:50px;color:white;font-weight: bold;">결제하기</button>
+	          <button class="btn btn-primary" id ="final-checkout" onclick="requestPay()">결제하기</button>       
             </div>
           </div><!-- 결제방법R 끝 --------------------------------------------- -->         
        </div> <!-- 결제방법L 끝 ----------------------------------------------- -->        

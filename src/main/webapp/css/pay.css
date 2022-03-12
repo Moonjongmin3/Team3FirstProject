@@ -164,6 +164,35 @@ label{
 .caution_img{
 	height: 10px;
 	width: 17px;
-	
-	
+}
+.checkout-btn[value='credit-card']{
+	width: 200px;
+	height: 70px;
+	padding: 5px 5px;
+	border-radius: 20px;
+	font-size: 30px;
+	font-weight: bold;
+}
+.checkout-btn[value='kakao-pay']{
+	width: 250px;
+	height: 70px;
+	padding: 5px 5px;
+	border-radius: 20px;
+}
+.checkout-btn>img[alt='kakaopay_logo']{
+	width:150px;
+	height:auto;
+}
+.checkout-btn>img[alt='kakaopay_icon']{
+	width:70px;
+	height:auto;
+}
+#final-checkout{
+	width: 300px;
+	height:75px;
+	border-radius: 30px;
+	margin-left: 5px;
+	text-align:center;
+	font-size: 30px;
+	background-color: #005af0;
 }
